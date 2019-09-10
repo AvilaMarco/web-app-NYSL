@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>home</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+	<div id="app" class="container">
+
+		<!-- home -->
+		<div v-show="selecttabV == 'home'">
+			<header>
+				<!-- imagen cabecera -->
+				<img src="#">
+				<!-- imagen logo -->
+				<img src="#">
+			</header>
+			<main>
+				<h1>Upcoming Events</h1>
+				<ul>
+					<li>
+						<div>
+							<h2>August 4</h2>
+							<p>NYSL Fundraiser</p>
+						</div>
+					</li>
+					<li>
+						<div>
+							<h2>August 16</h2>
+							<p>Season Kick-off: Meet the Teams</p>
+						</div>
+					</li>
+					<li>
+						<div>
+							<h2>September 1</h2>
+							<p>First Game of the Season (Check Game Schedule for details)</p>
+						</div>
+					</li>
+				</ul>
+
+				<!-- collapse -->
+				<h2>Contatc/Feedback</h2>
+				<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
+				<p>or send a message to 1190267928</p>
+				<h3>feedback</h3>
+				<textarea name="textarea" placeholder="contanos tus dudas o sugerencias sobre la pagina o la liga"></textarea>
+				<input type="submit">
+			</main>
+		</div>
+
+		<!-- fechas -->
+		<div v-show="selecttabV == 'fechas'">
+			<h1>Proximos Partidos</h1>
+			<p>Partidos por Fecha</p>
+			<p>mes</p>
+			<select v-model="mes">
+				<option>SEPTEMBER</option>
+				<option>OCTOBER</option>
+			</select>
+			<p>numero</p>
+			<select v-model="dia">
+				<option>1</option>
+				<option>8</option>
+				<option>15</option>
+				<option>22</option>
+				<option>29</option>
+			</select>
+		</div>
+
+
+
+		<!-- perfil -->
+		<div v-show="selecttabV == 'perfil'">
+			<p>perfil con tab para cambiar entre divs</p>
+		</div>
+
+		<navs-tabs @show="selectVue"></navs-tabs>
+
+	</div>
+	<!-- vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="js/componentsVue.js"></script>
+  <script src="js/apuntes.js"></script>
+</body>
+</html>

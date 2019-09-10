@@ -1,0 +1,9 @@
+.activeTab {
+    color: #16C0B0;
+    text-decoration: underline;
+  }
+
+    .tabs {
+    margin-left: 20px;
+    cursor: pointer;
+  }
