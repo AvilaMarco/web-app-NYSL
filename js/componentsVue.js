@@ -29,42 +29,34 @@ Vue.component('table-data',{
 	},
 	template:`
 	<div>
-			<table>
-				<thead>
-					<tr>
-						<th>Teams</th>
-						<th>Location</th>
-						<th>Times</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>{{matcha.teamA}} VS {{matcha.teamB}}</td>
-						<td><a href="#" @click="cargamap = matcha.link">{{matcha.location}}</a></td>
-						<td>{{matcha.time}}</td>
-					</tr>
-					<tr>
-						<td>{{matchb.teamA}} VS {{matchb.teamB}}</td>
-						<td><a href="#" @click="cargamap = matchb.link">{{matcha.location}}</a></td>
-						<td>{{matchb.time}}</td>
-					</tr>
-				</tbody>
-			</table>
-			<iframe src="https://www.google.com.ar/maps/place/2101+N+Fremont+St,+Chicago,+IL+60614,+EE.+UU./@41.9197808,-87.6535554,17z/data=!3m1!4b1!4m5!3m4!1s0x880fd3196fb41dc7:0x970be7f7d6336df5!8m2!3d41.9197768!4d-87.6513667"></iframe>
-		</div>`,
-		data(){
-			return{
-				cargamap:'matcha.link'
-			}
-		}
+		<table>
+			<thead>
+				<tr>
+					<th>Teams</th>
+					<th>Location</th>
+					<th>Times</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{matcha.teamA}} VS {{matcha.teamB}}</td>
+					<td><a href="#" @click="cargamap = matcha.link">{{matcha.location}}</a></td>
+					<td>{{matcha.time}}</td>
+				</tr>
+				<tr>
+					<td>{{matchb.teamA}} VS {{matchb.teamB}}</td>
+					<td><a href="#" @click="cargamap = matchb.link">{{matchb.location}}</a></td>
+					<td>{{matchb.time}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<iframe :src="cargamap"></iframe>
+	</div>`,
+	data(){
+		return{cargamap:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2969.654246110987!2d-87.6312390845582!3d41.90029237922041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fd34e07f6bac3%3A0x68a82e5d59952c86!2s24%20W%20Walton%20St%2C%20Chicago%2C%20IL%2060610%2C%20EE.%20UU.!5e0!3m2!1ses-419!2sar!4v1568147863099!5m2!1ses-419!2sar'}
+	}
 })
 
-Vue.component('maps',{
-	template:`
-	<iframe src=""></iframe>
-
-	`
-})
 const app = new Vue({
 	el:'#app',
 	data:{
@@ -72,11 +64,23 @@ const app = new Vue({
 		meses:meses(),
 		mes:primerMes,
 		dia:'',
-		fechas:fechas
+		fechas:fechas,
+		player:'',
+		datos:{}
 	},
 	methods:{
 		selectVue(id){
 			this.selecttabV = id
+		},
+		buscarplayeroteam(){
+			if (this.player != '') 
+			{
+				let aux = buscarenequipo(this.player)
+				aux!= 'error' ? this.datos = aux:alert("el jugador no esta registrado")
+				console.log(this.player)
+			}else{
+				alert("falta completar el campo")
+			}
 		}
 	},
 	computed:{

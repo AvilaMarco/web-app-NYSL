@@ -4,6 +4,7 @@
 	<title>home</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
@@ -63,14 +64,27 @@
 				<option v-for="dia in dias">{{dia}}</option>
 			</select>
 			<table-data :matcha="fechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
-
 		</div>
-<iframe src="https://www.google.com.ar/maps/place/2101+N+Fremont+St,+Chicago,+IL+60614,+EE.+UU./@41.9197808,-87.6535554,17z/data=!3m1!4b1!4m5!3m4!1s0x880fd3196fb41dc7:0x970be7f7d6336df5!8m2!3d41.9197768!4d-87.6513667"></iframe>
-
 
 		<!-- perfil -->
 		<div v-show="selecttabV == 'perfil'">
 			<p>perfil con tab para cambiar entre divs</p>
+
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">jugador/team(U1)</h3>
+				</div>
+				<div class="card-body">
+					<h4 class="card-title">Proximo Partido: U1 VS U2</h4>
+					<ul class="list-group list-group-flush">
+				    <li class="list-group-item">Lugar: lorem ipsum</li>
+				    <li class="list-group-item">Fecha: 20/09</li>
+				    <li class="list-group-item">Hora: 11:30 a.m</li>
+				  </ul>
+				</div>
+			</div>
+			<input type="text" v-model="player">
+			<input type="button" @click="buscarplayeroteam" value="agregar">
 		</div>
 
 		<navs-tabs @show="selectVue"></navs-tabs>
@@ -78,6 +92,11 @@
 	</div>
 	<!-- vue -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- cosas de bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<!-- js locales -->
   <script src="js/fechas.js"></script>
   <script src="js/globalVars.js"></script>
   <script src="js/componentsVue.js"></script>
