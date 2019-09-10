@@ -20,22 +20,15 @@ Vue.component('navs-tabs',{
 
 Vue.component('table-data',{
 	props:{
-		equipos:{
+		matcha:{
 			type:Object
 		},
-		lugar:{
+		matchb:{
 			type:Object
-		},
-		horario:{
-			type:Array
-		},
-		dia:{
-			type:String
 		}
 	},
 	template:`
 	<div>
-			<h3>{{}}</h3>
 			<table>
 				<thead>
 					<tr>
@@ -46,35 +39,50 @@ Vue.component('table-data',{
 				</thead>
 				<tbody>
 					<tr>
-						<td>{{equipos.a}} and {{equipos.b}}</td>
-						<td>{{lugar.a}}</td>
-						<td>{{horario[0]}} a.m</td>
+						<td>{{matcha.teamA}} VS {{matcha.teamB}}</td>
+						<td><a href="#" @click="cargamap = matcha.link">{{matcha.location}}</a></td>
+						<td>{{matcha.time}}</td>
 					</tr>
 					<tr>
-						<td>{{equipos.c}} and {{equipos.d}}</td>
-						<td>{{lugar.b}}</td>
-						<td>{{horario[1]}} p.m</td>
+						<td>{{matchb.teamA}} VS {{matchb.teamB}}</td>
+						<td><a href="#" @click="cargamap = matchb.link">{{matcha.location}}</a></td>
+						<td>{{matchb.time}}</td>
 					</tr>
 				</tbody>
 			</table>
-		</div>`
+			<iframe src="https://www.google.com.ar/maps/place/2101+N+Fremont+St,+Chicago,+IL+60614,+EE.+UU./@41.9197808,-87.6535554,17z/data=!3m1!4b1!4m5!3m4!1s0x880fd3196fb41dc7:0x970be7f7d6336df5!8m2!3d41.9197768!4d-87.6513667"></iframe>
+		</div>`,
+		data(){
+			return{
+				cargamap:'matcha.link'
+			}
+		}
 })
 
+Vue.component('maps',{
+	template:`
+	<iframe src=""></iframe>
+
+	`
+})
 const app = new Vue({
 	el:'#app',
 	data:{
 		selecttabV:'home',
-		locations:['AJ Katzenmaier','Greenbay','Howard A Yeager','Marjorie P Hart','North','South'],
-		equipos:['U1','U2','U3','U4','U5','U6'],
-		times:['9:30','1:00'],
-		dias1:[1,8,15,22,29],
-		dias2:[6,8,20,27],
+		meses:meses(),
+		mes:primerMes,
 		dia:'',
-		mes:''
+		fechas:fechas
 	},
 	methods:{
 		selectVue(id){
 			this.selecttabV = id
 		}
+	},
+	computed:{
+		dias(){
+			this.dia = diasPorMes(this.mes)[0]
+			return diasPorMes(this.mes)
+		},
 	}
 })

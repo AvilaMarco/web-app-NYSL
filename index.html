@@ -54,21 +54,18 @@
 		<div v-show="selecttabV == 'fechas'">
 			<h1>Proximos Partidos</h1>
 			<p>Partidos por Fecha</p>
-			<p>mes</p>
+			<p>Mes</p>
 			<select v-model="mes">
-				<option>SEPTEMBER</option>
-				<option>OCTOBER</option>
+				<option v-for="mes in meses">{{mes}}</option>
 			</select>
-			<p>numero</p>
+			<p>Dia</p>
 			<select v-model="dia">
-				<option>1</option>
-				<option>8</option>
-				<option>15</option>
-				<option>22</option>
-				<option>29</option>
+				<option v-for="dia in dias">{{dia}}</option>
 			</select>
-		</div>
+			<table-data :matcha="fechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
 
+		</div>
+<iframe src="https://www.google.com.ar/maps/place/2101+N+Fremont+St,+Chicago,+IL+60614,+EE.+UU./@41.9197808,-87.6535554,17z/data=!3m1!4b1!4m5!3m4!1s0x880fd3196fb41dc7:0x970be7f7d6336df5!8m2!3d41.9197768!4d-87.6513667"></iframe>
 
 
 		<!-- perfil -->
@@ -81,7 +78,10 @@
 	</div>
 	<!-- vue -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="js/fechas.js"></script>
+  <script src="js/globalVars.js"></script>
   <script src="js/componentsVue.js"></script>
   <script src="js/apuntes.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

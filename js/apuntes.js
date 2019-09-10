@@ -137,3 +137,38 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 
 // arrr.foreach(coldback,this)
 // arrr.foreach((item,index,arr)=>instrucciones de la function,this)
+
+// let a = document.createelement("A")
+// a.classlist.add("link")
+// a.href = "algo.com"
+// nodo de texto para agregar como hijo a un elemento
+// let text = document.createtextnode("google")
+// event.prevent.default()
+// a.appendchild(text)
+
+// ajax(asynchronics js and xml)
+// json(js object notation)
+// fetch peticiones asincronicas a servidors(endpoint)(tambien sirve con json locales)
+// fetch(endpoint,init).then(function(response){
+// 	if(response.ok){
+// 		response.JSON()
+// 		200 -> ok
+// 	}else{
+// 		4xx -> error del cliente
+// 		404 -> no se encontro el recurso
+// 		403 -> no hay accesoo
+// 		401 -> sin autorizacion
+// 		400 -> bad request
+// 		500 -> error del servidor
+// 		throw new error(response.status)
+// 	}
+// }).then(function(json){
+// 	uso los datos json
+// }).catch(function(error){
+// 	console.log(error)
+// })
+// endpoint = "json local"
+// init = {
+// 	method:'post',
+// 	headers:{datos de autorizacion}
+// }
