@@ -172,5 +172,3 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 // 	method:'post',
 // 	headers:{datos de autorizacion}
 // }
-
-//https://webappnysl-b397e.firebaseapp.com/
