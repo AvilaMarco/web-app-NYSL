@@ -1,9 +1,9 @@
 Vue.component('navs-tabs',{
 	template:`
-	<div @click="mostrarWebs">
-		<span class="tabs" :class="{activeTab:selecttab == tab}" v-for="tab in tabsnav" @click="selecttab=tab">
+	<div @click="mostrarWebs" class="fondo fixed-bottom d-flex">
+		<div :class="{activeTab: selecttab == tab}"  class="border flex-fill btn btn-light text-center" v-for="tab in tabsnav" @click="selecttab=tab">
 			{{tab}}
-		</span>
+		</div>
 	</div>`,
 	data(){
 		return{
@@ -28,8 +28,8 @@ Vue.component('table-data',{
 		}
 	},
 	template:`
-	<div>
-		<table>
+	<div class="table-responsive text-center">
+		<table class="table table-hover">
 			<thead>
 				<tr>
 					<th>Teams</th>
@@ -39,18 +39,18 @@ Vue.component('table-data',{
 			</thead>
 			<tbody>
 				<tr>
-					<td>{{matcha.teamA}} VS {{matcha.teamB}}</td>
+					<td>{{matcha.teamA}} <br>VS<br> {{matcha.teamB}}</td>
 					<td><a href="#" @click="cambiarmapaa">{{matcha.location}}</a></td>
 					<td>{{matcha.time}}</td>
 				</tr>
 				<tr>
-					<td>{{matchb.teamA}} VS {{matchb.teamB}}</td>
+					<td>{{matchb.teamA}} <br>VS <br>{{matchb.teamB}}</td>
 					<td><a href="#" @click="cambiarmapab">{{matchb.location}}</a></td>
 					<td>{{matchb.time}}</td>
 				</tr>
 			</tbody>
 		</table>
-		<h3>{{lugaractualmaps}}: <br>{{directorymaps}}</h3>
+		<h4>{{lugaractualmaps}}: <br>{{directorymaps}}</h4>
 		<iframe :src="cargamap"></iframe>
 	</div>`,
 	data(){

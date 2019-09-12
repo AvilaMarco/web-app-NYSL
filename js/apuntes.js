@@ -174,3 +174,28 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 // }
 
 //https://webappnysl-b397e.firebaseapp.com/
+
+// fiebase:
+// firebase login(logout)
+// firebase init
+// firebase deploy
+// datarules-> reglas para acceder a la base de datos
+// carpeta public
+// abilitar google para ver(autorizacion)
+// var provider = new firebase.auth.GoogleauthProvider()
+// firebase.auth().signInwithPopup(provider);
+// firebase.auth().signOut()
+
+// database
+
+// var newkey = firebase.database().ref('nombrekey').push().key()='key()crea una nueva key ramdom'
+// var updates = {}
+// update['posts' + newkey] = {
+// 	messge:oasjdoasd,
+// 	username =aosdjasd
+// }
+
+// firebase.database().ref().update(updates);
+
+// update['form/matfh4'] = {mesege:alsjd}
+// la barra sirve para entrar en un nueva 'carpeta' objeto

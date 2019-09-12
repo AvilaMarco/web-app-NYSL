@@ -54,7 +54,7 @@ function buscarEnEquipos(jugadorT){
 
 		for (var i = 0; i < aux.length; i++) 
 		{
-			if (aux[i]==jugadorT) 
+			if (aux[i]==jugadorT.toLowerCase()) 
 			{
 				return buscarDatosPorFecha(equipos)
 			}
