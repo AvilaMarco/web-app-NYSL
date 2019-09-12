@@ -70,14 +70,12 @@
 
 		<!-- perfil -->
 		<div v-show="selecttabV == 'perfil'">
-			<p>perfil con tab para cambiar entre divs</p>
 
-			<tarjeta-jugador v-if="Object.keys(datos).length!=0" :nombreplayer="player" :datosP="datos" :nombreteam="equipo"></tarjeta-jugador>
-
-			<p>esta tarjeta es de ejemplo<br>con el input se podran agregar mas tarjeta, por ahora solo se puede agregar una <br>prueba escribiendo: juan, carl, bart, homero, benji, pepito o U1, U2, U3, U4, U5, U6</p>
-
+			<tarjeta-jugador  v-if="limitetarjetas.length!=0" v-for="(tarjeta,index) in limitetarjetas" :datosP="datosarratys" :index="index" ></tarjeta-jugador>
+			
+			<p v-if="contador==5">ya tienes suficientes tarjetas, prueba editanto una tarjeta</p>
 			<input type="text" v-model="player" placeholder="escribir un nombre">
-			<input type="button" @click="buscarPlayerOTeam" value="agregar">
+			<input type="button" :disabled="contador==5" @click="buscarPlayerOTeam" value="agregar">
 		</div>
 
 		<navs-tabs @show="selectVue"></navs-tabs>

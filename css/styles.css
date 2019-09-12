@@ -13,10 +13,14 @@ body{
 	background-color: solid white;
 }
 .activeTab {
-	/*background-color: black;
-	color: white;*/
+	background-color: black;
+	color: white;
   }
 
+.botoncito {
+  text-align: center;
+  vertical-align: middle;
+}
 img{
 	width: 100%;
   	height: auto;

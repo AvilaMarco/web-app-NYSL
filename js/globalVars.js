@@ -19,7 +19,7 @@ function meses()
 
  let primerMes = meses()[0]
 
- function buscarDatosPorFecha(equipo){
+ function buscarDatosPorFecha(equipo,jugadorT){
  	app.equipo = equipo
 	for(mes in fechas)
 	{
@@ -33,6 +33,12 @@ function meses()
 					if (aux2[i]==equipo) 
 					{
  						fechas[mes][dias][partidos]['fecha'] = dias+' de '+mes
+ 						fechas[mes][dias][partidos]['team'] = equipo 
+ 						fechas[mes][dias][partidos]['isteam'] = true
+ 						if(jugadorT!=null){
+ 							fechas[mes][dias][partidos]['player'] = jugadorT
+ 							fechas[mes][dias][partidos]['isteam'] = false
+ 						}
  						return fechas[mes][dias][partidos]
  					}
  				}
@@ -45,9 +51,9 @@ function meses()
 function buscarEnEquipos(jugadorT){
 	for(equipos in participantes)
 	{
-		if (equipos == jugadorT) 
+		if (equipos == jugadorT.toUpperCase()) 
 		{
-			return buscarDatosPorFecha(equipos)	
+			return buscarDatosPorFecha(equipos,null)	
 		}
 
 		let aux = Object.values(participantes[equipos])
@@ -56,7 +62,7 @@ function buscarEnEquipos(jugadorT){
 		{
 			if (aux[i]==jugadorT.toLowerCase()) 
 			{
-				return buscarDatosPorFecha(equipos)
+				return buscarDatosPorFecha(equipos,jugadorT)
 			}
 		}
 	}

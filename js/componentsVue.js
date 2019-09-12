@@ -1,7 +1,7 @@
 Vue.component('navs-tabs',{
 	template:`
 	<div @click="mostrarWebs" class="fondo fixed-bottom d-flex">
-		<div :class="{activeTab: selecttab == tab}"  class="border flex-fill btn btn-light text-center" v-for="tab in tabsnav" @click="selecttab=tab">
+		<div :class="{activeTab: selecttab == tab}" class="border border-dark botoncito flex-fill text-center"  v-for="tab in tabsnav" @click="selecttab=tab">
 			{{tab}}
 		</div>
 	</div>`,
@@ -73,30 +73,27 @@ Vue.component('table-data',{
 
 Vue.component('tarjeta-jugador',{
 	props:{
-		nombreplayer:{
-			type:String
-		},
-		nombreteam:{
-			type:String
-		},
 		datosp:{
-			type:Object
+			type:Array
+		},
+		index:{
+			type:Number
 		}
 	},
 	template:`
 	<div class="card">
 		<div class="card-header">
-			<h3 v-if="nombreplayer != nombreteam" class="card-title">{{nombreplayer}} ({{nombreteam}})</h3>
-			<h3 v-if="nombreplayer == nombreteam" class="card-title">{{nombreteam}}</h3>
+			<h3 v-if="!datosp[index].isteam" class="card-title">{{datosp[index].player}} ({{datosp[index].team}})</h3>
+			<h3 v-if="datosp[index].isteam" class="card-title">{{datosp[index].team}}</h3>
 		</div>
 		<div class="card-body">
-			<h4 class="card-title">Proximo Partido: {{datosp.teamA}} VS {{datosp.teamB}}</h4>
+			<h4 class="card-title">Proximo Partido: {{datosp[index].teamA}} VS {{datosp[index].teamB}}</h4>
 			<ul class="list-group list-group-flush">
-		    <li class="list-group-item">Lugar: {{datosp.location}}</li>
-		    <li class="list-group-item">Fecha: {{datosp.fecha}}</li>
-		    <li class="list-group-item">Hora: {{datosp.time}}</li>
+		    <li class="list-group-item">Lugar: {{datosp[index].location}}</li>
+		    <li class="list-group-item">Fecha: {{datosp[index].fecha}}</li>
+		    <li class="list-group-item">Hora: {{datosp[index].time}}</li>
 		  </ul>
-		</div>
+		</div><br>
 	</div>
 	`
 })
@@ -109,9 +106,12 @@ const app = new Vue({
 		meses:meses(),
 		mes:primerMes,
 		datos:{},
+		datosarratys:[],
 		dia:'',
 		equipo:'',
-		player:''
+		player:'',
+		limitetarjetas:[],
+		contador:0
 	},
 	methods:{
 		selectVue(id){
@@ -121,10 +121,17 @@ const app = new Vue({
 			if (this.player != '') 
 			{
 				let aux = buscarEnEquipos(this.player)
-				aux!= 'error' ? this.datos = aux:alert("El jugador/equipo no esta registrado")
+				aux!= 'error' ? this.datosarratys.push(aux):alert("El jugador/equipo no esta registrado")
+								this.contador++
+				this.limitetarjetas.push(this.contador);
+				// this.datos = aux
+				
 			}else{
 				alert("Falta Completar el Campo")
 			}
+		},
+		agregaritem(){
+
 		}
 	},
 	computed:{
