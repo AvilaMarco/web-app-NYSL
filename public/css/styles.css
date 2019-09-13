@@ -1,9 +1,39 @@
-.activeTab {
-    color: #16C0B0;
-    text-decoration: underline;
-  }
-
-    .tabs {
+body{
+	padding-bottom: 10vh;
+}
+/*.tabs {
+	background-color: white;
+    color: black;
     margin-left: 20px;
     cursor: pointer;
+    height: 200px;
+  	width: 33%;
+  }*/
+.fondo{
+	background-color: #0074f0;
+	color: white;
+}
+.activeTab {
+	background-color: black;
+	color: white;
   }
+
+.botoncito {
+  text-align: center;
+  vertical-align: middle;
+  height: 50px;
+}
+img{
+	width: 100%;
+  	height: auto;
+}
+
+.cabecera{
+	position: relative;
+}
+
+.logo{
+	position: absolute;
+	top: 100px;
+	right: 20px;
+}

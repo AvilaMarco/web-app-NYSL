@@ -1,14 +1,15 @@
 Vue.component('navs-tabs',{
 	template:`
 	<div @click="mostrarWebs" class="fondo fixed-bottom d-flex">
-		<div :class="{activeTab: selecttab == tab}" class="border border-dark botoncito flex-fill text-center"  v-for="tab in tabsnav" @click="selecttab=tab">
-			{{tab}}
+		<div class="border border-dark botoncito flex-fill text-center" :class="{activeTab: selecttab == tab}" v-for="(tab,index) in tabsnav" @click="selecttab=tab">
+			<i :class="iconos[index]"></i><br>{{tab}}
 		</div>
 	</div>`,
 	data(){
 		return{
 			tabsnav :['fechas','home','perfil'],
-			selecttab : 'home'
+			selecttab : 'home',
+			iconos:['far fa-calendar-alt','fas fa-home','far fa-user']
 		}
 	},
 	methods:{
@@ -51,7 +52,7 @@ Vue.component('table-data',{
 			</tbody>
 		</table>
 		<h4>{{lugaractualmaps}}: <br>{{directorymaps}}</h4>
-		<iframe :src="cargamap"></iframe>
+		<iframe :src="cargamap" class="border border-dark"></iframe>
 	</div>`,
 	data(){
 		return{cargamap:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2969.654246110987!2d-87.6312390845582!3d41.90029237922041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fd34e07f6bac3%3A0x68a82e5d59952c86!2s24%20W%20Walton%20St%2C%20Chicago%2C%20IL%2060610%2C%20EE.%20UU.!5e0!3m2!1ses-419!2sar!4v1568147863099!5m2!1ses-419!2sar',
@@ -93,9 +94,17 @@ Vue.component('tarjeta-jugador',{
 		    <li class="list-group-item">Fecha: {{datosp[index].fecha}}</li>
 		    <li class="list-group-item">Hora: {{datosp[index].time}}</li>
 		  </ul>
-		</div><br>
+		</div>
 	</div>
 	`
+})
+
+Vue.component('cabecera-general',{
+	template:`
+	<header>
+				<img class="mw-100 cabecera" src="img/fondo.png" alt="fondo-header">
+				<img class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
+	</header>`
 })
 
 const app = new Vue({
@@ -105,13 +114,13 @@ const app = new Vue({
 		fechas:fechas,
 		meses:meses(),
 		mes:primerMes,
+		dia:'',
 		datos:{},
 		datosarratys:[],
-		dia:'',
-		equipo:'',
 		player:'',
 		limitetarjetas:[],
-		contador:0
+		contador:0,
+		textocommet:''
 	},
 	methods:{
 		selectVue(id){
@@ -122,16 +131,19 @@ const app = new Vue({
 			{
 				let aux = buscarEnEquipos(this.player)
 				aux!= 'error' ? this.datosarratys.push(aux):alert("El jugador/equipo no esta registrado")
-								this.contador++
+				this.contador++
 				this.limitetarjetas.push(this.contador);
-				// this.datos = aux
 				
 			}else{
 				alert("Falta Completar el Campo")
 			}
 		},
-		agregaritem(){
-
+		enviado(){
+			if(this.textocommet!=''){
+				alert("mensaje enviado")
+			}else{
+				alert("Falta Completar el campo")
+			}
 		}
 	},
 	computed:{

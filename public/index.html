@@ -10,92 +10,101 @@
 	<link rel="shortcut icon" sizes="196x196" href="img/nysl_logo.png">
 </head>
 <body>
-	<div id="app" class="container">
+	<div id="app">
 
+		<cabecera-general></cabecera-general>
 		<!-- home -->
 		<div v-show="selecttabV == 'home'">
-			<header>
-				<!-- imagen cabecera -->
-				<img src="#">
-				<!-- imagen logo -->
-				<img src="#">
-			</header>
+			
 			<main>
-				<h1>Upcoming Events</h1>
-				<ul>
-					<li>
-						<div>
-							<h2>August 4</h2>
-							<p>NYSL Fundraiser</p>
-						</div>
-					</li>
-					<li>
-						<div>
-							<h2>August 16</h2>
-							<p>Season Kick-off: Meet the Teams</p>
-						</div>
-					</li>
-					<li>
-						<div>
-							<h2>September 1</h2>
-							<p>First Game of the Season (Check Game Schedule for details)</p>
-						</div>
-					</li>
-				</ul>
+				<h1 class="text-center">Upcoming Events</h1>
+				<div class="card m-3">
+					<div class="card-body">
+						<dl>
+					    <dt class="card-title">August 4</dt>
+					    	<dd class="card-text">- NYSL Fundraiser</dd>
+					    <dt class="card-title">August 16</dt>
+					    	<dd class="card-text">- Season Kick-off: Meet the Teams</dd>
+					    <dt class="card-title">September 1</dt>
+					    	<dd class="card-text">- First Game of the Season (Check Game Schedule for details)</dd>
+					  </dl>
+					</div>
+				</div>
 
 				<!-- collapse -->
-				<h2>Contatc/Feedback</h2>
-				<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
-				<p>or send a message to 1190267928</p>
-				<h3>feedback</h3>
-				<textarea name="textarea" placeholder="contanos tus dudas o sugerencias sobre la pagina o la liga"></textarea>
-				<input type="submit">
+				<div class="card">
+					<div class="card-header">
+						<h2 data-toggle="collapse" data-target="#demo">Contatc/Feedback</h2>
+					</div>
+					<div id="demo" class="collapse"> 
+						<div class="card-body">
+							<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
+							<p>or send a message to <span class="text-primary">1190267928</span></p>
+							<h3>feedback</h3>
+							<div class="form-group">
+							  <textarea :value="textocommet" class="form-control" rows="3" placeholder="contanos tus dudas o sugerencias sobre la pagina o la liga"></textarea>
+							</div>
+							<input class="btn btn-primary float-right" type="submit" @click="enviado">
+						</div>
+					</div>
+				</div>
 			</main>
 		</div>
 
 		<!-- fechas -->
 		<div v-show="selecttabV == 'fechas'">
+			<!-- <cabecera-general></cabecera-general> -->
 			<h1>Proximos Partidos</h1>
-			<p>Partidos por Fecha</p>
-			<p>Mes</p>
-			<select v-model="mes">
-				<option v-for="mes in meses">{{mes}}</option>
-			</select>
-			<p>Dia</p>
-			<select v-model="dia">
-				<option v-for="dia in dias">{{dia}}</option>
-			</select>
+			<div class="d-flex flex-row">
+			  <div class="p-2 flex-fill">Mes:
+			  	<select v-model="mes" class="form-control">
+						<option v-for="mes in meses">{{mes}}</option>
+					</select>
+			</div>
+			  <div class="p-2 flex-fill">Dia:
+			  	<select v-model="dia" class="form-control">
+						<option v-for="dia in dias">{{dia}}</option>
+					</select>
+			  </div>
+			</div>
+
 			<table-data :matcha="fechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
 		</div>
 
 		<!-- perfil -->
 		<div v-show="selecttabV == 'perfil'">
-			<p>perfil con tab para cambiar entre divs</p>
 
-			<div class="card">
+			<!-- <cabecera-general></cabecera-general> -->
+			<h1 class="text-center">perfil</h1>
+
+			<div class="mt-4" v-for="(tarjeta,index) in limitetarjetas">
+				<tarjeta-jugador :datosP="datosarratys" :index="index"></tarjeta-jugador>
+			</div>
+			
+			<div class="card mt-4">
 				<div class="card-header">
-					<h3 class="card-title">jugador/team (U1)</h3>
+					<h4 class="card-title" data-toggle="collapse" data-target="#demo">Add Cards</h4>
 				</div>
-				<div class="card-body">
-					<h4 class="card-title">Proximo Partido: U1 VS U2</h4>
-					<ul class="list-group list-group-flush">
-				    <li class="list-group-item">Lugar: lorem ipsum</li>
-				    <li class="list-group-item">Fecha: 20/09</li>
-				    <li class="list-group-item">Hora: 11:30 a.m</li>
-				  </ul>
+				<div id="demo" class="collapse"> 
+					<div class="card-body">
+						<p v-if="contador==5" class="card-text">ya tienes suficientes tarjetas, prueba editanto una tarjeta</p>
+						<div class="input-group mb-3">
+						  <input class="form-control" type="text" v-model="player" placeholder="write player or team">
+						  <div class="input-group-append">
+						    <input class="btn btn-info" type="button" :disabled="contador==5" @click="buscarPlayerOTeam" value="agregar">
+						  </div>
+						</div>
+					</div>
 				</div>
 			</div>
 
-			<p>esta tarjeta es de ejemplo<br>con el input se podran agregar mas tarjeta, por ahora solo se puede agregar una <br>prueba escribiendo: juan, carl, bart, homero, benji, pepito o U1, U2, U3, U4, U5, U6</p>
-			<tarjeta-jugador v-if="Object.keys(datos).length!=0" :nombreplayer="player" :datosP="datos" :nombreteam="equipo"></tarjeta-jugador>
-
-			<input type="text" v-model="player" placeholder="escribir un nombre">
-			<input type="button" @click="buscarPlayerOTeam" value="agregar">
 		</div>
 
 		<navs-tabs @show="selectVue"></navs-tabs>
 
 	</div>
+
+	<script src="https://kit.fontawesome.com/e7886423a6.js"></script>
 
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 	<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>

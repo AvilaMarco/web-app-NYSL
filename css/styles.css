@@ -10,7 +10,8 @@ body{
   	width: 33%;
   }*/
 .fondo{
-	background-color: solid white;
+	background-color: #0074f0;
+	color: white;
 }
 .activeTab {
 	background-color: black;
@@ -20,6 +21,7 @@ body{
 .botoncito {
   text-align: center;
   vertical-align: middle;
+  height: 50px;
 }
 img{
 	width: 100%;

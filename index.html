@@ -12,14 +12,10 @@
 <body>
 	<div id="app">
 
-		
-
+		<cabecera-general></cabecera-general>
 		<!-- home -->
 		<div v-show="selecttabV == 'home'">
-			<header>
-			<img class="mw-100 cabecera" src="img/fondo.png" alt="fondo-header">
-			<img class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
-			</header>
+			
 			<main>
 				<h1 class="text-center">Upcoming Events</h1>
 				<div class="card m-3">
@@ -36,51 +32,79 @@
 				</div>
 
 				<!-- collapse -->
-				<h2 data-toggle="collapse" data-target="#demo">Contatc/Feedback</h2>
-				<div id="demo" class="collapse"> 
-					<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
-					<p>or send a message to 1190267928</p>
-					<h3>feedback</h3>
-					<textarea name="textarea" placeholder="contanos tus dudas o sugerencias sobre la pagina o la liga"></textarea>
-					<input type="submit">
+				<div class="card">
+					<div class="card-header">
+						<h2 data-toggle="collapse" data-target="#demo">Contatc/Feedback</h2>
+					</div>
+					<div id="demo" class="collapse"> 
+						<div class="card-body">
+							<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
+							<p>or send a message to <span class="text-primary">1190267928</span></p>
+							<h3>feedback</h3>
+							<div class="form-group">
+							  <textarea :value="textocommet" class="form-control" rows="3" placeholder="contanos tus dudas o sugerencias sobre la pagina o la liga"></textarea>
+							</div>
+							<input class="btn btn-primary float-right" type="submit" @click="enviado">
+						</div>
+					</div>
 				</div>
 			</main>
 		</div>
 
 		<!-- fechas -->
 		<div v-show="selecttabV == 'fechas'">
+			<!-- <cabecera-general></cabecera-general> -->
 			<h1>Proximos Partidos</h1>
 			<div class="d-flex flex-row">
 			  <div class="p-2 flex-fill">Mes:
-			  	<select v-model="mes">
+			  	<select v-model="mes" class="form-control">
 						<option v-for="mes in meses">{{mes}}</option>
 					</select>
 			</div>
 			  <div class="p-2 flex-fill">Dia:
-			  	<select v-model="dia">
+			  	<select v-model="dia" class="form-control">
 						<option v-for="dia in dias">{{dia}}</option>
 					</select>
 			  </div>
 			</div>
 
-			<div class="">
-				<table-data :matcha="fechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
-			</div>
+			<table-data :matcha="fechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
 		</div>
 
 		<!-- perfil -->
 		<div v-show="selecttabV == 'perfil'">
 
-			<tarjeta-jugador  v-if="limitetarjetas.length!=0" v-for="(tarjeta,index) in limitetarjetas" :datosP="datosarratys" :index="index" ></tarjeta-jugador>
+			<!-- <cabecera-general></cabecera-general> -->
+			<h1 class="text-center">perfil</h1>
+
+			<div class="mt-4" v-for="(tarjeta,index) in limitetarjetas">
+				<tarjeta-jugador :datosP="datosarratys" :index="index"></tarjeta-jugador>
+			</div>
 			
-			<p v-if="contador==5">ya tienes suficientes tarjetas, prueba editanto una tarjeta</p>
-			<input type="text" v-model="player" placeholder="escribir un nombre">
-			<input type="button" :disabled="contador==5" @click="buscarPlayerOTeam" value="agregar">
+			<div class="card mt-4">
+				<div class="card-header">
+					<h4 class="card-title" data-toggle="collapse" data-target="#demo">Add Cards</h4>
+				</div>
+				<div id="demo" class="collapse"> 
+					<div class="card-body">
+						<p v-if="contador==5" class="card-text">ya tienes suficientes tarjetas, prueba editanto una tarjeta</p>
+						<div class="input-group mb-3">
+						  <input class="form-control" type="text" v-model="player" placeholder="write player or team">
+						  <div class="input-group-append">
+						    <input class="btn btn-info" type="button" :disabled="contador==5" @click="buscarPlayerOTeam" value="agregar">
+						  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 		<navs-tabs @show="selectVue"></navs-tabs>
 
 	</div>
+
+	<script src="https://kit.fontawesome.com/e7886423a6.js"></script>
 
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 	<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
