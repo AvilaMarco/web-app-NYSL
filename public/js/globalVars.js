@@ -34,6 +34,8 @@ function meses()
 					{
 						let objetoaux = {}
 						objetoaux['location'] = fechas[mes][dias][partidos].location
+						objetoaux['directory'] = fechas[mes][dias][partidos].directory
+						objetoaux['link'] = fechas[mes][dias][partidos].link
 						objetoaux['time'] = fechas[mes][dias][partidos].time
 						objetoaux['teamA'] = fechas[mes][dias][partidos].teamA
 						objetoaux['teamB'] = fechas[mes][dias][partidos].teamB

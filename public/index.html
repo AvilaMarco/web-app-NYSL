@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>home</title>
+	<title>Web App NYSL</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
 	<meta name="mobile-web-app-capable" content="yes">
@@ -12,11 +12,14 @@
 <body>
 	<div id="app">
 
-		<cabecera-general></cabecera-general>
+		<header>
+				<img class="mw-100 cabecera" src="img/fondo.png" alt="fondo-header">
+				<img class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
+		</header>
+
 		<!-- home -->
-		<div v-show="selecttabV == 'home'">
-			
-			<main>
+		<div  v-show="selecttabV == 'Home'">
+
 				<h1 class="text-center">Upcoming Events</h1>
 				<div class="card m-3">
 					<div class="card-body">
@@ -34,33 +37,32 @@
 				<!-- collapse -->
 				<div class="card">
 					<div class="card-header">
-						<h2 data-toggle="collapse" data-target="#demo">Contatc/Feedback</h2>
+						<a href="#feedback" data-toggle="collapse" @click="scrolltodown" class="btn btn-outline-success btn-block">Contatc / Feedback</a>
 					</div>
-					<div id="demo" class="collapse"> 
+					<div class="collapse" id="feedback"> 
 						<div class="card-body">
+							<h3>Contact</h3>
 							<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
 							<p>or send a message to <span class="text-primary">1190267928</span></p>
 							<h3>feedback</h3>
 							<div class="form-group">
-							  <textarea :value="textocommet" class="form-control" rows="3" placeholder="contanos tus dudas o sugerencias sobre la pagina o la liga"></textarea>
+							  <textarea v-model="textocommet" class="form-control" rows="3" placeholder="contanos tus dudas o sugerencias sobre la pagina o la liga"></textarea>
 							</div>
-							<input class="btn btn-primary float-right" type="submit" @click="enviado">
+							<input :disabled="textocommet==''" class="btn btn-primary btn-block mb-3" type="submit" @click="enviado">
 						</div>
 					</div>
 				</div>
-			</main>
 		</div>
 
 		<!-- fechas -->
-		<div v-show="selecttabV == 'fechas'">
-			<!-- <cabecera-general></cabecera-general> -->
-			<h1>Proximos Partidos</h1>
+		<div v-show="selecttabV == 'Schedule'">
+			<h1 class="text-center">Upcoming Matches</h1>
 			<div class="d-flex flex-row">
 			  <div class="p-2 flex-fill">Mes:
 			  	<select v-model="mes" class="form-control">
 						<option v-for="mes in meses">{{mes}}</option>
 					</select>
-			</div>
+				</div>
 			  <div class="p-2 flex-fill">Dia:
 			  	<select v-model="dia" class="form-control">
 						<option v-for="dia in dias">{{dia}}</option>
@@ -68,31 +70,33 @@
 			  </div>
 			</div>
 
-			<table-data :matcha="fechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
+			<table-data @changemap="chageinfomap" :matcha="fechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
+
+			<mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg>
 		</div>
 
 		<!-- perfil -->
-		<div v-show="selecttabV == 'perfil'">
-
-			<!-- <cabecera-general></cabecera-general> -->
-			<h1 class="text-center">perfil</h1>
+		<div v-show="selecttabV == 'Profile'">
+			<h1 class="text-center">Profile</h1>
 
 			<div class="mt-4" v-for="(tarjeta,index) in limitetarjetas">
-				<tarjeta-jugador :datosP="datosarratys" :index="index"></tarjeta-jugador>
+				<tarjeta-jugador @changemap="chageinfomap" :datosP="datosarratys" :index="index"></tarjeta-jugador>
 			</div>
 			
 			<div class="card mt-4">
 				<div class="card-header">
-					<h4 class="card-title" data-toggle="collapse" data-target="#demo">Add Cards</h4>
+					<button data-toggle="collapse" data-target="#addCard" class="btn btn-outline-success btn-block">Add Card(Player/Team)   <i class="fas fa-plus-circle"></i> </button>
+						
 				</div>
-				<div id="demo" class="collapse"> 
+				<div id="addCard" class="collapse"> 
 					<div class="card-body">
 						<p v-if="contador==5" class="card-text">ya tienes suficientes tarjetas, prueba editanto una tarjeta</p>
 						<div class="input-group mb-3">
 						  <input class="form-control" type="text" v-model="player" placeholder="write player or team">
 						  <div class="input-group-append">
-						    <input class="btn btn-info" type="button" :disabled="contador==5" @click="buscarPlayerOTeam" value="agregar">
+						    <input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" :disabled="contador==5 || player==''" @click="buscarPlayerOTeam" value="agregar">
 						  </div>
+						  <p class="text-secondary">Prueba con: pepito, homero, bart, benji, juan, carl o U1, , u2, u3, u4, u5, u6</p>
 						</div>
 					</div>
 				</div>

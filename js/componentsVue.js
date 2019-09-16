@@ -7,8 +7,8 @@ Vue.component('navs-tabs',{
 	</div>`,
 	data(){
 		return{
-			tabsnav :['fechas','home','perfil'],
-			selecttab : 'home',
+			tabsnav :['Schedule','Home','Profile'],
+			selecttab : 'Home',
 			iconos:['far fa-calendar-alt','fas fa-home','far fa-user']
 		}
 	},
@@ -29,9 +29,9 @@ Vue.component('table-data',{
 		}
 	},
 	template:`
-	<div class="table-responsive text-center">
-		<table class="table table-hover">
-			<thead>
+	<div class="text-center">
+		<table class="table table-hover table-bordered">
+			<thead class="thead-dark">
 				<tr>
 					<th>Teams</th>
 					<th>Location</th>
@@ -41,35 +41,50 @@ Vue.component('table-data',{
 			<tbody>
 				<tr>
 					<td>{{matcha.teamA}} <br>VS<br> {{matcha.teamB}}</td>
-					<td><a href="#" @click="cambiarmapaa">{{matcha.location}}</a></td>
+					<td><a id="a" href="#mapasid" @click="enviardatosmapas">{{matcha.location}}</a></td>
 					<td>{{matcha.time}}</td>
 				</tr>
 				<tr>
 					<td>{{matchb.teamA}} <br>VS <br>{{matchb.teamB}}</td>
-					<td><a href="#" @click="cambiarmapab">{{matchb.location}}</a></td>
+					<td><a id="b" href="#mapasid" @click="enviardatosmapas">{{matchb.location}}</a></td>
 					<td>{{matchb.time}}</td>
 				</tr>
 			</tbody>
 		</table>
-		<h4>{{lugaractualmaps}}: <br>{{directorymaps}}</h4>
-		<iframe :src="cargamap" class="border border-dark"></iframe>
 	</div>`,
-	data(){
-		return{cargamap:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2969.654246110987!2d-87.6312390845582!3d41.90029237922041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fd34e07f6bac3%3A0x68a82e5d59952c86!2s24%20W%20Walton%20St%2C%20Chicago%2C%20IL%2060610%2C%20EE.%20UU.!5e0!3m2!1ses-419!2sar!4v1568147863099!5m2!1ses-419!2sar',
-		lugaractualmaps:'AJ Katzenmaier Elementary',directorymaps:'24 W. Walton St., Chicago, IL 60610'}
-	},
 	methods:{
-		cambiarmapaa(){
-			this.cargamap = this.matcha.link;
-			this.lugaractualmaps = this.matcha.location;
-			this.directorymaps = this.matcha.directory
-		},
-		cambiarmapab(){
-			this.cargamap = this.matchb.link;
-			this.lugaractualmaps = this.matchb.location;
-			this.directorymaps = this.matchb.directory
+		enviardatosmapas(id){
+			if (id.target.id=='a') {
+			this.$emit('changemap',this.matcha.link,this.matcha.directory,this.matcha.location)
+			}else if(id.target.id=='b'){
+				this.$emit('changemap',this.matchb.link,this.matchb.directory,this.matchb.location)
+			}
 		}
 	}
+})
+
+Vue.component('mapasg',{
+	props:{
+		linkmapa:{
+			type:String
+		},
+		infomapa:{
+			type:String
+		},
+		infomapa2:{
+			type:String
+		}
+	},
+	template:`
+		<div class="card m-2">
+			<div class="card-header">
+				<p class="card-title"><strong>{{infomapa2}}</strong>: <br>{{infomapa}}</p>
+			</div>
+			<div class="card-body d-flex justify-content-center">
+				<iframe :src="linkmapa" class="border border-dark"></iframe>
+			</div>
+		</div>
+	`
 })
 
 Vue.component('tarjeta-jugador',{
@@ -82,68 +97,70 @@ Vue.component('tarjeta-jugador',{
 		}
 	},
 	template:`
-	<div class="card">
+	<div class="card m-3">
 		<div class="card-header">
 			<h3 v-if="!datosp[index].isteam" class="card-title">{{datosp[index].player}} ({{datosp[index].team}})</h3>
 			<h3 v-if="datosp[index].isteam" class="card-title">{{datosp[index].team}}</h3>
 		</div>
 		<div class="card-body">
-			<h4 class="card-title">Proximo Partido: {{datosp[index].teamA}} VS {{datosp[index].teamB}}</h4>
+			<h4 class="card-title">Next Match: {{datosp[index].teamA}} VS {{datosp[index].teamB}}</h4>
 			<ul class="list-group list-group-flush">
-		    <li class="list-group-item">Lugar: {{datosp[index].location}}</li>
-		    <li class="list-group-item">Fecha: {{datosp[index].fecha}}</li>
-		    <li class="list-group-item">Hora: {{datosp[index].time}}</li>
+		    <li class="list-group-item">Place: <br><a href="#mapasid" @click="enviardatosmapas">{{datosp[index].location}}</a></li>
+		    <li class="list-group-item">Day: {{datosp[index].fecha}}</li>
+		    <li class="list-group-item">Time: {{datosp[index].time}}</li>
 		  </ul>
 		</div>
 	</div>
-	`
-})
-
-Vue.component('cabecera-general',{
-	template:`
-	<header>
-				<img class="mw-100 cabecera" src="img/fondo.png" alt="fondo-header">
-				<img class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
-	</header>`
+	`,
+	methods:{
+		enviardatosmapas(){
+			this.$emit('changemap',this.datosp[this.index].link,this.datosp[this.index].directory,this.datosp[this.index].location)
+		}
+	}
 })
 
 const app = new Vue({
 	el:'#app',
 	data:{
-		selecttabV:'home',
+		selecttabV:'Home',
 		fechas:fechas,
 		meses:meses(),
 		mes:primerMes,
 		dia:'',
-		datos:{},
 		datosarratys:[],
 		player:'',
 		limitetarjetas:[],
 		contador:0,
-		textocommet:''
+		textocommet:'',
+		onecallfunction:true,
+		mapalink:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d190255.33858302396!2d-87.87204658078659!3d41.833903666429514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2c3cd0f4cbed%3A0xafe0a6ad09c0c000!2sChicago%2C%20Illinois%2C%20EE.%20UU.!5e0!3m2!1ses-419!2sar!4v1568589433667!5m2!1ses-419!2sar',
+		mapainfo:'address',
+		mapalocation:'choose an'
 	},
 	methods:{
 		selectVue(id){
 			this.selecttabV = id
 		},
 		buscarPlayerOTeam(){
-			if (this.player != '') 
-			{
-				let aux = buscarEnEquipos(this.player)
-				aux!= 'error' ? this.datosarratys.push(aux):alert("El jugador/equipo no esta registrado")
-				this.contador++
-				this.limitetarjetas.push(this.contador);
-				
-			}else{
-				alert("Falta Completar el Campo")
-			}
+			let aux = buscarEnEquipos(this.player)
+			aux!= 'error' ? this.datosarratys.push(aux):alert("El jugador/equipo no esta registrado")
+			this.contador++
+			this.limitetarjetas.push(this.contador);
 		},
 		enviado(){
-			if(this.textocommet!=''){
-				alert("mensaje enviado")
-			}else{
-				alert("Falta Completar el campo")
+			alert("mensaje enviado")
+		},
+		scrolltodown(){
+			if (this.onecallfunction) {
+				this.onecallfunction = false
+				setTimeout(e=> window.scrollTo(0, 400), 200);
 			}
+		},
+		chageinfomap(linkmap,infomap,locationmap){
+			this.selecttabV = 'Schedule'
+			this.mapalink = linkmap
+			this.mapainfo = infomap
+			this.mapalocation = locationmap
 		}
 	},
 	computed:{

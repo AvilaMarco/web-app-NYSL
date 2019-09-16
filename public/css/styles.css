@@ -1,20 +1,15 @@
 body{
-	padding-bottom: 10vh;
+	padding-bottom: 12vh;
 }
-/*.tabs {
-	background-color: white;
-    color: black;
-    margin-left: 20px;
-    cursor: pointer;
-    height: 200px;
-  	width: 33%;
-  }*/
+
 .fondo{
-	background-color: #0074f0;
+	/*#033949
+	0074f0*/
+	background-color: #033949;
 	color: white;
 }
 .activeTab {
-	background-color: black;
+	background-color: #4ec025;
 	color: white;
   }
 
