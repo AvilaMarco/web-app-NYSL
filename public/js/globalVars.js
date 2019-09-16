@@ -75,3 +75,20 @@ function buscarEnEquipos(jugadorT){
 	}
 	return 'error'
 }
+
+var provider = new firebase.auth.GoogleAuthProvider();
+
+let fireStore = firebase.firestore();
+
+function agregarComentarios(comentario) {
+	fireStore.collection("commets").add({
+    feedback:comentario
+	})
+	.then(function(docRef) {
+	    console.log("comentario enviado correctamente");
+	})
+	.catch(function(error) {
+	    console.error("Error adding document: ", error);
+	});
+}
+

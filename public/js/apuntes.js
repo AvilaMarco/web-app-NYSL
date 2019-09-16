@@ -199,3 +199,45 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 
 // update['form/matfh4'] = {mesege:alsjd}
 // la barra sirve para entrar en un nueva 'carpeta' objeto
+
+// FIREBASE:
+// collection and documents, como objetos json, los documents guardan json y las collections guardan documents y asi sucesvamente
+// collection>documents>subcollection>documents
+// one root collection? or more?
+// GUARDAR DATOS EN FIRESTORE
+// luego de inicializar firebase
+// var firestore = firebase.firestore()
+// var dOCREF = firestore.doc("ruta donde quiero guardar datos, respetando,collection>document>collection>document")
+// los datos solo se guardan en document
+// dOCREF.set({
+// 	datos a guardar, se escirbe en json
+// 	tambien funciona con promesas
+// }).then(function(){
+// 	console.log("todo nice")
+// }).catch(function(error){
+// 	console.log(error)
+// })
+
+// OBTENER DATOS DE FIRESTORE
+// dOCREF.get().then(function(doc){
+// 	if(doc && doc.exists){
+// 		const data = doc.data();
+// 		data tiene los DATOS que necesito
+// 	}
+// }).catch(function(error){
+// 	console.log(error)
+// })
+
+// USAR O ACTUALIZAR DATOS EN TIEMPO REAL 
+// getRealTimeUpdate = function(){
+// 	dOCREF.onSnapshot(function(doc){
+// 		if(doc && doc.exists){
+// 		const data = doc.data();
+// 		data tiene los DATOS que necesito
+// 	}
+// 	})
+// }
+// onSnapshot escuhca cuando se realiza un cambio en el documento donde se referencio, tambien recibe un documento como parametro en el 
+// callback de su funcion anonima
+// getRealTimeUpdate()
+// a[href^='#']--> elije los elemetos a con tributo href que comienzan con #

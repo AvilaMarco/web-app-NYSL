@@ -240,3 +240,4 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 // onSnapshot escuhca cuando se realiza un cambio en el documento donde se referencio, tambien recibe un documento como parametro en el 
 // callback de su funcion anonima
 // getRealTimeUpdate()
+// a[href^='#']--> elije los elemetos a con tributo href que comienzan con #
