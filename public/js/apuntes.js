@@ -241,3 +241,8 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 // callback de su funcion anonima
 // getRealTimeUpdate()
 // a[href^='#']--> elije los elemetos a con tributo href que comienzan con #
+// fireStore.collection("users").get().then((querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//         console.log(`${doc.id} => ${doc.data()}`);
+//     });
+// });

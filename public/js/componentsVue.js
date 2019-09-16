@@ -148,8 +148,9 @@ const app = new Vue({
 			this.limitetarjetas.push(this.contador);
 		},
 		enviado(){
-			agregarComentarios(this.textocommet)
-			alert("gracias por comentar")
+			firebase.auth().signInWithRedirect(provider);
+			// agregarComentarios(this.textocommet)
+			// alert("gracias por comentar")
 		},
 		scrolltodown(){
 			if (this.onecallfunction) {
@@ -162,9 +163,6 @@ const app = new Vue({
 			this.mapalink = linkmap
 			this.mapainfo = infomap
 			this.mapalocation = locationmap
-		},
-		funcionalidad(){
-			firebase.auth().signInWithRedirect(provider);
 		}
 	},
 	computed:{

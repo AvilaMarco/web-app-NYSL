@@ -79,7 +79,7 @@ function buscarEnEquipos(jugadorT){
 var provider = new firebase.auth.GoogleAuthProvider();
 
 let fireStore = firebase.firestore();
-
+// firebase.auth().signInWithRedirect(provider);
 function agregarComentarios(comentario) {
 	fireStore.collection("commets").add({
     feedback:comentario

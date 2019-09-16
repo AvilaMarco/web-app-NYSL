@@ -148,9 +148,9 @@ const app = new Vue({
 			this.limitetarjetas.push(this.contador);
 		},
 		enviado(){
-			firebase.auth().signInWithRedirect(provider);
-			// agregarComentarios(this.textocommet)
-			// alert("gracias por comentar")
+			// firebase.auth().signInWithRedirect(provider);
+			agregarComentarios(this.textocommet)
+			alert("gracias por comentar")
 		},
 		scrolltodown(){
 			if (this.onecallfunction) {
