@@ -157,14 +157,14 @@ const app = new Vue({
 				setTimeout(e=> window.scrollTo(0, 400), 200);
 			}
 		},
+		funciasdsdonalidad(){
+			firebase.auth().signInWithRedirect(provider);
+		},
 		chageinfomap(linkmap,infomap,locationmap){
 			this.selecttabV = 'Schedule'
 			this.mapalink = linkmap
 			this.mapainfo = infomap
 			this.mapalocation = locationmap
-		},
-		funcionalidad(){
-			firebase.auth().signInWithRedirect(provider);
 		}
 	},
 	computed:{
