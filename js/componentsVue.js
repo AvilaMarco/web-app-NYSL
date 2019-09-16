@@ -148,17 +148,15 @@ const app = new Vue({
 			this.limitetarjetas.push(this.contador);
 		},
 		enviado(){
-			agregarComentarios(this.textocommet)
-			alert("gracias por comentar")
+			firebase.auth().signInWithRedirect(provider);
+			// agregarComentarios(this.textocommet)
+			// alert("gracias por comentar")
 		},
 		scrolltodown(){
 			if (this.onecallfunction) {
 				this.onecallfunction = false
 				setTimeout(e=> window.scrollTo(0, 400), 200);
 			}
-		},
-		funciasdsdonalidad(){
-			firebase.auth().signInWithRedirect(provider);
 		},
 		chageinfomap(linkmap,infomap,locationmap){
 			this.selecttabV = 'Schedule'
