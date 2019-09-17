@@ -119,10 +119,58 @@ Vue.component('tarjeta-jugador',{
 	}
 })
 
+Vue.component('tarjeta-user',{
+	props:{
+		usuario:{
+			type:Object
+		}
+	},
+	template:`
+	<div class="card">
+
+		<div v-if="!usuario.login" class="card">
+		  <img src="img/img.png" class="card-img-top" alt="user-default">
+		  <div class="card-body">
+		    <button class="btn btn-primary btn-block ml-2" @click="login">Login</button>
+		  </div>
+		</div>
+
+		<div  v-if="usuario.login" class="card-header">
+			<button data-toggle="collapse" data-target="#userconfig" class="btn btn-outline-success btn-block">User Profile Settings   <i class="fas fa-cog"></i> </button>	
+		</div>
+		
+	  <div v-if="usuario.login" id="userconfig" class="collapse m-3">
+			<div class="row no-gutters">
+				<div class="col-4">
+				  <img src="usuario.photoURL" class="card-img pt-4 pl-1" alt="Card image">
+				</div>
+				<div class="col-8">
+				  <div class="card-body">
+					<p class="card-text">Name: {{usuario.displayName}}</p>
+					<p v-if="usuario.nick!=null" class="card-text">Nick: {{usuario.nick}}</p>
+					<p class="card-text">Email: {{usuario.email}}</p>
+				  </div>
+				</div>
+	  	</div>
+		  <div class="row d-flex justify-content-around">
+					<button v-if="usuario.login" class="btn btn-primary ml-2">Logout</button>
+					<button v-if="usuario.nick == null" class="btn btn-primary mr-5">Use Nick</button>
+					<button v-if="usuario.nick != null" class="btn btn-primary mr-5">Change Nick</button>
+		  </div>
+	  </div>
+	</div>
+	`,
+	methods:{
+		login(){
+			this.$emit('userlogin')
+		}
+	}
+})
+
 const app = new Vue({
 	el:'#app',
 	data:{
-		selecttabV:'Home',
+		selecttabV:'Profile',
 		fechas:fechas,
 		meses:meses(),
 		mes:primerMes,
@@ -134,8 +182,12 @@ const app = new Vue({
 		textocommet:'',
 		onecallfunction:true,
 		mapalink:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d190255.33858302396!2d-87.87204658078659!3d41.833903666429514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2c3cd0f4cbed%3A0xafe0a6ad09c0c000!2sChicago%2C%20Illinois%2C%20EE.%20UU.!5e0!3m2!1ses-419!2sar!4v1568589433667!5m2!1ses-419!2sar',
-		mapainfo:'address',
-		mapalocation:'choose an'
+		mapainfo:'click any location',
+		mapalocation:'in the tables',
+		usuariogoogle:{
+			login:false
+		},
+		usuariogoogle2:{}
 	},
 	methods:{
 		selectVue(id){
@@ -147,10 +199,28 @@ const app = new Vue({
 			this.contador++
 			this.limitetarjetas.push(this.contador);
 		},
+		logingoogle(){
+			firebase.auth().signInWithRedirect(provider)
+			.then(function(result) {
+				app.usuariogoogle2 = result.user
+				// let aux = firebase.auth().currentUser
+			 //  this.usuariogoogle.displayName = aux.displayName
+				// this.usuariogoogle.email = aux.email
+				// this.usuariogoogle.photoURL = aux.photoURL
+		}).catch(function(error) {
+		  console.log(error)
+		});
+			// let aux = firebase.auth().currentUser
+			// this.usuariogoogle.displayName = aux.displayName
+			// this.usuariogoogle.email = aux.email
+			// this.usuariogoogle.photoURL = aux.photoURL
+			// console.log(firebase.auth().currentUser)
+			// this.usuariogoogle += firebase.auth().currentUser;
+		},
 		enviado(){
-			firebase.auth().signInWithRedirect(provider);
-			// agregarComentarios(this.textocommet)
-			// alert("gracias por comentar")
+			// firebase.auth().signInWithRedirect(provider);
+			agregarComentarios(this.textocommet)
+			alert("gracias por comentar")
 		},
 		scrolltodown(){
 			if (this.onecallfunction) {

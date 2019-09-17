@@ -24,12 +24,12 @@
 			<div class="card m-3">
 				<div class="card-body">
 					<dl>
-				    <dt class="card-title">August 4</dt>
-				    	<dd class="card-text">- NYSL Fundraiser</dd>
-				    <dt class="card-title">August 16</dt>
-				    	<dd class="card-text">- Season Kick-off: Meet the Teams</dd>
-				    <dt class="card-title">September 1</dt>
-				    	<dd class="card-text">- First Game of the Season (Check Game Schedule for details)</dd>
+					<dt class="card-title">August 4</dt>
+						<dd class="card-text">- NYSL Fundraiser</dd>
+					<dt class="card-title">August 16</dt>
+						<dd class="card-text">- Season Kick-off: Meet the Teams</dd>
+					<dt class="card-title">September 1</dt>
+						<dd class="card-text">- First Game of the Season (Check Game Schedule for details)</dd>
 				  </dl>
 				</div>
 			</div>
@@ -59,12 +59,12 @@
 			<h1 class="text-center">Upcoming Matches</h1>
 			<div class="d-flex flex-row">
 			  <div class="p-2 flex-fill">Mes:
-			  	<select v-model="mes" class="form-control">
+				<select v-model="mes" class="form-control">
 						<option v-for="mes in meses">{{mes}}</option>
 					</select>
 				</div>
 			  <div class="p-2 flex-fill">Dia:
-			  	<select v-model="dia" class="form-control">
+				<select v-model="dia" class="form-control">
 						<option v-for="dia in dias">{{dia}}</option>
 					</select>
 			  </div>
@@ -83,10 +83,9 @@
 				<tarjeta-jugador @changemap="chageinfomap" :datosP="datosarratys" :index="index"></tarjeta-jugador>
 			</div>
 			
-			<div class="card mt-4">
+			<div v-if="usuariogoogle.login" class="card mt-4">
 				<div class="card-header">
-					<button data-toggle="collapse" data-target="#addCard" class="btn btn-outline-success btn-block">Add Card(Player/Team)   <i class="fas fa-plus-circle"></i> </button>
-						
+					<button data-toggle="collapse" data-target="#addCard" class="btn btn-outline-success btn-block">Add Card(Player/Team)   <i class="fas fa-plus-circle"></i> </button>	
 				</div>
 				<div id="addCard" class="collapse"> 
 					<div class="card-body">
@@ -94,13 +93,15 @@
 						<div class="input-group mb-3">
 						  <input class="form-control" type="text" v-model="player" placeholder="write player or team">
 						  <div class="input-group-append">
-						    <input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" :disabled="contador==5 || player==''" @click="buscarPlayerOTeam" value="agregar">
+							<input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" :disabled="contador==5 || player==''" @click="buscarPlayerOTeam" value="agregar">
 						  </div>
 						  <p class="text-secondary">Prueba con: pepito, homero, bart, benji, juan, carl o U1, , u2, u3, u4, u5, u6</p>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<tarjeta-user @userlogin="logingoogle" :usuario="usuariogoogle"></tarjeta-user>
 
 		</div>
 
@@ -114,20 +115,20 @@
 	<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
 
 	<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#config-web-app -->
- 	<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-firestore.js"></script>
+	 https://firebase.google.com/docs/web/setup#config-web-app -->
+	<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-auth.js"></script>
 
 	<script>
 	  // Your web app's Firebase configuration
 	  var firebaseConfig = {
-	    apiKey: "AIzaSyCzsaJyqWO4Ulu1wM-RBUxcspJgQx9-6jE",
-	    authDomain: "webappnysl-b397e.firebaseapp.com",
-	    databaseURL: "https://webappnysl-b397e.firebaseio.com",
-	    projectId: "webappnysl-b397e",
-	    storageBucket: "",
-	    messagingSenderId: "49775778393",
-	    appId: "1:49775778393:web:1f049835486d16f0bc2f48"
+		apiKey: "AIzaSyCzsaJyqWO4Ulu1wM-RBUxcspJgQx9-6jE",
+		authDomain: "webappnysl-b397e.firebaseapp.com",
+		databaseURL: "https://webappnysl-b397e.firebaseio.com",
+		projectId: "webappnysl-b397e",
+		storageBucket: "",
+		messagingSenderId: "49775778393",
+		appId: "1:49775778393:web:1f049835486d16f0bc2f48"
 	  };
 	  // Initialize Firebase
 	  firebase.initializeApp(firebaseConfig);
@@ -136,6 +137,7 @@
 	<!-- vue -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <!-- cosas de bootstrap -->
+  
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

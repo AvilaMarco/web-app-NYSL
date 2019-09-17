@@ -251,7 +251,9 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 // USUARIOS:
 // definir login con google
 // var provider = new firebase.auth.GoogleAuthProvider();
-// firebase.auth().signInWithRedirect(provider);
+// firebase.auth().signInWithRedirect(provider).then(function(result){
+// fireba
+// })
 // usuario actual
 // firebase.auth().currentUser;
 // 	datos de usuario
@@ -272,3 +274,4 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 
 
 // 		https://firebase.google.com/docs/database/security/user-security
+

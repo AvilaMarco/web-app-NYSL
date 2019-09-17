@@ -92,3 +92,22 @@ function agregarComentarios(comentario) {
 	});
 }
 
+function	logingoogle2(){
+	firebase.auth().signInWithRedirect(provider)
+	.then(function(result) {
+		console.log(result)
+		app.usuariogoogle2 = result.user
+		// let aux = firebase.auth().currentUser
+	 //  this.usuariogoogle.displayName = aux.displayName
+		// this.usuariogoogle.email = aux.email
+		// this.usuariogoogle.photoURL = aux.photoURL
+}).catch(function(error) {
+  console.log(error)
+});
+	// let aux = firebase.auth().currentUser
+	// this.usuariogoogle.displayName = aux.displayName
+	// this.usuariogoogle.email = aux.email
+	// this.usuariogoogle.photoURL = aux.photoURL
+	// console.log(firebase.auth().currentUser)
+	// this.usuariogoogle += firebase.auth().currentUser;
+}

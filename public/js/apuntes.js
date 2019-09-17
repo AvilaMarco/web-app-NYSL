@@ -246,3 +246,32 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 //         console.log(`${doc.id} => ${doc.data()}`);
 //     });
 // });
+
+
+// USUARIOS:
+// definir login con google
+// var provider = new firebase.auth.GoogleAuthProvider();
+// firebase.auth().signInWithRedirect(provider).then(function(result){
+// fireba
+// })
+// usuario actual
+// firebase.auth().currentUser;
+// 	datos de usuario
+// 	name = user.displayName;
+//   email = user.email;
+//   photoUrl = user.photoURL;
+//   emailVerified = user.emailVerified;
+
+// cerrar sesion -> firebase.auth().signOut()
+
+//  eliminar usuario => var user = firebase.auth().currentUser;
+// 		user.delete().then(function() {
+// 		  // User deleted.
+// 		}).catch(function(error) {
+// 		  // An error happened.
+// 		});
+
+
+
+// 		https://firebase.google.com/docs/database/security/user-security
+
