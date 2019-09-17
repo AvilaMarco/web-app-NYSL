@@ -79,7 +79,7 @@ function buscarEnEquipos(jugadorT){
 var provider = new firebase.auth.GoogleAuthProvider();
 
 let fireStore = firebase.firestore();
-// firebase.auth().signInWithRedirect(provider);
+
 function agregarComentarios(comentario) {
 	fireStore.collection("commets").add({
     feedback:comentario
@@ -92,3 +92,14 @@ function agregarComentarios(comentario) {
 	});
 }
 
+firebase.auth().onAuthStateChanged(function(user) {
+if (user) {
+	app.datosuser = {}
+	app.datosuser.photoURL = user.photoURL
+	app.datosuser.displayName = user.displayName
+	app.datosuser.email = user.email
+	app.datosuser.nick = ''
+}else{
+	app.datosuser = null
+} 
+})

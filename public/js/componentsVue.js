@@ -126,43 +126,83 @@ Vue.component('tarjeta-user',{
 		}
 	},
 	template:`
-	<div class="card">
-
-		<div v-if="!usuario.login" class="card">
-		  <img src="img/img.png" class="card-img-top" alt="user-default">
-		  <div class="card-body">
-		    <button class="btn btn-primary btn-block ml-2" @click="login">Login</button>
-		  </div>
+	<div class="card mt-3">
+		<div v-if="usuario == null" class="card">
+	  		<div class="card-body">
+			  	<img src="img/img.png" class="card-img-top img-thumbnail" alt="user-default">
+			    <button class="btn btn-primary btn-block mt-2" @click="login">Login</button>
+		 		</div>
 		</div>
 
-		<div  v-if="usuario.login" class="card-header">
-			<button data-toggle="collapse" data-target="#userconfig" class="btn btn-outline-success btn-block">User Profile Settings   <i class="fas fa-cog"></i> </button>	
-		</div>
+		<div v-if="usuario != null">
+
+			<div class="card-header">
+				<button @click="scrolltodown" data-toggle="collapse" data-target="#userconfig" class="btn btn-outline-success btn-block">User Profile Settings <i class="fas fa-cog"></i> </button>	
+			</div>
 		
-	  <div v-if="usuario.login" id="userconfig" class="collapse m-3">
-			<div class="row no-gutters">
-				<div class="col-4">
-				  <img src="usuario.photoURL" class="card-img pt-4 pl-1" alt="Card image">
-				</div>
-				<div class="col-8">
-				  <div class="card-body">
-					<p class="card-text">Name: {{usuario.displayName}}</p>
-					<p v-if="usuario.nick!=null" class="card-text">Nick: {{usuario.nick}}</p>
+  		<div id="userconfig" class="collapse m-3">
+				<div class="card-body">
+					<img :src="usuario.photoURL" class="card-img-top img-thumbnail" alt="Card image">
+					<div class="text-center mt-2">
+						<p class="card-text">Name: {{usuario.displayName}}</p>
+					<p v-show="nick!=''" class="card-text">Nick: {{nick}}</p>
 					<p class="card-text">Email: {{usuario.email}}</p>
-				  </div>
+					</div>
 				</div>
+				<!-- <div class="row no-gutters">
+					<div class="col">
+					  <img :src="usuario.photoURL" class="card-img img-thumbnail" alt="Card image">
+					</div>
+					<div class="col">
+					  <div class="card-body">
+							<p class="card-text">Name: {{usuario.displayName}}</p>
+							<p v-show="nick!=''" class="card-text">Nick: {{nick}}</p>
+							<p class="card-text">Email: {{usuario.email}}</p>
+					  </div>
+					</div>
+	  		</div> -->
+
+			  <div class="row d-flex justify-content-between mt-3">
+						<button @click="logout" class="btn btn-primary ml-3">Logout</button>
+						<button v-if="nick == ''" @click="escribirnick" class="btn btn-primary mr-3">Use Nick</button>
+						<button v-if="nick != ''" @click="escribirnick" class="btn btn-primary mr-3">Change Nick</button>
+			  </div>
+
+			  <div v-if="write" class="input-group mt-3">
+				  <input id="inputtext" class="form-control" type="text" v-model="nickaux" placeholder="write your nick">
+				  <input class="btn btn-info" type="button" @click="usenick" value="enter">
+			  </div>
+
 	  	</div>
-		  <div class="row d-flex justify-content-around">
-					<button v-if="usuario.login" class="btn btn-primary ml-2">Logout</button>
-					<button v-if="usuario.nick == null" class="btn btn-primary mr-5">Use Nick</button>
-					<button v-if="usuario.nick != null" class="btn btn-primary mr-5">Change Nick</button>
-		  </div>
-	  </div>
+
+		</div>
 	</div>
 	`,
+	data(){
+		return{
+			nickaux:'',
+			write:false,
+			nick:''
+		}
+	},
 	methods:{
 		login(){
 			this.$emit('userlogin')
+		},
+		logout(){
+			this.$emit('userlogout')
+		},
+		usenick(){
+			this.$emit('usenick',this.nick)
+			this.nick = this.nickaux
+			this.write = false
+		},
+		escribirnick(){
+			this.write=true
+			setTimeout(e=> window.scrollTo(0, 400), 100);
+		},
+		scrolltodown(){
+			setTimeout(e=> window.scrollTo(0, 600), 300);
 		}
 	}
 })
@@ -170,7 +210,7 @@ Vue.component('tarjeta-user',{
 const app = new Vue({
 	el:'#app',
 	data:{
-		selecttabV:'Profile',
+		selecttabV:'Home',
 		fechas:fechas,
 		meses:meses(),
 		mes:primerMes,
@@ -182,12 +222,9 @@ const app = new Vue({
 		textocommet:'',
 		onecallfunction:true,
 		mapalink:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d190255.33858302396!2d-87.87204658078659!3d41.833903666429514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2c3cd0f4cbed%3A0xafe0a6ad09c0c000!2sChicago%2C%20Illinois%2C%20EE.%20UU.!5e0!3m2!1ses-419!2sar!4v1568589433667!5m2!1ses-419!2sar',
-		mapainfo:'click any location',
-		mapalocation:'in the tables',
-		usuariogoogle:{
-			login:false
-		},
-		usuariogoogle2:{}
+		mapainfo:'',
+		mapalocation:'click any location in the tables',
+		datosuser:null
 	},
 	methods:{
 		selectVue(id){
@@ -200,32 +237,21 @@ const app = new Vue({
 			this.limitetarjetas.push(this.contador);
 		},
 		logingoogle(){
+			console.log("nice")
 			firebase.auth().signInWithRedirect(provider)
-			.then(function(result) {
-				app.usuariogoogle2 = result.user
-				// let aux = firebase.auth().currentUser
-			 //  this.usuariogoogle.displayName = aux.displayName
-				// this.usuariogoogle.email = aux.email
-				// this.usuariogoogle.photoURL = aux.photoURL
-		}).catch(function(error) {
-		  console.log(error)
-		});
-			// let aux = firebase.auth().currentUser
-			// this.usuariogoogle.displayName = aux.displayName
-			// this.usuariogoogle.email = aux.email
-			// this.usuariogoogle.photoURL = aux.photoURL
-			// console.log(firebase.auth().currentUser)
-			// this.usuariogoogle += firebase.auth().currentUser;
+		},
+		logoutgoogle(){
+			console.log("nice")
+			firebase.auth().signOut()
 		},
 		enviado(){
-			// firebase.auth().signInWithRedirect(provider);
 			agregarComentarios(this.textocommet)
 			alert("gracias por comentar")
 		},
 		scrolltodown(){
 			if (this.onecallfunction) {
 				this.onecallfunction = false
-				setTimeout(e=> window.scrollTo(0, 400), 200);
+				setTimeout(e=> window.scrollTo(0, 400), 250);
 			}
 		},
 		chageinfomap(linkmap,infomap,locationmap){
@@ -233,6 +259,9 @@ const app = new Vue({
 			this.mapalink = linkmap
 			this.mapainfo = infomap
 			this.mapalocation = locationmap
+		},
+		addnick(nick){
+			this.datosuser.nick = nick
 		}
 	},
 	computed:{

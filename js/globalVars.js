@@ -79,7 +79,7 @@ function buscarEnEquipos(jugadorT){
 var provider = new firebase.auth.GoogleAuthProvider();
 
 let fireStore = firebase.firestore();
-// firebase.auth().signInWithRedirect(provider);
+
 function agregarComentarios(comentario) {
 	fireStore.collection("commets").add({
     feedback:comentario
@@ -92,22 +92,14 @@ function agregarComentarios(comentario) {
 	});
 }
 
-function	logingoogle2(){
-	firebase.auth().signInWithRedirect(provider)
-	.then(function(result) {
-		console.log(result)
-		app.usuariogoogle2 = result.user
-		// let aux = firebase.auth().currentUser
-	 //  this.usuariogoogle.displayName = aux.displayName
-		// this.usuariogoogle.email = aux.email
-		// this.usuariogoogle.photoURL = aux.photoURL
-}).catch(function(error) {
-  console.log(error)
-});
-	// let aux = firebase.auth().currentUser
-	// this.usuariogoogle.displayName = aux.displayName
-	// this.usuariogoogle.email = aux.email
-	// this.usuariogoogle.photoURL = aux.photoURL
-	// console.log(firebase.auth().currentUser)
-	// this.usuariogoogle += firebase.auth().currentUser;
-}
+firebase.auth().onAuthStateChanged(function(user) {
+if (user) {
+	app.datosuser = {}
+	app.datosuser.photoURL = user.photoURL
+	app.datosuser.displayName = user.displayName
+	app.datosuser.email = user.email
+	app.datosuser.nick = ''
+}else{
+	app.datosuser = null
+} 
+})
