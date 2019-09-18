@@ -103,3 +103,13 @@ if (user) {
 	app.datosuser = null
 } 
 })
+
+window.addEventListener("orientationchange", function() {
+	if (screen.orientation.angle == 0) {
+		app.isrotate = false;
+	}else if(screen.orientation.angle == 90){
+		app.isrotate = true;
+	}
+	
+  console.log("the orientation of the device is now " + screen.orientation.angle);
+});

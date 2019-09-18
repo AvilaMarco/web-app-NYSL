@@ -58,19 +58,25 @@
 		<div v-show="selecttabV == 'Schedule'">
 			<h1 class="text-center">Upcoming Matches</h1>
 			<div class="d-flex flex-row">
-			  <div class="p-2 flex-fill">Mes:
-				<select v-model="mes" class="form-control">
+			  	<div class="p-2 flex-fill">Mes:
+					<select v-model="mes" class="form-control">
+						<option>all</option>
 						<option v-for="mes in meses">{{mes}}</option>
 					</select>
 				</div>
-			  <div class="p-2 flex-fill">Dia:
-				<select v-model="dia" class="form-control">
+			  	<div class="p-2 flex-fill">Dia:
+					<select v-model="dia" class="form-control">
 						<option v-for="dia in dias">{{dia}}</option>
 					</select>
 			  </div>
 			</div>
 
-			<table-data @changemap="chageinfomap" :matcha="fechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
+			<div v-if="mes != 'all'">
+				<table-data @changemap="chageinfomap" :matcha="fechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
+			</div>
+			<div v-else>
+				<table-data @changemap="chageinfomap" :fechasaux="fechas" :all="mes == 'all'"></table-data>
+			</div>
 
 			<mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg>
 		</div>
@@ -101,7 +107,7 @@
 				</div>
 			</div>
 
-			<tarjeta-user @userlogout="logoutgoogle" @userlogin="logingoogle" @usenick="addnick" :usuario="datosuser" ></tarjeta-user>
+			<tarjeta-user @userlogout="logoutgoogle" @userlogin="logingoogle" @usenick="addnick" :isrotate="rotationscreen" :usuario="datosuser" ></tarjeta-user>
 			
 		</div>
 

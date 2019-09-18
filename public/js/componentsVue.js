@@ -26,6 +26,12 @@ Vue.component('table-data',{
 		},
 		matchb:{
 			type:Object
+		},
+		fechasaux:{
+			type:Object
+		},
+		all:{
+			type:Boolean
 		}
 	},
 	template:`
@@ -33,22 +39,40 @@ Vue.component('table-data',{
 		<table class="table table-hover table-bordered">
 			<thead class="thead-dark">
 				<tr>
-					<th>Teams</th>
-					<th>Location</th>
-					<th>Times</th>
+					<th class="sticky-top">Teams</th>
+					<th class="sticky-top">Location</th>
+					<th class="sticky-top">Times</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody v-if="!all">
 				<tr>
 					<td>{{matcha.teamA}} <br>VS<br> {{matcha.teamB}}</td>
 					<td><a id="a" href="#mapasid" @click="enviardatosmapas">{{matcha.location}}</a></td>
 					<td>{{matcha.time}}</td>
 				</tr>
-				<tr>
+				<tr v-if="matchb != null">
 					<td>{{matchb.teamA}} <br>VS <br>{{matchb.teamB}}</td>
 					<td><a id="b" href="#mapasid" @click="enviardatosmapas">{{matchb.location}}</a></td>
 					<td>{{matchb.time}}</td>
 				</tr>
+			</tbody>
+			<tbody v-if="all">
+				<template v-for="(mes,key) in fechasaux">
+					<tr><td class="mt-3" colspan="3">{{key}}</td></tr>
+					<template v-for="(dia,key) in mes">
+						<tr><td class="mt-3" colspan="3">Day: {{key}}</td></tr>
+						<tr>
+							<td>{{dia.matchA.teamA}} <br>VS<br> {{dia.matchA.teamB}}</td>
+							<td><a id="a" href="#mapasid" @click="enviardatosmapas">{{dia.matchA.location}}</a></td>
+							<td>{{dia.matchA.time}}</td>
+						</tr>
+						<tr v-if="dia.matchB!=null">
+							<td>{{dia.matchB.teamA}} <br>VS <br>{{dia.matchB.teamB}}</td>
+							<td><a id="b" href="#mapasid" @click="enviardatosmapas">{{dia.matchB.location}}</a></td>
+							<td>{{dia.matchB.time}}</td>
+						</tr>
+					</template>
+				</template>
 			</tbody>
 		</table>
 	</div>`,
@@ -123,6 +147,9 @@ Vue.component('tarjeta-user',{
 	props:{
 		usuario:{
 			type:Object
+		},
+		isrotate:{
+			type:Boolean
 		}
 	},
 	template:`
@@ -141,7 +168,7 @@ Vue.component('tarjeta-user',{
 			</div>
 		
   		<div id="userconfig" class="collapse m-3">
-				<div class="card-body">
+				<div class="card-body" v-if="!isrotate">
 					<img :src="usuario.photoURL" class="card-img-top img-thumbnail" alt="Card image">
 					<div class="text-center mt-2">
 						<p class="card-text">Name: {{usuario.displayName}}</p>
@@ -149,7 +176,7 @@ Vue.component('tarjeta-user',{
 					<p class="card-text">Email: {{usuario.email}}</p>
 					</div>
 				</div>
-				<!-- <div class="row no-gutters">
+				<div class="row no-gutters" v-if="isrotate">
 					<div class="col">
 					  <img :src="usuario.photoURL" class="card-img img-thumbnail" alt="Card image">
 					</div>
@@ -160,7 +187,7 @@ Vue.component('tarjeta-user',{
 							<p class="card-text">Email: {{usuario.email}}</p>
 					  </div>
 					</div>
-	  		</div> -->
+	  			</div>
 
 			  <div class="row d-flex justify-content-between mt-3">
 						<button @click="logout" class="btn btn-primary ml-3">Logout</button>
@@ -182,7 +209,7 @@ Vue.component('tarjeta-user',{
 		return{
 			nickaux:'',
 			write:false,
-			nick:''
+			nick:'',
 		}
 	},
 	methods:{
@@ -224,7 +251,8 @@ const app = new Vue({
 		mapalink:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d190255.33858302396!2d-87.87204658078659!3d41.833903666429514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2c3cd0f4cbed%3A0xafe0a6ad09c0c000!2sChicago%2C%20Illinois%2C%20EE.%20UU.!5e0!3m2!1ses-419!2sar!4v1568589433667!5m2!1ses-419!2sar',
 		mapainfo:'',
 		mapalocation:'click any location in the tables',
-		datosuser:null
+		datosuser:null,
+		isrotate:false
 	},
 	methods:{
 		selectVue(id){
@@ -268,6 +296,9 @@ const app = new Vue({
 		dias(){
 			this.dia = diasPorMes(this.mes)[0]
 			return diasPorMes(this.mes)
+		},
+		rotationscreen(){
+			return this.isrotate
 		}
 	}
 })
