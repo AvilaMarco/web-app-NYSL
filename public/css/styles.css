@@ -32,3 +32,59 @@ img{
 	top: 100px;
 	right: 20px;
 }
+
+.animationdiv{
+	position: absolute;
+}
+/*animaciones*/
+.animationtexta{
+	animation-name: ocultar;
+  	animation-duration: 3s;
+ 	animation-fill-mode: forwards;
+}
+
+@keyframes ocultar {
+  from {opacity: 1}
+  to {opacity: 0}
+}
+
+.animationtextb{
+	position: absolute;
+	top: 12px;
+	left:80px;
+	opacity: 0;
+	animation-name: mostar;
+  	animation-duration: 3s;
+  	animation-delay: 3s;
+ 	animation-fill-mode: forwards;
+}
+
+@keyframes mostar {
+  from {opacity: 0}
+  to {opacity: 1}
+}
+
+.animationdiv{
+	position: relative;
+	animation-name: ocultardiv;
+  	animation-duration: 2s;
+  	animation-delay: 6s;
+ 	animation-fill-mode: forwards;
+}
+
+@keyframes ocultardiv {
+  from {opacity: 1}
+  to {opacity: 0;position: absolute;}
+}
+
+.animationtable{
+	position: relative;
+	animation-name: movertable;
+  	animation-duration: 2s;
+ 	animation-fill-mode: forwards;
+}
+
+@keyframes movertable {
+  from {right: 320px}
+  to {right: 0}
+}

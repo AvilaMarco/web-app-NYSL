@@ -1,0 +1,58 @@
+body{
+	padding-left: 22vh;
+	padding-bottom: 0vh;
+}
+
+#fondo-header{
+	height: 150px;
+}
+
+#logo-header{
+width: 90px !important;
+}
+
+.menu{
+	width: 71px;
+	height: 100vh;
+	flex-direction: column;
+}
+
+.padingelement{
+	padding-top: 25px;
+}
+
+#logo-user{
+	height: 90vh;
+	width: 90vw;
+	display: block;
+	margin: auto;
+}
+
+.paddincard{
+	padding-top: 5px !important;
+	padding-bottom: 0 !important;
+}
+
+.botonl{
+	width: 200px !important;
+}
+
+.textograde{
+	font-size: 22px;
+}
+
+.animationtextb{
+	position: absolute;
+	top: 12px;
+	left:166px;
+	opacity: 0;
+	animation-name: mostar;
+  	animation-duration: 3s;
+  	animation-delay: 3s;
+ 	animation-fill-mode: forwards;
+}
+
+@keyframes mostar {
+  from {opacity: 0}
+  to {opacity: 1}
+}

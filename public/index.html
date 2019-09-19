@@ -8,13 +8,17 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<link rel="shortcut icon" sizes="196x196" href="img/nysl_logo.png">
+	<link rel="stylesheet" media="screen and (min-width: 550px)" href="css/landscape.css">
 </head>
 <body>
 	<div id="app">
 
 		<header>
-				<img class="mw-100 cabecera" src="img/fondo.png" alt="fondo-header">
-				<img class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
+				<img id="fondo-header" class="mw-100 cabecera" :src="linkimg" alt="fondo-header">
+				<div v-if="datosuser != null" id="userlogin" class="d-none alert alert-success text-center">
+				  <strong class="animationtexta">Success login</strong><strong class="animationtextb">Welcome {{datosuser.displayName}}</strong>
+				</div>
+				<img id="logo-header" class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
 		</header>
 
 		<!-- home -->
@@ -40,13 +44,12 @@
 					<a href="#feedback" data-toggle="collapse" @click="scrolltodown" class="btn btn-outline-success btn-block">Contatc / Feedback</a>
 				</div>
 				<div class="collapse" id="feedback"> 
-					<div class="card-body">
+					<div class="card-body paddincard">
 						<h3>Contact</h3>
 						<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
-						<p>or send a message to <span class="text-primary">1190267928</span></p>
 						<h3>feedback</h3>
 						<div class="form-group">
-						  <textarea v-model="textocommet" class="form-control" rows="3" placeholder="contanos tus dudas o sugerencias sobre la pagina o la liga"></textarea>
+						  <textarea v-model="textocommet" class="form-control" rows="2" placeholder="envíame tu opinión sobre la página"></textarea>
 						</div>
 						<input :disabled="textocommet==''" class="btn btn-primary btn-block mb-3" type="submit" @click="enviado">
 					</div>
@@ -56,16 +59,16 @@
 
 		<!-- fechas -->
 		<div v-show="selecttabV == 'Schedule'">
-			<h1 class="text-center">Upcoming Matches</h1>
+			<h1 class="text-center">Schedule</h1>
 			<div class="d-flex flex-row">
 			  	<div class="p-2 flex-fill">Mes:
-					<select v-model="mes" class="form-control">
+					<select v-model="mes" @change="animation" class="form-control">
 						<option>all</option>
 						<option v-for="mes in meses">{{mes}}</option>
 					</select>
 				</div>
 			  	<div class="p-2 flex-fill">Dia:
-					<select v-model="dia" class="form-control">
+					<select v-model="dia" @change="animation" class="form-control">
 						<option v-for="dia in dias">{{dia}}</option>
 					</select>
 			  </div>
@@ -91,12 +94,12 @@
 			
 			<div v-if="datosuser != null" class="card mt-4">
 				<div class="card-header">
-					<button data-toggle="collapse" data-target="#addCard" class="btn btn-outline-success btn-block">Add Card(Player/Team)   <i class="fas fa-plus-circle"></i> </button>	
+					<button data-toggle="collapse" data-target="#addCard" class="btn btn-outline-success btn-block">follow a player / team  <i class="fas fa-plus-circle"></i> </button>	
 				</div>
 				<div id="addCard" class="collapse"> 
 					<div class="card-body">
-						<p v-if="contador==5" class="card-text">ya tienes suficientes tarjetas, prueba editanto una tarjeta</p>
 						<div class="input-group mb-3">
+							<p class="text-secondary">add a card to have updated data of a player or team</p><br>
 						  <input class="form-control" type="text" v-model="player" placeholder="write player or team">
 						  <div class="input-group-append">
 							<input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" :disabled="contador==5 || player==''" @click="buscarPlayerOTeam" value="agregar">

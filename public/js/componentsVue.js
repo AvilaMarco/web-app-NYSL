@@ -1,7 +1,7 @@
 Vue.component('navs-tabs',{
 	template:`
-	<div @click="mostrarWebs" class="fondo fixed-bottom d-flex">
-		<div class="border border-dark botoncito flex-fill text-center" :class="{activeTab: selecttab == tab}" v-for="(tab,index) in tabsnav" @click="selecttab=tab">
+	<div @click="mostrarWebs" class="fondo fixed-bottom d-flex menu">
+		<div class="padingelement border border-dark botoncito flex-fill text-center" :class="{activeTab: selecttab == tab}" v-for="(tab,index) in tabsnav" @click="selecttab=tab">
 			<i :class="iconos[index]"></i><br>{{tab}}
 		</div>
 	</div>`,
@@ -36,7 +36,7 @@ Vue.component('table-data',{
 	},
 	template:`
 	<div class="text-center">
-		<table class="table table-hover table-bordered">
+		<table id="tableanimation" class="table table-hover table-bordered">
 			<thead class="thead-dark">
 				<tr>
 					<th class="sticky-top">Teams</th>
@@ -63,12 +63,22 @@ Vue.component('table-data',{
 						<tr><td class="mt-3" colspan="3">Day: {{key}}</td></tr>
 						<tr>
 							<td>{{dia.matchA.teamA}} <br>VS<br> {{dia.matchA.teamB}}</td>
-							<td><a id="a" href="#mapasid" @click="enviardatosmapas">{{dia.matchA.location}}</a></td>
+							<td>
+								<a id="c" href="#mapasid" @click="enviardatosmapas">{{dia.matchA.location}}</a>
+								<p class="d-none">{{dia.matchA.link}}</p>
+								<p class="d-none">{{dia.matchA.directory}}</p>
+								<p class="d-none">{{dia.matchA.location}}</p>
+							</td>
 							<td>{{dia.matchA.time}}</td>
 						</tr>
 						<tr v-if="dia.matchB!=null">
 							<td>{{dia.matchB.teamA}} <br>VS <br>{{dia.matchB.teamB}}</td>
-							<td><a id="b" href="#mapasid" @click="enviardatosmapas">{{dia.matchB.location}}</a></td>
+							<td>
+								<a id="c" href="#mapasid" @click="enviardatosmapas">{{dia.matchB.location}}</a>
+								<p class="d-none">{{dia.matchB.link}}</p>
+								<p class="d-none">{{dia.matchB.directory}}</p>
+								<p class="d-none">{{dia.matchB.location}}</p>
+							</td>
 							<td>{{dia.matchB.time}}</td>
 						</tr>
 					</template>
@@ -78,10 +88,19 @@ Vue.component('table-data',{
 	</div>`,
 	methods:{
 		enviardatosmapas(id){
-			if (id.target.id=='a') {
-			this.$emit('changemap',this.matcha.link,this.matcha.directory,this.matcha.location)
-			}else if(id.target.id=='b'){
-				this.$emit('changemap',this.matchb.link,this.matchb.directory,this.matchb.location)
+			let link = id.target.nextElementSibling.innerText
+			let directory = id.target.nextElementSibling.nextElementSibling.innerText
+			let location = id.target.nextElementSibling.nextElementSibling.nextElementSibling.innerText
+			switch(id.target.id){
+				case 'a':
+					this.$emit('changemap',this.matcha.link,this.matcha.directory,this.matcha.location)
+					break;
+				case 'b':
+					this.$emit('changemap',this.matchb.link,this.matchb.directory,this.matchb.location)
+					break;
+				case 'c':
+					this.$emit('changemap',link,directory,location)
+					break;
 			}
 		}
 	}
@@ -156,7 +175,7 @@ Vue.component('tarjeta-user',{
 	<div class="card mt-3">
 		<div v-if="usuario == null" class="card">
 	  		<div class="card-body">
-			  	<img src="img/img.png" class="card-img-top img-thumbnail" alt="user-default">
+			  	<img id="logo-user" src="img/img.png" class="card-img-top img-thumbnail" alt="user-default">
 			    <button class="btn btn-primary btn-block mt-2" @click="login">Login</button>
 		 		</div>
 		</div>
@@ -177,11 +196,11 @@ Vue.component('tarjeta-user',{
 					</div>
 				</div>
 				<div class="row no-gutters" v-if="isrotate">
-					<div class="col">
+					<div class="col-sm-5">
 					  <img :src="usuario.photoURL" class="card-img img-thumbnail" alt="Card image">
 					</div>
-					<div class="col">
-					  <div class="card-body">
+					<div class="col-sm-7">
+					  <div class="textograde card-body">
 							<p class="card-text">Name: {{usuario.displayName}}</p>
 							<p v-show="nick!=''" class="card-text">Nick: {{nick}}</p>
 							<p class="card-text">Email: {{usuario.email}}</p>
@@ -190,9 +209,9 @@ Vue.component('tarjeta-user',{
 	  			</div>
 
 			  <div class="row d-flex justify-content-between mt-3">
-						<button @click="logout" class="btn btn-primary ml-3">Logout</button>
-						<button v-if="nick == ''" @click="escribirnick" class="btn btn-primary mr-3">Use Nick</button>
-						<button v-if="nick != ''" @click="escribirnick" class="btn btn-primary mr-3">Change Nick</button>
+						<button @click="logout" class="botonl btn btn-primary ml-3">Logout</button>
+						<button v-if="nick == ''" @click="escribirnick" class="botonl btn btn-primary mr-3">Use Nick</button>
+						<button v-if="nick != ''" @click="escribirnick" class="botonl btn btn-primary mr-3">Change Nick</button>
 			  </div>
 
 			  <div v-if="write" class="input-group mt-3">
@@ -252,7 +271,8 @@ const app = new Vue({
 		mapainfo:'',
 		mapalocation:'click any location in the tables',
 		datosuser:null,
-		isrotate:false
+		isrotate:false,
+		linkimg:'img/fondo.png'
 	},
 	methods:{
 		selectVue(id){
@@ -279,8 +299,14 @@ const app = new Vue({
 		scrolltodown(){
 			if (this.onecallfunction) {
 				this.onecallfunction = false
-				setTimeout(e=> window.scrollTo(0, 400), 250);
+				if(this.isrotate){
+					console.log(this.isrotate)
+					setTimeout(e=> window.scrollTo(0, 900), 250);
+				}else{
+					setTimeout(e=> window.scrollTo(0, 400), 250);
+				}
 			}
+
 		},
 		chageinfomap(linkmap,infomap,locationmap){
 			this.selecttabV = 'Schedule'
@@ -290,6 +316,10 @@ const app = new Vue({
 		},
 		addnick(nick){
 			this.datosuser.nick = nick
+		},
+		animation(){
+			document.querySelector('#tableanimation').classList.add('animationtable')
+			setTimeout(e=> document.querySelector('#tableanimation').classList.remove('animationtable'), 3100);
 		}
 	},
 	computed:{

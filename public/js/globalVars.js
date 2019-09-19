@@ -99,6 +99,8 @@ if (user) {
 	app.datosuser.displayName = user.displayName
 	app.datosuser.email = user.email
 	app.datosuser.nick = ''
+	document.querySelector('#userlogin').classList.remove('d-none')
+	document.querySelector('#userlogin').classList.add('animationdiv')
 }else{
 	app.datosuser = null
 } 
@@ -107,9 +109,9 @@ if (user) {
 window.addEventListener("orientationchange", function() {
 	if (screen.orientation.angle == 0) {
 		app.isrotate = false;
-	}else if(screen.orientation.angle == 90){
+		app.linkimg = 'img/fondo.png';
+	}else if(screen.orientation.angle != 0){
 		app.isrotate = true;
+		app.linkimg = 'img/header-landscape.jpg';
 	}
-	
-  console.log("the orientation of the device is now " + screen.orientation.angle);
 });
