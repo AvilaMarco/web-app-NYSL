@@ -15,8 +15,8 @@
 
 		<header>
 				<img id="fondo-header" class="mw-100 cabecera" :src="linkimg" alt="fondo-header">
-				<div v-if="datosuser != null" id="userlogin" class="d-none alert alert-success text-center">
-				  <strong class="animationtexta">Success login</strong><strong class="animationtextb">Welcome {{datosuser.displayName}}</strong>
+				<div id="userlogin" class="d-none alert alert-success text-center">
+				  <strong class="animationtexta">Success login</strong><strong v-if="datosuser != null" class="animationtextb">Welcome {{datosuser.displayName}}</strong>
 				</div>
 				<img id="logo-header" class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
 		</header>
@@ -102,6 +102,10 @@
 							<p class="text-secondary">add a card to have updated data of a player or team</p><br>
 						  <input class="form-control" type="text" v-model="player" placeholder="write player or team">
 						  <div class="input-group-append">
+							<select v-model="player" name="team">
+								<option team>team</option>
+								<option v-for="(team,key) in participantes">{{key}}</option>
+							</select>
 							<input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" :disabled="contador==5 || player==''" @click="buscarPlayerOTeam" value="agregar">
 						  </div>
 						  <p class="text-secondary">Prueba con: pepito, homero, bart, benji, juan, carl o U1, , u2, u3, u4, u5, u6</p>

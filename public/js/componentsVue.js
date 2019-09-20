@@ -258,6 +258,7 @@ const app = new Vue({
 	data:{
 		selecttabV:'Home',
 		fechas:fechas,
+		participantes:participantes,
 		meses:meses(),
 		mes:primerMes,
 		dia:'',
@@ -280,7 +281,7 @@ const app = new Vue({
 		},
 		buscarPlayerOTeam(){
 			let aux = buscarEnEquipos(this.player)
-			aux!= 'error' ? this.datosarratys.push(aux):alert("El jugador/equipo no esta registrado")
+			aux!= 'error' ? this.datosarratys.push(aux):alert("El jugador no esta registrado")
 			this.contador++
 			this.limitetarjetas.push(this.contador);
 		},
