@@ -1,12 +1,14 @@
-var participantes = {}
-var fechas = {}
+var participantes = {};
+var fechas = {};
+var idramdon = 0
 var provider = new firebase.auth.GoogleAuthProvider();
-
+// cargardatosjson();
 let fireStore = firebase.firestore();
 // base de datos
 let docRefFechas = fireStore.doc("json/fechas");
 let docRefParticipantes = fireStore.doc("json/participantes");
 
+cargardatosjson()
 
 
 firebase.auth().onAuthStateChanged(function(user) {
@@ -18,6 +20,7 @@ if (user) {
 	app.datosuser.nick = ''
 	document.querySelector('#userlogin').classList.remove('d-none')
 	document.querySelector('#userlogin').classList.add('animationdiv')
+	agregarUsuarios(user.displayName,app.datosuser)
 }else{
 	app.datosuser = null
 } 
@@ -110,6 +113,43 @@ function agregarComentarios(comentario) {
 	});
 }
 
+function agregarUsuarios(usuario, objetouser){
+fireStore.doc("usuarios/"+usuario).set({objetouser}).then(function(docRef) {
+	    console.log("usuario enviado correctamente");
+	}).catch(function(error) {
+	    console.error("Error adding document: ", error);
+	});
+}
+
+function actualizarTarjetaUsuarios(usuario, objetotarjeta){
+fireStore.collection('usuarios').doc(usuario).collection('tarjetas').add({objetotarjeta}).then(function(docRef) {
+	    console.log("tarjeta enviado correctamente");
+		objetotarjeta['id'] = docRef.id
+		app.datosarratys.push(objetotarjeta)
+	}).catch(function(error) {
+	    console.error("Error adding document: ", error);
+	});
+}
+
+function borrarTarjetaUsuarios(usuario, id){
+fireStore.doc("usuarios/"+usuario+"/tarjeta/"+id).delete().then(function(docRef) {
+	    console.log("tarjeta borrada correctamente");
+	}).catch(function(error) {
+	    console.error("Error adding document: ", error);
+	});
+}
+
+
+function actualizarNickUser(usuario, nickuser){
+fireStore.doc("usuarios/"+usuario).update({
+	nick : nickuser
+}).then(function(docRef) {
+	    console.log("nick enviado correctamente");
+	}).catch(function(error) {
+	    console.error("Error adding document: ", error);
+	});
+}
+
 window.addEventListener("orientationchange", function() {
 	if (screen.orientation.angle == 0) {
 		app.isrotate = false;
@@ -127,41 +167,31 @@ function cargardatosjson() {
 	if (auxFechas == null) {
 		docRefFechas.get().then(function(doc) {
 	    if (doc.exists) {
-	        console.log("Document data:", doc.data());
-	        fechas = doc.data().fechas
-	        app.fechas = doc.data().fechas
-			app.mes = meses()[0]
-	        localStorage.setItem('fechas', JSON.stringify(doc.data().fechas));
-	    } else {
-	        // doc.data() will be undefined in this case
-	        console.log("No such document!");
+	    	let aux = doc.data().fechas
+	        fechas = aux
+	        app.fechas = aux
+			app.meses = meses()
+	        localStorage.setItem('fechas', JSON.stringify(aux));
 	    }
 		}).catch(function(error) {
 	    	console.log("Error getting document:", error);
 		});
 	}else{
-		fechas = auxFechas.parse()
-		console.log(fechas)
-		app.fechas = fechas
-		app.mes = meses()[0]
+		fechas = JSON.parse(auxFechas)
 	}
 	
 if (auxApuntes == null) {
 	docRefParticipantes.get().then(function(doc) {
     	if (doc.exists) {
-        console.log("Document data:", doc.data());
-        app.participantes = doc.data()
-        localStorage.setItem('participantes', JSON.stringify(doc.data().participantes));
-    	} else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
+        let aux = doc.data().participantes
+        participantes = aux
+        app.participantes = aux
+        localStorage.setItem('participantes', JSON.stringify(aux));
     	}
 	}).catch(function(error) {
     	console.log("Error getting document:", error);
 	});
 }else{
-	participantes = auxApuntes.parse()
-	console.log(participantes)
-	app.participantes = participantes
+	participantes = JSON.parse(auxApuntes)
 }
 }

@@ -141,9 +141,10 @@ Vue.component('tarjeta-jugador',{
 	},
 	template:`
 	<div class="card m-3">
-		<div class="card-header">
+		<div class="card-header d-flex justify-content-between">
 			<h3 v-if="!datosp[index].isteam" class="card-title">{{datosp[index].player}} ({{datosp[index].team}})</h3>
 			<h3 v-if="datosp[index].isteam" class="card-title">{{datosp[index].team}}</h3>
+			<div @click="borrar" style="width:40px;"><img src="img/delete.png"></div>
 		</div>
 		<div class="card-body">
 			<h4 class="card-title">Next Match: {{datosp[index].teamA}} VS {{datosp[index].teamB}}</h4>
@@ -158,6 +159,11 @@ Vue.component('tarjeta-jugador',{
 	methods:{
 		enviardatosmapas(){
 			this.$emit('changemap',this.datosp[this.index].link,this.datosp[this.index].directory,this.datosp[this.index].location)
+		},
+		borrar(){
+			console.log("paso 1")
+			console.log(this.index)
+			this.$emit('borrar-tarjeta',this.index,this.datosp[this.index].id)
 		}
 	}
 })
@@ -258,14 +264,11 @@ const app = new Vue({
 	data:{
 		selecttabV:'Home',
 		fechas:{},
-		participantes:{},
-		meses:meses(),
-		mes:'',
+		meses:[],
+		mes:meses()[0],
 		dia:'',
 		datosarratys:[],
 		player:'',
-		limitetarjetas:[],
-		contador:0,
 		textocommet:'',
 		onecallfunction:true,
 		mapalink:'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d190255.33858302396!2d-87.87204658078659!3d41.833903666429514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2c3cd0f4cbed%3A0xafe0a6ad09c0c000!2sChicago%2C%20Illinois%2C%20EE.%20UU.!5e0!3m2!1ses-419!2sar!4v1568589433667!5m2!1ses-419!2sar',
@@ -275,19 +278,18 @@ const app = new Vue({
 		isrotate:false,
 		linkimg:'img/fondo.png'
 	},
-	created: function () {
-    cargardatosjson();
-    console.log('a is: ' + this.app)
-  	},
 	methods:{
 		selectVue(id){
 			this.selecttabV = id
 		},
 		buscarPlayerOTeam(){
 			let aux = buscarEnEquipos(this.player)
-			aux!= 'error' ? this.datosarratys.push(aux):alert("El jugador no esta registrado")
-			this.contador++
-			this.limitetarjetas.push(this.contador);
+			if (aux!= 'error') {
+				actualizarTarjetaUsuarios(this.datosuser.displayName, aux)
+			}else{
+				alert("El jugador no esta registrado")
+			}
+			
 		},
 		logingoogle(){
 			firebase.auth().signInWithRedirect(provider)
@@ -309,7 +311,6 @@ const app = new Vue({
 					setTimeout(e=> window.scrollTo(0, 400), 250);
 				}
 			}
-
 		},
 		chageinfomap(linkmap,infomap,locationmap){
 			this.selecttabV = 'Schedule'
@@ -319,10 +320,15 @@ const app = new Vue({
 		},
 		addnick(nick){
 			this.datosuser.nick = nick
+			actualizarNickUser(this.datosuser.displayName, nick)
 		},
 		animation(){
 			document.querySelector('#tableanimation').classList.add('animationtable')
 			setTimeout(e=> document.querySelector('#tableanimation').classList.remove('animationtable'), 3100);
+		},
+		eliminartarjeta(index,id){
+			this.datosarratys.splice(index,1)
+			borrarTarjetaUsuarios(this.datosuser.displayName, id)
 		}
 	},
 	computed:{
@@ -332,6 +338,15 @@ const app = new Vue({
 		},
 		rotationscreen(){
 			return this.isrotate
+		},
+		obtenerFechas(){
+			return this.fechas = JSON.parse(localStorage.getItem('fechas'))
+		},
+		obtenerParticipantes(){
+			return (participantes || JSON.parse(localStorage.getItem('participantes')))
+		},
+		obtenerMeses(){
+			return this.meses = meses()
 		}
 	}
 })

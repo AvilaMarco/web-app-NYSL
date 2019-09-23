@@ -64,7 +64,7 @@
 			  	<div class="p-2 flex-fill">Mes:
 					<select v-model="mes" @change="animation" class="form-control">
 						<option>all</option>
-						<option v-for="mes in meses">{{mes}}</option>
+						<option v-for="mes in obtenerMeses">{{mes}}</option>
 					</select>
 				</div>
 			  	<div class="p-2 flex-fill">Dia:
@@ -75,10 +75,10 @@
 			</div>
 
 			<div v-if="mes != 'all'">
-				<table-data @changemap="chageinfomap" :matcha="fechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
+				<table-data @changemap="chageinfomap" :matcha="obtenerFechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
 			</div>
 			<div v-else>
-				<table-data @changemap="chageinfomap" :fechasaux="fechas" :all="mes == 'all'"></table-data>
+				<table-data @changemap="chageinfomap" :fechasaux="obtenerFechas" :all="mes == 'all'"></table-data>
 			</div>
 
 			<mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg>
@@ -88,10 +88,10 @@
 		<div v-show="selecttabV == 'Profile'">
 			<h1 class="text-center">Profile</h1>
 
-			<div class="mt-4" v-for="(tarjeta,index) in limitetarjetas">
-				<tarjeta-jugador @changemap="chageinfomap" :datosP="datosarratys" :index="index"></tarjeta-jugador>
+			<div class="mt-4" v-for="(tarjeta,index) in datosarratys">
+				<tarjeta-jugador @borrar-tarjeta="eliminartarjeta" @changemap="chageinfomap" :datosP="datosarratys" :index="index"></tarjeta-jugador>
 			</div>
-			
+		
 			<div v-if="datosuser != null" class="card mt-4">
 				<div class="card-header">
 					<button data-toggle="collapse" data-target="#addCard" class="btn btn-outline-success btn-block">follow a player / team  <i class="fas fa-plus-circle"></i> </button>	
@@ -102,11 +102,11 @@
 							<p class="text-secondary">add a card to have updated data of a player or team</p><br>
 						  <input class="form-control" type="text" v-model="player" placeholder="write player or team">
 						  <div class="input-group-append">
-							<select v-model="player" name="team">
-								<option team>team</option>
-								<option v-for="(team,key) in participantes">{{key}}</option>
-							</select>
-							<input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" :disabled="contador==5 || player==''" @click="buscarPlayerOTeam" value="agregar">
+							<!-- <select v-model="player">
+								<option selected="team">team</option>
+								<option v-for="(team,key) in obtenerParticipantes">{{key}}</option>
+							</select> -->
+							<input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" :disabled="player==''" @click="buscarPlayerOTeam" value="agregar">
 						  </div>
 						  <p class="text-secondary">Prueba con: pepito, homero, bart, benji, juan, carl o U1, , u2, u3, u4, u5, u6</p>
 						</div>
@@ -155,7 +155,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<!-- js locales -->
-  <script src="js/fechas.js"></script>
   <script src="js/globalVars.js"></script>
   <script src="js/componentsVue.js"></script>
   <script src="js/apuntes.js"></script>
