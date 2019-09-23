@@ -75,13 +75,18 @@
 			</div>
 
 			<div v-if="mes != 'all'">
-				<table-data @changemap="chageinfomap" :matcha="obtenerFechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
+				<table-data @change-commet="tocommet" @changemap="chageinfomap" :matcha="obtenerFechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
 			</div>
 			<div v-else>
 				<table-data @changemap="chageinfomap" :fechasaux="obtenerFechas" :all="mes == 'all'"></table-data>
 			</div>
 
 			<mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg>
+		</div>
+
+		<!-- commets -->
+		<div v-show="selecttabV == 'commets'">
+			
 		</div>
 
 		<!-- perfil -->
@@ -113,7 +118,7 @@
 					</div>
 				</div>
 			</div>
-
+			
 			<tarjeta-user @userlogout="logoutgoogle" @userlogin="logingoogle" @usenick="addnick" :isrotate="rotationscreen" :usuario="datosuser" ></tarjeta-user>
 			
 		</div>

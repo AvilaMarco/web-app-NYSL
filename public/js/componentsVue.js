@@ -47,12 +47,18 @@ Vue.component('table-data',{
 			<tbody v-if="!all">
 				<tr>
 					<td>{{matcha.teamA}} <br>VS<br> {{matcha.teamB}}</td>
-					<td><a id="a" href="#mapasid" @click="enviardatosmapas">{{matcha.location}}</a></td>
+					<td>
+						<a id="a" href="#mapasid" @click="enviardatosmapas">{{matcha.location}}</a>
+						<button id="a1" class="btn btn-info" @click="iracomments">comments</button>
+					</td>
 					<td>{{matcha.time}}</td>
 				</tr>
 				<tr v-if="matchb != null">
 					<td>{{matchb.teamA}} <br>VS <br>{{matchb.teamB}}</td>
-					<td><a id="b" href="#mapasid" @click="enviardatosmapas">{{matchb.location}}</a></td>
+					<td>
+						<a id="b" href="#mapasid" @click="enviardatosmapas">{{matchb.location}}</a>
+						<button id="b1" class="btn btn-info" @click="iracomments">comments</button>
+					</td>
 					<td>{{matchb.time}}</td>
 				</tr>
 			</tbody>
@@ -68,6 +74,8 @@ Vue.component('table-data',{
 								<p class="d-none">{{dia.matchA.link}}</p>
 								<p class="d-none">{{dia.matchA.directory}}</p>
 								<p class="d-none">{{dia.matchA.location}}</p>
+								<button class="btn btn-info" @click="iracomments">comments</button>
+								<p class="d-none">{{dia.matchA}}</p>
 							</td>
 							<td>{{dia.matchA.time}}</td>
 						</tr>
@@ -78,6 +86,8 @@ Vue.component('table-data',{
 								<p class="d-none">{{dia.matchB.link}}</p>
 								<p class="d-none">{{dia.matchB.directory}}</p>
 								<p class="d-none">{{dia.matchB.location}}</p>
+								<button class="btn btn-info" @click="iracomments">comments</button>
+								<p class="d-none">{{dia.matchB}}</p>
 							</td>
 							<td>{{dia.matchB.time}}</td>
 						</tr>
@@ -102,6 +112,20 @@ Vue.component('table-data',{
 					this.$emit('changemap',link,directory,location)
 					break;
 			}
+		},
+		iracomments(event){
+			let aux = event.target
+			if (all){
+				let aux2 = {aux.nextElementSibling.innerText}
+				this.$emit('change-commet',aux2)
+			}else{
+				if(aux.id == 'a1'){
+					this.$emit('change-commet',this.matcha)
+				}else if(aux.id == 'b1'){
+					this.$emit('change-commet',this.matchb)
+				}
+			}
+			
 		}
 	}
 })
@@ -161,8 +185,6 @@ Vue.component('tarjeta-jugador',{
 			this.$emit('changemap',this.datosp[this.index].link,this.datosp[this.index].directory,this.datosp[this.index].location)
 		},
 		borrar(){
-			console.log("paso 1")
-			console.log(this.index)
 			this.$emit('borrar-tarjeta',this.index,this.datosp[this.index].id)
 		}
 	}
@@ -251,10 +273,10 @@ Vue.component('tarjeta-user',{
 		},
 		escribirnick(){
 			this.write=true
-			setTimeout(e=> window.scrollTo(0, 400), 100);
+			setTimeout(e=> window.scrollBy(0, 400), 100);
 		},
 		scrolltodown(){
-			setTimeout(e=> window.scrollTo(0, 600), 300);
+			setTimeout(e=> window.scrollBy(0, 600), 300);
 		}
 	}
 })
@@ -285,7 +307,7 @@ const app = new Vue({
 		buscarPlayerOTeam(){
 			let aux = buscarEnEquipos(this.player)
 			if (aux!= 'error') {
-				actualizarTarjetaUsuarios(this.datosuser.displayName, aux)
+				actualizarTarjetaUsuarios(aux)
 			}else{
 				alert("El jugador no esta registrado")
 			}
@@ -328,7 +350,10 @@ const app = new Vue({
 		},
 		eliminartarjeta(index,id){
 			this.datosarratys.splice(index,1)
-			borrarTarjetaUsuarios(this.datosuser.displayName, id)
+			borrarTarjetaUsuarios(id)
+		},
+		tocommet(){
+			this.selecttabV = 'commets'
 		}
 	},
 	computed:{

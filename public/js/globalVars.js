@@ -1,6 +1,6 @@
 var participantes = {};
 var fechas = {};
-var idramdon = 0
+var docrefuser = ''
 var provider = new firebase.auth.GoogleAuthProvider();
 // cargardatosjson();
 let fireStore = firebase.firestore();
@@ -20,7 +20,15 @@ if (user) {
 	app.datosuser.nick = ''
 	document.querySelector('#userlogin').classList.remove('d-none')
 	document.querySelector('#userlogin').classList.add('animationdiv')
+	docrefuser = fireStore.collection('usuarios').doc(app.datosuser.displayName).collection('tarjetas')
 	agregarUsuarios(user.displayName,app.datosuser)
+	docrefuser.get().then(function(querySnapshot) {
+	    querySnapshot.forEach(function(doc) {
+	        // doc.data() is never undefined for query doc snapshots
+	        // console.log(doc.id, " => ", doc.data());
+	        app.datosarratys.push(doc.data())
+	    });
+	});
 }else{
 	app.datosuser = null
 } 
@@ -121,25 +129,6 @@ fireStore.doc("usuarios/"+usuario).set({objetouser}).then(function(docRef) {
 	});
 }
 
-function actualizarTarjetaUsuarios(usuario, objetotarjeta){
-fireStore.collection('usuarios').doc(usuario).collection('tarjetas').add({objetotarjeta}).then(function(docRef) {
-	    console.log("tarjeta enviado correctamente");
-		objetotarjeta['id'] = docRef.id
-		app.datosarratys.push(objetotarjeta)
-	}).catch(function(error) {
-	    console.error("Error adding document: ", error);
-	});
-}
-
-function borrarTarjetaUsuarios(usuario, id){
-fireStore.doc("usuarios/"+usuario+"/tarjeta/"+id).delete().then(function(docRef) {
-	    console.log("tarjeta borrada correctamente");
-	}).catch(function(error) {
-	    console.error("Error adding document: ", error);
-	});
-}
-
-
 function actualizarNickUser(usuario, nickuser){
 fireStore.doc("usuarios/"+usuario).update({
 	nick : nickuser
@@ -148,6 +137,38 @@ fireStore.doc("usuarios/"+usuario).update({
 	}).catch(function(error) {
 	    console.error("Error adding document: ", error);
 	});
+}
+
+function actualizarTarjetaUsuarios(objetotarjeta){
+	objetotarjeta['id'] = ''
+docrefuser.add(objetotarjeta).then(function(docRef) {
+	    console.log("tarjeta enviado correctamente");
+	    let auxid = docRef.id
+		objetotarjeta['id'] = auxid
+		app.datosarratys.push(objetotarjeta)
+		updateid(auxid)
+	}).catch(function(error) {
+	    console.error("Error adding document: ", error);
+	});
+}
+
+function borrarTarjetaUsuarios(id){
+
+docrefuser.doc(id).delete().then(function(docRef) {
+	    console.log("tarjeta borrada correctamente");
+	}).catch(function(error) {
+	    console.error("Error adding document: ", error);
+	});
+}
+
+function updateid(idt) {
+	docrefuser.doc(idt).update({
+			'id' : idt
+		}).then(function(docRef) {
+			console.log("update");
+		}).catch(function(error) {
+		console.error("Error: ", error);});
+	// body...
 }
 
 window.addEventListener("orientationchange", function() {
