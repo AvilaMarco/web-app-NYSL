@@ -275,3 +275,14 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 
 // 		https://firebase.google.com/docs/database/security/user-security
 
+// function hola(){
+// fireStore.doc("json/fechas").set({fechas}).then(function(docRef) {
+// 	    console.log("fechas enviado correctamente");
+// 	}).catch(function(error) {
+// 	    console.error("Error adding document: ", error);
+// 	});
+
+// }
+
+// vue created()
+// mounted() -> luego de que vue cargo todos los datos de vue

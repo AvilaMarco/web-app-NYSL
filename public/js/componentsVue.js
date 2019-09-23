@@ -88,9 +88,6 @@ Vue.component('table-data',{
 	</div>`,
 	methods:{
 		enviardatosmapas(id){
-			let link = id.target.nextElementSibling.innerText
-			let directory = id.target.nextElementSibling.nextElementSibling.innerText
-			let location = id.target.nextElementSibling.nextElementSibling.nextElementSibling.innerText
 			switch(id.target.id){
 				case 'a':
 					this.$emit('changemap',this.matcha.link,this.matcha.directory,this.matcha.location)
@@ -99,6 +96,9 @@ Vue.component('table-data',{
 					this.$emit('changemap',this.matchb.link,this.matchb.directory,this.matchb.location)
 					break;
 				case 'c':
+					let link = id.target.nextElementSibling.innerText
+					let directory = id.target.nextElementSibling.nextElementSibling.innerText
+					let location = id.target.nextElementSibling.nextElementSibling.nextElementSibling.innerText
 					this.$emit('changemap',link,directory,location)
 					break;
 			}
@@ -257,10 +257,10 @@ const app = new Vue({
 	el:'#app',
 	data:{
 		selecttabV:'Home',
-		fechas:fechas,
-		participantes:participantes,
+		fechas:{},
+		participantes:{},
 		meses:meses(),
-		mes:primerMes,
+		mes:'',
 		dia:'',
 		datosarratys:[],
 		player:'',
@@ -275,6 +275,10 @@ const app = new Vue({
 		isrotate:false,
 		linkimg:'img/fondo.png'
 	},
+	created: function () {
+    cargardatosjson();
+    console.log('a is: ' + this.app)
+  	},
 	methods:{
 		selectVue(id){
 			this.selecttabV = id
@@ -286,11 +290,9 @@ const app = new Vue({
 			this.limitetarjetas.push(this.contador);
 		},
 		logingoogle(){
-			console.log("nice")
 			firebase.auth().signInWithRedirect(provider)
 		},
 		logoutgoogle(){
-			console.log("nice")
 			firebase.auth().signOut()
 		},
 		enviado(){

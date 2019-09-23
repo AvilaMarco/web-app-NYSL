@@ -1,3 +1,28 @@
+var participantes = {}
+var fechas = {}
+var provider = new firebase.auth.GoogleAuthProvider();
+
+let fireStore = firebase.firestore();
+// base de datos
+let docRefFechas = fireStore.doc("json/fechas");
+let docRefParticipantes = fireStore.doc("json/participantes");
+
+
+
+firebase.auth().onAuthStateChanged(function(user) {
+if (user) {
+	app.datosuser = {}
+	app.datosuser.photoURL = user.photoURL
+	app.datosuser.displayName = user.displayName
+	app.datosuser.email = user.email
+	app.datosuser.nick = ''
+	document.querySelector('#userlogin').classList.remove('d-none')
+	document.querySelector('#userlogin').classList.add('animationdiv')
+}else{
+	app.datosuser = null
+} 
+})
+
 function diasPorMes(mesaux) 
 {
 	let dias = []
@@ -17,10 +42,7 @@ function meses()
 	return meses
 }
 
- let primerMes = meses()[0]
-
- function buscarDatosPorFecha(equipo,jugadorT){
- 	// app.equipo = equipo
+function buscarDatosPorFecha(equipo,jugadorT){
 	for(mes in fechas)
 	{
 		for(dias in fechas[mes])
@@ -76,10 +98,6 @@ function buscarEnEquipos(jugadorT){
 	return 'error'
 }
 
-var provider = new firebase.auth.GoogleAuthProvider();
-
-let fireStore = firebase.firestore();
-
 function agregarComentarios(comentario) {
 	fireStore.collection("commets").add({
     feedback:comentario
@@ -92,20 +110,6 @@ function agregarComentarios(comentario) {
 	});
 }
 
-firebase.auth().onAuthStateChanged(function(user) {
-if (user) {
-	app.datosuser = {}
-	app.datosuser.photoURL = user.photoURL
-	app.datosuser.displayName = user.displayName
-	app.datosuser.email = user.email
-	app.datosuser.nick = ''
-	document.querySelector('#userlogin').classList.remove('d-none')
-	document.querySelector('#userlogin').classList.add('animationdiv')
-}else{
-	app.datosuser = null
-} 
-})
-
 window.addEventListener("orientationchange", function() {
 	if (screen.orientation.angle == 0) {
 		app.isrotate = false;
@@ -115,3 +119,49 @@ window.addEventListener("orientationchange", function() {
 		app.linkimg = 'img/header-landscape.jpg';
 	}
 });
+
+function cargardatosjson() {
+	let auxFechas = localStorage.getItem('fechas');
+	let auxApuntes = localStorage.getItem('participantes');
+
+	if (auxFechas == null) {
+		docRefFechas.get().then(function(doc) {
+	    if (doc.exists) {
+	        console.log("Document data:", doc.data());
+	        fechas = doc.data().fechas
+	        app.fechas = doc.data().fechas
+			app.mes = meses()[0]
+	        localStorage.setItem('fechas', JSON.stringify(doc.data().fechas));
+	    } else {
+	        // doc.data() will be undefined in this case
+	        console.log("No such document!");
+	    }
+		}).catch(function(error) {
+	    	console.log("Error getting document:", error);
+		});
+	}else{
+		fechas = auxFechas.parse()
+		console.log(fechas)
+		app.fechas = fechas
+		app.mes = meses()[0]
+	}
+	
+if (auxApuntes == null) {
+	docRefParticipantes.get().then(function(doc) {
+    	if (doc.exists) {
+        console.log("Document data:", doc.data());
+        app.participantes = doc.data()
+        localStorage.setItem('participantes', JSON.stringify(doc.data().participantes));
+    	} else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    	}
+	}).catch(function(error) {
+    	console.log("Error getting document:", error);
+	});
+}else{
+	participantes = auxApuntes.parse()
+	console.log(participantes)
+	app.participantes = participantes
+}
+}
