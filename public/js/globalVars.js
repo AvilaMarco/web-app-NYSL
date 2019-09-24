@@ -9,7 +9,7 @@ let docRefFechas = fireStore.doc("json/fechas");
 let docRefParticipantes = fireStore.doc("json/participantes");
 
 cargardatosjson()
-
+// ir a 140
 
 firebase.auth().onAuthStateChanged(function(user) {
 if (user) {
@@ -109,9 +109,10 @@ function buscarEnEquipos(jugadorT){
 	return 'error'
 }
 
-function agregarComentarios(comentario) {
+function agregarComentarios(comentario,user) {
 	fireStore.collection("commets").add({
-    feedback:comentario
+    'feedback':comentario,
+    'username':user
 	})
 	.then(function(docRef) {
 	    console.log("comentario enviado correctamente");
@@ -119,6 +120,29 @@ function agregarComentarios(comentario) {
 	.catch(function(error) {
 	    console.error("Error adding document: ", error);
 	});
+}
+
+function commentsMatch(comentario,user,photo,id) {
+	fireStore.collection("matchcomments").doc(id).collection('comenkey').add({
+	'linkfoto' : photo,
+    'username': user,
+    'comment' : comentario
+	})
+	.then(function(docRef) {
+	    console.log("comentario  m enviado correctamente");
+	})
+	.catch(function(error) {
+	    console.error("Error adding document: ", error);
+	});
+}
+
+function traerComentarios(id) {
+	fireStore.collection("matchcomments").doc(id).collection('comenkey').get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+    });
+});
 }
 
 function agregarUsuarios(usuario, objetouser){
@@ -131,7 +155,7 @@ fireStore.doc("usuarios/"+usuario).set({objetouser}).then(function(docRef) {
 
 function actualizarNickUser(usuario, nickuser){
 fireStore.doc("usuarios/"+usuario).update({
-	nick : nickuser
+	'nick' : nickuser
 }).then(function(docRef) {
 	    console.log("nick enviado correctamente");
 	}).catch(function(error) {

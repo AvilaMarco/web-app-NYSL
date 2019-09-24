@@ -49,7 +49,7 @@ Vue.component('table-data',{
 					<td>{{matcha.teamA}} <br>VS<br> {{matcha.teamB}}</td>
 					<td>
 						<a id="a" href="#mapasid" @click="enviardatosmapas">{{matcha.location}}</a>
-						<button id="a1" class="btn btn-info" @click="iracomments">comments</button>
+						<button id="a1" class="btn btn-info" @click="iracomments">comments <i class="far fa-comments"></i></button>
 					</td>
 					<td>{{matcha.time}}</td>
 				</tr>
@@ -57,7 +57,7 @@ Vue.component('table-data',{
 					<td>{{matchb.teamA}} <br>VS <br>{{matchb.teamB}}</td>
 					<td>
 						<a id="b" href="#mapasid" @click="enviardatosmapas">{{matchb.location}}</a>
-						<button id="b1" class="btn btn-info" @click="iracomments">comments</button>
+						<button id="b1" class="btn btn-info" @click="iracomments">comments <i class="far fa-comments"></i></button>
 					</td>
 					<td>{{matchb.time}}</td>
 				</tr>
@@ -74,7 +74,7 @@ Vue.component('table-data',{
 								<p class="d-none">{{dia.matchA.link}}</p>
 								<p class="d-none">{{dia.matchA.directory}}</p>
 								<p class="d-none">{{dia.matchA.location}}</p>
-								<button class="btn btn-info" @click="iracomments">comments</button>
+								<button class="btn btn-info" @click="iracomments">comments <i class="far fa-comments"></i></button>
 								<p class="d-none">{{dia.matchA}}</p>
 							</td>
 							<td>{{dia.matchA.time}}</td>
@@ -86,7 +86,7 @@ Vue.component('table-data',{
 								<p class="d-none">{{dia.matchB.link}}</p>
 								<p class="d-none">{{dia.matchB.directory}}</p>
 								<p class="d-none">{{dia.matchB.location}}</p>
-								<button class="btn btn-info" @click="iracomments">comments</button>
+								<button class="btn btn-info" @click="iracomments">comments <i class="far fa-comments"></i></button>
 								<p class="d-none">{{dia.matchB}}</p>
 							</td>
 							<td>{{dia.matchB.time}}</td>
@@ -115,8 +115,8 @@ Vue.component('table-data',{
 		},
 		iracomments(event){
 			let aux = event.target
-			if (all){
-				let aux2 = {aux.nextElementSibling.innerText}
+			if (this.all){
+				let aux2 = aux.nextElementSibling.innerText
 				this.$emit('change-commet',aux2)
 			}else{
 				if(aux.id == 'a1'){
@@ -298,7 +298,9 @@ const app = new Vue({
 		mapalocation:'click any location in the tables',
 		datosuser:null,
 		isrotate:false,
-		linkimg:'img/fondo.png'
+		linkimg:'img/fondo.png',
+		matchcommentdata:{},
+		commentmatch:''
 	},
 	methods:{
 		selectVue(id){
@@ -320,7 +322,11 @@ const app = new Vue({
 			firebase.auth().signOut()
 		},
 		enviado(){
-			agregarComentarios(this.textocommet)
+			if (this.datosuser != null){
+				agregarComentarios(this.textocommet,this.datosuser.displayName)
+			}else if (this.datosuser == null){
+				agregarComentarios(this.textocommet,null)
+			}
 			alert("gracias por comentar")
 		},
 		scrolltodown(){
@@ -352,8 +358,14 @@ const app = new Vue({
 			this.datosarratys.splice(index,1)
 			borrarTarjetaUsuarios(id)
 		},
-		tocommet(){
+		tocommet(match){
+			this.matchcommentdata = match
+			traerComentarios(match.id)
 			this.selecttabV = 'commets'
+		},
+		comentar(){
+			let name = this.datosuser.nick == ''? this.datosuser.displayName : this.datosuser.nick
+			commentsMatch(this.commentmatch,name,this.datosuser.photoURL,this.matchcommentdata.id)
 		}
 	},
 	computed:{

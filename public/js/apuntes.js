@@ -286,3 +286,5 @@ lista computada = computed sirve para retornar listas de cosas siempre se usa el
 
 // vue created()
 // mounted() -> luego de que vue cargo todos los datos de vue
+// filtro all
+// consejos login
