@@ -9,7 +9,15 @@ let docRefFechas = fireStore.doc("json/fechas");
 let docRefParticipantes = fireStore.doc("json/participantes");
 
 cargardatosjson()
-// ir a 140
+
+function traerComentarios(id) {
+	fireStore.collection("matchcomments").doc(id).collection('comenkey').onSnapshot(function(querySnapshot) {
+		app.arraycomments = []
+    querySnapshot.forEach(function(doc) {
+        app.arraycomments.push(doc.data())
+    });
+});
+}
 
 firebase.auth().onAuthStateChanged(function(user) {
 if (user) {
@@ -25,15 +33,24 @@ if (user) {
 
 	docrefuser.get().then(function(querySnapshot) {
 	    querySnapshot.forEach(function(doc) {
-	        // doc.data() is never undefined for query doc snapshots
-	        // console.log(doc.id, " => ", doc.data());
 	        app.datosarratys.push(doc.data())
 	    });
 	});
 }else{
+	app.datosarratys = []
 	app.datosuser = null
 } 
 })
+
+window.addEventListener("orientationchange", function() {
+	if (screen.orientation.angle == 0) {
+		app.isrotate = false;
+		app.linkimg = 'img/fondo.png';
+	}else if(screen.orientation.angle != 0){
+		app.isrotate = true;
+		app.linkimg = 'img/header-landscape.jpg';
+	}
+});
 
 function diasPorMes(mesaux) 
 {
@@ -124,7 +141,7 @@ function agregarComentarios(comentario,user) {
 }
 
 function commentsMatch(comentario,user,photo,id) {
-	fireStore.collection("matchcomments").doc(id).collection('comenkey').add({
+	fireStore.collection("matchcomments").doc(id).collection('comenkey').doc(new Date().toTimeString()).set({
 	'date': new Date,
 	'linkfoto' : photo,
     'username': user,
@@ -136,19 +153,6 @@ function commentsMatch(comentario,user,photo,id) {
 	.catch(function(error) {
 	    console.error("Error adding document: ", error);
 	});
-}
-let arradatos = []
-function traerComentarios(id) {
-	fireStore.collection("matchcomments").doc(id).collection('comenkey').onSnapshot(function(querySnapshot) {
-		app.arraycomments = []
-		
-    querySnapshot.forEach(function(doc) {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data().date);
-        // arradatos.push(doc.data().date)
-        app.arraycomments.push(doc.data())
-    });
-});
 }
 
 function agregarUsuarios(usuario, objetouser){
@@ -171,79 +175,62 @@ fireStore.doc("usuarios/"+usuario).update({
 
 function actualizarTarjetaUsuarios(objetotarjeta){
 	objetotarjeta['id'] = ''
-docrefuser.add(objetotarjeta).then(function(docRef) {
+	docrefuser.add(objetotarjeta).then(function(docRef) {
 	    console.log("tarjeta enviado correctamente");
 	    let auxid = docRef.id
-		objetotarjeta['id'] = auxid
-		app.datosarratys.push(objetotarjeta)
-		updateid(auxid)
+			objetotarjeta['id'] = auxid
+			app.datosarratys.push(objetotarjeta)
+			updateid(auxid)
 	}).catch(function(error) {
 	    console.error("Error adding document: ", error);
 	});
 }
 
 function borrarTarjetaUsuarios(id){
-
-docrefuser.doc(id).delete().then(function(docRef) {
-	    console.log("tarjeta borrada correctamente");
+	docrefuser.doc(id).delete().then(function(docRef) {
+    console.log("tarjeta borrada correctamente");
 	}).catch(function(error) {
-	    console.error("Error adding document: ", error);
+	  console.error("Error adding document: ", error);
 	});
 }
 
 function updateid(idt) {
 	docrefuser.doc(idt).update({
-			'id' : idt
-		}).then(function(docRef) {
-			console.log("update");
-		}).catch(function(error) {
-		console.error("Error: ", error);});
-	// body...
+		'id' : idt
+	}).then(function(docRef) {
+		console.log("update");
+	}).catch(function(error) {
+	console.error("Error: ", error);});
 }
-
-window.addEventListener("orientationchange", function() {
-	if (screen.orientation.angle == 0) {
-		app.isrotate = false;
-		app.linkimg = 'img/fondo.png';
-	}else if(screen.orientation.angle != 0){
-		app.isrotate = true;
-		app.linkimg = 'img/header-landscape.jpg';
-	}
-});
 
 function cargardatosjson() {
 	let auxFechas = localStorage.getItem('fechas');
 	let auxApuntes = localStorage.getItem('participantes');
-
 	if (auxFechas == null) {
 		docRefFechas.get().then(function(doc) {
 	    if (doc.exists) {
-	    	let aux = doc.data().fechas
-	        fechas = aux
-	        app.mes = meses()[0]
-	        app.dataready = true
-	        localStorage.setItem('fechas', JSON.stringify(aux));
+	    	fechas = doc.data().fechas
+        app.mes = meses()[0]
+        app.dataready = true
+        localStorage.setItem('fechas', JSON.stringify(fechas));
 	    }
 		}).catch(function(error) {
 	    	console.log("Error getting document:", error);
 		});
 	}else{
 		fechas = JSON.parse(auxFechas)
-		console.log(fechas)
 	}
 	
 if (auxApuntes == null) {
 	docRefParticipantes.get().then(function(doc) {
     	if (doc.exists) {
-        let aux = doc.data().participantes
-        participantes = aux
-        localStorage.setItem('participantes', JSON.stringify(aux));
+        participantes = doc.data().participantes
+        localStorage.setItem('participantes', JSON.stringify(participantes));
     	}
 	}).catch(function(error) {
     	console.log("Error getting document:", error);
 	});
 }else{
 	participantes = JSON.parse(auxApuntes)
-	console.log(participantes)
 }
 }

@@ -48,7 +48,7 @@ Vue.component('table-data',{
 				<tr>
 					<td>{{matcha.teamA}} <br>VS<br> {{matcha.teamB}}</td>
 					<td>
-						<a id="a" href="#mapasid" @click="enviardatosmapas">{{matcha.location}}</a>
+						<a id="a" href="#mapasid" @click="enviardatosmapas" class="blockd">{{matcha.location}}</a>
 						<button id="a1" class="btn btn-info mt-3" @click="iracomments">comments <i class="far fa-comments"></i></button>
 					</td>
 					<td>{{matcha.time}}</td>
@@ -56,7 +56,7 @@ Vue.component('table-data',{
 				<tr v-if="matchb != null">
 					<td>{{matchb.teamA}} <br>VS <br>{{matchb.teamB}}</td>
 					<td>
-						<a id="b" href="#mapasid" @click="enviardatosmapas">{{matchb.location}}</a>
+						<a id="b" href="#mapasid" @click="enviardatosmapas" class="blockd">{{matchb.location}}</a>
 						<button id="b1" class="btn btn-info mt-3" @click="iracomments">comments <i class="far fa-comments"></i></button>
 					</td>
 					<td>{{matchb.time}}</td>
@@ -70,7 +70,7 @@ Vue.component('table-data',{
 						<tr>
 							<td>{{dia.matchA.teamA}} <br>VS<br> {{dia.matchA.teamB}}</td>
 							<td>
-								<a id="c" href="#mapasid" @click="enviardatosmapas">{{dia.matchA.location}}</a>
+								<a id="c" href="#mapasid" @click="enviardatosmapas" class="blockd">{{dia.matchA.location}}</a>
 								<p class="d-none">{{dia.matchA.link}}</p>
 								<p class="d-none">{{dia.matchA.directory}}</p>
 								<p class="d-none">{{dia.matchA.location}}</p>
@@ -82,7 +82,7 @@ Vue.component('table-data',{
 						<tr v-if="dia.matchB!=null">
 							<td>{{dia.matchB.teamA}} <br>VS <br>{{dia.matchB.teamB}}</td>
 							<td>
-								<a id="c" href="#mapasid" @click="enviardatosmapas">{{dia.matchB.location}}</a>
+								<a id="c" href="#mapasid" @click="enviardatosmapas" class="blockd">{{dia.matchB.location}}</a>
 								<p class="d-none">{{dia.matchB.link}}</p>
 								<p class="d-none">{{dia.matchB.directory}}</p>
 								<p class="d-none">{{dia.matchB.location}}</p>
@@ -239,9 +239,9 @@ Vue.component('tarjeta-user',{
 	  			</div>
 
 			  <div class="row d-flex justify-content-between mt-3">
-						<button @click="logout" class="botonl btn btn-primary ml-3">Logout</button>
-						<button v-if="nick == ''" @click="escribirnick" class="botonl btn btn-primary mr-3">Use Nick</button>
-						<button v-if="nick != ''" @click="escribirnick" class="botonl btn btn-primary mr-3">Change Nick</button>
+						<button style="width: 35vw;" @click="logout" class="botonl btn btn-primary ml-3">Logout</button>
+						<button style="width: 35vw;" v-if="nick == ''" @click="escribirnick" class="botonl btn btn-primary mr-3">Use Nick</button>
+						<button style="width: 35vw;" v-if="nick != ''" @click="escribirnick" class="botonl btn btn-primary mr-3">Change Nick</button>
 			  </div>
 
 			  <div v-if="write" class="input-group mt-3">
@@ -287,7 +287,7 @@ const app = new Vue({
 	el:'#app',
 	data:{
 		selecttabV:'Home',
-		mes:meses()[0],
+		mes:(meses()[0]||''),
 		dia:'',
 		datosarratys:[],
 		player:'',
@@ -301,8 +301,7 @@ const app = new Vue({
 		linkimg:'img/fondo.png',
 		matchcommentdata:{},
 		commentmatch:'',
-		arraycomments:[],
-		dataready:false
+		arraycomments:[]
 	},
 	methods:{
 		selectVue(id){
@@ -312,6 +311,7 @@ const app = new Vue({
 			let aux = buscarEnEquipos(this.player)
 			if (aux!= 'error') {
 				actualizarTarjetaUsuarios(aux)
+				this.player = ''
 			}else{
 				alert("El jugador no esta registrado")
 			}
@@ -389,7 +389,9 @@ const app = new Vue({
 			return (JSON.parse(localStorage.getItem('participantes')) || participantes)
 		},
 		obtenerMeses(){
+			if (this.mes != '') {
 				return meses()
+			}
 		}
 	}
 })

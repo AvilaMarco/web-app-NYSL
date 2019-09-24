@@ -18,7 +18,7 @@
 				<div id="userlogin" class="d-none alert alert-success text-center">
 				  <strong class="animationtexta">Success login</strong><strong v-if="datosuser != null" class="animationtextb">Welcome {{datosuser.displayName}}</strong>
 				</div>
-				<img id="logo-header" class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
+				<img style="z-index: 1" id="logo-header" class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
 		</header>
 
 		<!-- home -->
@@ -33,7 +33,7 @@
 					<dt class="card-title">August 16</dt>
 						<dd class="card-text">- Season Kick-off: Meet the Teams</dd>
 					<dt class="card-title">September 1</dt>
-						<dd class="card-text">- First Game of the Season (Check Game Schedule for details)</dd>
+						<dd class="card-text">- First Game of the Season <br>(Check Schedule for details)</dd>
 				  </dl>
 				</div>
 			</div>
@@ -56,10 +56,11 @@
 				</div>
 			</div>
 		</div>
-<!-- v-if="dataready" -->
+
 		<!-- fechas -->
-		<div  v-show="selecttabV == 'Schedule'">
+		<div v-show="selecttabV == 'Schedule'">
 			<h1 class="text-center">Schedule</h1>
+			<template v-if="mes != ''">
 			<div class="d-flex flex-row">
 			  	<div class="p-2 flex-fill">Mes:
 					<select v-model="mes" @change="animation" class="form-control">
@@ -82,10 +83,11 @@
 			</div>
 
 			<mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg>
+		</template>
 		</div>
 
 		<!-- commets -->
-		<div v-show="selecttabV == 'commets'" style="margin-bottom: 4vh">
+		<div v-show="selecttabV == 'commets'" class="landscapediv" style="margin-bottom: 4vh">
 			<div class="card m-2">
 				<div class="card-header text-center">
 					<h4 class="card-title">{{matchcommentdata.location}}</h4>
@@ -104,7 +106,8 @@
 			  </div>
 			</div>
 
-			<div class="input-group m-1 fixed-bottom" style="bottom: 8vh;">
+			<button v-if="datosuser == null" class="btn btn-primary btn-block fixed-bottom m-1 botontologin" @click="selecttabV ='Profile'">to comment you must be logged in</button>
+			<div v-if="datosuser != null" class="input-group m-1 fixed-bottom landscape" style="bottom: 9vh;">
 			  <input class="form-control" v-model="commentmatch" type="text" placeholder="write commentary">
 			  <div class="input-group-append" style="padding-right: 5px;">
 					<input class="btn btn-info" @click="comentar" type="button" value="comment">

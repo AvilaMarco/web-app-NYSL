@@ -41,6 +41,21 @@ width: 90px !important;
 	font-size: 22px;
 }
 
+.landscape{
+ 	bottom: 1vh !important; 
+    left: 13vw;
+    width: 86vw;
+}
+
+.landscapediv{
+	margin-bottom: 15vh !important;
+}
+
+.botontologin{
+    bottom: 1vh;
+    width: 550px ;
+    left: auto;
+}
 .animationtextb{
 	position: absolute;
 	top: 12px;
@@ -55,4 +70,8 @@ width: 90px !important;
 @keyframes mostar {
   from {opacity: 0}
   to {opacity: 1}
+}
+
+.blockd{
+	display: block;
 }
