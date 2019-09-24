@@ -1,5 +1,5 @@
 var participantes = {};
-var fechas = {};
+var fechas = null;
 var docrefuser = ''
 var provider = new firebase.auth.GoogleAuthProvider();
 // cargardatosjson();
@@ -22,6 +22,7 @@ if (user) {
 	document.querySelector('#userlogin').classList.add('animationdiv')
 	docrefuser = fireStore.collection('usuarios').doc(app.datosuser.displayName).collection('tarjetas')
 	agregarUsuarios(user.displayName,app.datosuser)
+
 	docrefuser.get().then(function(querySnapshot) {
 	    querySnapshot.forEach(function(doc) {
 	        // doc.data() is never undefined for query doc snapshots
@@ -124,6 +125,7 @@ function agregarComentarios(comentario,user) {
 
 function commentsMatch(comentario,user,photo,id) {
 	fireStore.collection("matchcomments").doc(id).collection('comenkey').add({
+	'date': new Date,
 	'linkfoto' : photo,
     'username': user,
     'comment' : comentario
@@ -135,12 +137,16 @@ function commentsMatch(comentario,user,photo,id) {
 	    console.error("Error adding document: ", error);
 	});
 }
-
+let arradatos = []
 function traerComentarios(id) {
-	fireStore.collection("matchcomments").doc(id).collection('comenkey').get().then(function(querySnapshot) {
+	fireStore.collection("matchcomments").doc(id).collection('comenkey').onSnapshot(function(querySnapshot) {
+		app.arraycomments = []
+		
     querySnapshot.forEach(function(doc) {
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
+        console.log(doc.id, " => ", doc.data().date);
+        // arradatos.push(doc.data().date)
+        app.arraycomments.push(doc.data())
     });
 });
 }
@@ -214,8 +220,8 @@ function cargardatosjson() {
 	    if (doc.exists) {
 	    	let aux = doc.data().fechas
 	        fechas = aux
-	        app.fechas = aux
-			app.meses = meses()
+	        app.mes = meses()[0]
+	        app.dataready = true
 	        localStorage.setItem('fechas', JSON.stringify(aux));
 	    }
 		}).catch(function(error) {
@@ -223,6 +229,7 @@ function cargardatosjson() {
 		});
 	}else{
 		fechas = JSON.parse(auxFechas)
+		console.log(fechas)
 	}
 	
 if (auxApuntes == null) {
@@ -230,7 +237,6 @@ if (auxApuntes == null) {
     	if (doc.exists) {
         let aux = doc.data().participantes
         participantes = aux
-        app.participantes = aux
         localStorage.setItem('participantes', JSON.stringify(aux));
     	}
 	}).catch(function(error) {
@@ -238,5 +244,6 @@ if (auxApuntes == null) {
 	});
 }else{
 	participantes = JSON.parse(auxApuntes)
+	console.log(participantes)
 }
 }

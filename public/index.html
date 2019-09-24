@@ -56,9 +56,9 @@
 				</div>
 			</div>
 		</div>
-
+<!-- v-if="dataready" -->
 		<!-- fechas -->
-		<div v-show="selecttabV == 'Schedule'">
+		<div  v-show="selecttabV == 'Schedule'">
 			<h1 class="text-center">Schedule</h1>
 			<div class="d-flex flex-row">
 			  	<div class="p-2 flex-fill">Mes:
@@ -75,7 +75,7 @@
 			</div>
 
 			<div v-if="mes != 'all'">
-				<table-data @change-commet="tocommet" @changemap="chageinfomap" :matcha="obtenerFechas[mes][dia].matchA" :matchb="fechas[mes][dia].matchB"></table-data>
+				<table-data @change-commet="tocommet" @changemap="chageinfomap" :matcha="obtenerFechas[mes][dia].matchA" :matchb="obtenerFechas[mes][dia].matchB"></table-data>
 			</div>
 			<div v-else>
 				<table-data @change-commet="tocommet" @changemap="chageinfomap" :fechasaux="obtenerFechas" :all="mes == 'all'"></table-data>
@@ -85,24 +85,26 @@
 		</div>
 
 		<!-- commets -->
-		<div v-show="selecttabV == 'commets'">
+		<div v-show="selecttabV == 'commets'" style="margin-bottom: 4vh">
 			<div class="card m-2">
-				<div class="card-body">
+				<div class="card-header text-center">
+					<h4 class="card-title">{{matchcommentdata.location}}</h4>
+					<p class="float-right">{{matchcommentdata.time}}</p>
+				</div>
+				<div class="card-body text-center">
 					<h3 class="card-title">{{matchcommentdata.teamA}} VS {{matchcommentdata.teamB}}</h3>
-					<!-- <h1 class="card-title">pruebas</h1> -->
 				</div>
 			</div>
 
-			<div class="media border border-dark p-1 m-1 mr-2 ml-2">
-			  <img src="img/img.png" alt="John Doe" class="mr-2 mt-2 rounded-circle" style="width:60px;">
+			<div v-for="comentarios in arraycomments" class="animationtext bordesrs media p-1 m-1 mr-2 ml-2">
+			  <img :src="comentarios.linkfoto" alt="John Doe" class="mr-2 mt-2 rounded-circle" style="width:60px;">
 			  <div class="media-body">
-			    <h5 style="padding-top: 8px;">John Doe </h5>
-			    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+			    <h5 style="padding-top: 8px;">{{comentarios.username}}</h5>
+			    <p>{{comentarios.comment}}</p>
 			  </div>
 			</div>
 
-			<div class="input-group m-1 fixed-bottom" style="bottom: 50px;">
+			<div class="input-group m-1 fixed-bottom" style="bottom: 8vh;">
 			  <input class="form-control" v-model="commentmatch" type="text" placeholder="write commentary">
 			  <div class="input-group-append" style="padding-right: 5px;">
 					<input class="btn btn-info" @click="comentar" type="button" value="comment">

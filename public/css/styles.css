@@ -33,10 +33,28 @@ img{
 	right: 20px;
 }
 
+.bordesrs{
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+}
+
 .animationdiv{
 	position: absolute;
 }
 /*animaciones*/
+.animationtext{
+	position: relative;
+	animation-name: entrada;
+  	animation-duration: 1s;
+  	animation-delay: 0.5s;
+ 	animation-fill-mode: forwards;
+}
+
+@keyframes entrada{
+	from{right: 400px}
+	to{right: 0px}
+}
 .animationtexta{
 	animation-name: ocultar;
   	animation-duration: 3s;

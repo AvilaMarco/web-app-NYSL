@@ -49,7 +49,7 @@ Vue.component('table-data',{
 					<td>{{matcha.teamA}} <br>VS<br> {{matcha.teamB}}</td>
 					<td>
 						<a id="a" href="#mapasid" @click="enviardatosmapas">{{matcha.location}}</a>
-						<button id="a1" class="btn btn-info" @click="iracomments">comments <i class="far fa-comments"></i></button>
+						<button id="a1" class="btn btn-info mt-3" @click="iracomments">comments <i class="far fa-comments"></i></button>
 					</td>
 					<td>{{matcha.time}}</td>
 				</tr>
@@ -57,7 +57,7 @@ Vue.component('table-data',{
 					<td>{{matchb.teamA}} <br>VS <br>{{matchb.teamB}}</td>
 					<td>
 						<a id="b" href="#mapasid" @click="enviardatosmapas">{{matchb.location}}</a>
-						<button id="b1" class="btn btn-info" @click="iracomments">comments <i class="far fa-comments"></i></button>
+						<button id="b1" class="btn btn-info mt-3" @click="iracomments">comments <i class="far fa-comments"></i></button>
 					</td>
 					<td>{{matchb.time}}</td>
 				</tr>
@@ -74,7 +74,7 @@ Vue.component('table-data',{
 								<p class="d-none">{{dia.matchA.link}}</p>
 								<p class="d-none">{{dia.matchA.directory}}</p>
 								<p class="d-none">{{dia.matchA.location}}</p>
-								<button class="btn btn-info" @click="iracomments">comments <i class="far fa-comments"></i></button>
+								<button class="btn btn-info mt-3" @click="iracomments">comments <i class="far fa-comments"></i></button>
 								<p class="d-none">{{dia.matchA}}</p>
 							</td>
 							<td>{{dia.matchA.time}}</td>
@@ -86,7 +86,7 @@ Vue.component('table-data',{
 								<p class="d-none">{{dia.matchB.link}}</p>
 								<p class="d-none">{{dia.matchB.directory}}</p>
 								<p class="d-none">{{dia.matchB.location}}</p>
-								<button class="btn btn-info" @click="iracomments">comments <i class="far fa-comments"></i></button>
+								<button class="btn btn-info mt-3" @click="iracomments">comments <i class="far fa-comments"></i></button>
 								<p class="d-none">{{dia.matchB}}</p>
 							</td>
 							<td>{{dia.matchB.time}}</td>
@@ -114,10 +114,12 @@ Vue.component('table-data',{
 			}
 		},
 		iracomments(event){
+			console.log(event)
 			let aux = event.target
 			if (this.all){
 				let aux2 = aux.nextElementSibling.innerText
-				this.$emit('change-commet',aux2)
+				console.log(aux2)
+				this.$emit('change-commet',JSON.parse(aux2))
 			}else{
 				if(aux.id == 'a1'){
 					this.$emit('change-commet',this.matcha)
@@ -285,8 +287,6 @@ const app = new Vue({
 	el:'#app',
 	data:{
 		selecttabV:'Home',
-		fechas:{},
-		meses:[],
 		mes:meses()[0],
 		dia:'',
 		datosarratys:[],
@@ -300,7 +300,9 @@ const app = new Vue({
 		isrotate:false,
 		linkimg:'img/fondo.png',
 		matchcommentdata:{},
-		commentmatch:''
+		commentmatch:'',
+		arraycomments:[],
+		dataready:false
 	},
 	methods:{
 		selectVue(id){
@@ -359,6 +361,7 @@ const app = new Vue({
 			borrarTarjetaUsuarios(id)
 		},
 		tocommet(match){
+			console.log(match)
 			this.matchcommentdata = match
 			traerComentarios(match.id)
 			this.selecttabV = 'commets'
@@ -366,6 +369,8 @@ const app = new Vue({
 		comentar(){
 			let name = this.datosuser.nick == ''? this.datosuser.displayName : this.datosuser.nick
 			commentsMatch(this.commentmatch,name,this.datosuser.photoURL,this.matchcommentdata.id)
+			this.commentmatch = ''
+			setTimeout(e=> window.scrollBy(0, 100), 300);
 		}
 	},
 	computed:{
@@ -377,13 +382,14 @@ const app = new Vue({
 			return this.isrotate
 		},
 		obtenerFechas(){
-			return this.fechas = JSON.parse(localStorage.getItem('fechas'))
+				return (JSON.parse(localStorage.getItem('fechas')) || fechas)
+			
 		},
 		obtenerParticipantes(){
-			return (participantes || JSON.parse(localStorage.getItem('participantes')))
+			return (JSON.parse(localStorage.getItem('participantes')) || participantes)
 		},
 		obtenerMeses(){
-			return this.meses = meses()
+				return meses()
 		}
 	}
 })
