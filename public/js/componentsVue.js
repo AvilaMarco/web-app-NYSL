@@ -44,7 +44,7 @@ Vue.component('mapasg',{
 Vue.component('table-data',{
 	props:{
 		matchsup:{
-			type:Object
+			type:Array
 		},
 		fechasaux:{
 			type:Object
@@ -65,6 +65,10 @@ Vue.component('table-data',{
 			</thead>
 			<tbody v-if="!all">
 				<tr v-for="matchz in matchsup">
+					<template v-if="matchz.mes != null">
+					<td colspan="3">{{matchz.mes}} {{matchz.dia}}</td>
+					</template>
+					<template v-else>
 					<td>{{matchz.teamA}} <br>VS<br> {{matchz.teamB}}</td>
 					<td>
 						<a class="d-block" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
@@ -77,6 +81,7 @@ Vue.component('table-data',{
 						<button id="a1" class="btn btn-info mt-3" @click="iracomments(matchz)">comments <i class="far fa-comments"></i></button>
 					</td>
 					<td>{{matchz.time}}</td>
+					</template>
 				</tr>
 			</tbody>
 			<tbody v-if="all">
@@ -256,7 +261,8 @@ const app = new Vue({
 		matchcommentdata:{},
 		commentmatch:'',
 		arraycomments:[],
-		fetchokey:false
+		fetchokey:false,
+		teamnow:''
 	},
 	methods:{
 		selectVue(id){
@@ -307,7 +313,7 @@ const app = new Vue({
 		},
 		animation(){
 			document.querySelector('#tableanimation').classList.add('animationtable')
-			setTimeout(e=> document.querySelector('#tableanimation').classList.remove('animationtable'), 3100);
+			setTimeout(e=> document.querySelector('#tableanimation').classList.remove('animationtable'), 2000);
 		},
 		eliminartarjeta(index,id){
 			this.datosarratys.splice(index,1)
@@ -325,7 +331,12 @@ const app = new Vue({
 			setTimeout(e=> window.scrollBy(0, 100), 300);
 		},
 		filtroteam(event){
-			console.log(buscarDatosPorFecha(null,null,event.target.id,this.mes))
+			if (this.teamnow == event.target.id){
+				this.teamnow = ''
+			}else{
+				this.teamnow = event.target.id
+			}
+			this.animation()	
 		}
 	},
 	computed:{
@@ -353,6 +364,9 @@ const app = new Vue({
 		},
 		monthnow(){
 			return eventToDay(true,toDay)
+		},
+		teamdate(){
+			return buscarDatosPorFecha(null,null,this.teamnow,this.mes)
 		}
 	}
 })

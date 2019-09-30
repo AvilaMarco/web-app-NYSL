@@ -122,8 +122,10 @@ function buscarDatosPorFecha(equipo,jugadorT,fechasteam,moths){
 				{
 					if (fechasteam == aux2[i] && fechasteam!=null){
 						if(moths == 'all'){
+							arrayteam.push({'mes':mes,'dia':dias})
 							arrayteam.push(fechas[mes][dias][partidos])
 						}else if(mes == moths){
+							arrayteam.push({'mes':mes,'dia':dias})
 							arrayteam.push(fechas[mes][dias][partidos])
 						}
 					}

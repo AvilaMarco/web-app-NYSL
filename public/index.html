@@ -78,55 +78,56 @@
 			<h1 class="text-center">Schedule</h1>
 			<div class="row" style="width: 100vw">
 				<div class="col-2" style="padding-left: 20px;">
-					<div class="spinner-border text-success prelative active"></div>
-					<img id="U1" src="img/U1.png" @click="filtroteam" class="espaciado">
+					<div class="spinner-border text-success prelative d-none"></div>
+					<div class="prelative rounded-circle"><img id="U1" src="img/U1.png" @click="filtroteam" class="espaciado "></div>
+					
 					<span class="espaciado2">U1</span>
 				</div>
 				<div class="col-2" style="padding-left: 17px;">
-					<div class="spinner-border text-success prelative active"></div>
-					<img id="U1" src="img/U2.png" @click="filtroteam" class="espaciado">
+					<div class="spinner-border text-success prelative d-none"></div>
+					<img id="U2" src="img/U2.png" @click="filtroteam" class="espaciado">
 					<span class="espaciado2">U2</span>
 				</div>
 				<div class="col-2">
-					<div class="spinner-border text-success prelative active"></div>
-					<img id="U1" src="img/U3.png" @click="filtroteam" class="espaciado">
+					<div class="spinner-border text-success prelative d-none"></div>
+					<img id="U3" src="img/U3.png" @click="filtroteam" class="espaciado">
 					<span class="espaciado2">U3</span>
 				</div>
 				<div class="col-2">
-					<div class="spinner-border text-success prelative active"></div>
-					<img id="U1" src="img/U4.png" @click="filtroteam" class="espaciado">
+					<div class="spinner-border text-success prelative d-none"></div>
+					<img id="U4" src="img/U4.png" @click="filtroteam" class="espaciado">
 					<span class="espaciado2">U4</span>
 				</div>
 				<div class="col-2">
-					<div class="spinner-border text-success prelative active"></div>
-					<img id="U1" src="img/U5.png" @click="filtroteam" class="espaciado">
+					<div class="spinner-border text-success prelative d-none"></div>
+					<img id="U5" src="img/U5.png" @click="filtroteam" class="espaciado">
 					<span class="espaciado2">U5</span>
 				</div>
 				<div class="col-2">
-					<div class="spinner-border text-success prelative active"></div>
-					<img id="U1" src="img/U6.png" @click="filtroteam" class="espaciado">
+					<div class="spinner-border text-success prelative d-none"></div>
+					<img id="U6" src="img/U6.png" @click="filtroteam" class="espaciado">
 					<span class="espaciado2">U6</span>
 				</div>
 			</div>
 			<div class="d-flex flex-row">
-			  	<div class="p-2 flex-fill">Mes:
-					<select v-model="mes" @change="animation" class="form-control">
+		  	<label for="selectmes">Mes:</label>
+					<select id="selectmes" v-model="mes" @change="animation" class="form-control">
 						<option>all</option>
 						<option v-for="mes in obtenerMeses">{{mes}}</option>
 					</select>
-				</div>
-			  	<div class="p-2 flex-fill">Dia:
+			
+			  	<!-- <div class="p-2 flex-fill">Dia:
 					<select v-model="dia" @change="animation" class="form-control">
 						<option v-for="dia in dias">{{dia}}</option>
 					</select>
-			  </div>
+			  </div> -->
 			</div>
 
-			<div v-if="mes != 'all'">
-				<table-data @change-commet="tocommet" @changemap="chageinfomap" :matchsup="obtenerFechas[mes][dia]"></table-data>
+			<div v-if="teamnow != ''">
+				<table-data @change-commet="tocommet" @changemap="chageinfomap" :matchsup="teamdate"></table-data>
 			</div>
 			<div v-else>
-				<table-data @change-commet="tocommet" @changemap="chageinfomap" :fechasaux="obtenerFechas" :all="mes == 'all'"></table-data>
+				<table-data @change-commet="tocommet" @changemap="chageinfomap" :fechasaux="obtenerFechas" :all="teamnow == ''"></table-data>
 			</div>
 
 			<!-- <mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg> -->
