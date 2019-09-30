@@ -114,11 +114,9 @@ Vue.component('table-data',{
 			}
 		},
 		iracomments(event){
-			console.log(event)
 			let aux = event.target
 			if (this.all){
 				let aux2 = aux.nextElementSibling.innerText
-				console.log(aux2)
 				this.$emit('change-commet',JSON.parse(aux2))
 			}else{
 				if(aux.id == 'a1'){
@@ -287,7 +285,7 @@ const app = new Vue({
 	el:'#app',
 	data:{
 		selecttabV:'Home',
-		mes:(meses()[0]||''),
+		mes:(eventToDay(true,toDay)||''),
 		dia:'',
 		datosarratys:[],
 		player:'',
@@ -301,7 +299,8 @@ const app = new Vue({
 		linkimg:'img/fondo.png',
 		matchcommentdata:{},
 		commentmatch:'',
-		arraycomments:[]
+		arraycomments:[],
+		fetchokey:false
 	},
 	methods:{
 		selectVue(id){
@@ -335,7 +334,6 @@ const app = new Vue({
 			if (this.onecallfunction) {
 				this.onecallfunction = false
 				if(this.isrotate){
-					console.log(this.isrotate)
 					setTimeout(e=> window.scrollTo(0, 900), 250);
 				}else{
 					setTimeout(e=> window.scrollTo(0, 400), 250);
@@ -361,7 +359,6 @@ const app = new Vue({
 			borrarTarjetaUsuarios(id)
 		},
 		tocommet(match){
-			console.log(match)
 			this.matchcommentdata = match
 			traerComentarios(match.id)
 			this.selecttabV = 'commets'
@@ -385,13 +382,19 @@ const app = new Vue({
 				return (JSON.parse(localStorage.getItem('fechas')) || fechas)
 			
 		},
-		obtenerParticipantes(){
-			return (JSON.parse(localStorage.getItem('participantes')) || participantes)
-		},
+		// obtenerParticipantes(){
+		// 	return (JSON.parse(localStorage.getItem('participantes')) || participantes)
+		// },
 		obtenerMeses(){
 			if (this.mes != '') {
-				return meses()
+				return returnmeses()
 			}
+		},
+		daynow(){
+			return eventToDay(false,toDay)
+		},
+		monthnow(){
+			return eventToDay(true,toDay)
 		}
 	}
 })

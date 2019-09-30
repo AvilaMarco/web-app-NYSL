@@ -47,6 +47,11 @@ img{
     bottom: 8vh;
     width: 350px;
 }
+
+.canrgandoweb{
+	width: 100vw;
+	height: 100vh;
+}
 /*animaciones*/
 .animationtext{
 	opacity: 0;

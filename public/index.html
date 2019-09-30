@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div id="app">
-
+	<template v-if="fetchokey">
 		<header>
 				<img id="fondo-header" class="mw-100 cabecera" :src="linkimg" alt="fondo-header">
 				<div id="userlogin" class="d-none alert alert-success text-center">
@@ -27,21 +27,16 @@
 			<h1 class="text-center">Upcoming Events</h1>
 			<div class="card m-3">
 				<div class="card-body">
-					<dl>
-					<dt class="card-title">August 4</dt>
-						<dd class="card-text">- NYSL Fundraiser</dd>
-					<dt class="card-title">August 16</dt>
-						<dd class="card-text">- Season Kick-off: Meet the Teams</dd>
-					<dt class="card-title">September 1</dt>
-						<dd class="card-text">- First Game of the Season <br>(Check Schedule for details)</dd>
-				  </dl>
+					<div v-for="matchs in obtenerFechas[monthnow][daynow]">
+						<p>{{matchs.teamA}} <br>VS<br> {{matchs.teamB}}</p>
+					</div>
 				</div>
 			</div>
 
 			<!-- collapse -->
 			<div class="card">
 				<div class="card-header">
-					<a href="#feedback" data-toggle="collapse" @click="scrolltodown" class="btn btn-outline-success btn-block">Contatc / Feedback</a>
+					<a href="#feedback" data-toggle="collapse" @click="scrolltodown" class="btn btn-outline-success btn-block">Contact / Feedback</a>
 				</div>
 				<div class="collapse" id="feedback"> 
 					<div class="card-body paddincard">
@@ -60,7 +55,6 @@
 		<!-- fechas -->
 		<div v-show="selecttabV == 'Schedule'">
 			<h1 class="text-center">Schedule</h1>
-			<template v-if="mes != ''">
 			<div class="d-flex flex-row">
 			  	<div class="p-2 flex-fill">Mes:
 					<select v-model="mes" @change="animation" class="form-control">
@@ -83,7 +77,6 @@
 			</div>
 
 			<mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg>
-		</template>
 		</div>
 
 		<!-- commets -->
@@ -151,7 +144,15 @@
 		</div>
 
 		<navs-tabs @show="selectVue"></navs-tabs>
-
+	</template>
+	<template v-if="!fetchokey">
+		<div class="canrgandoweb bg-primary d-flex align-content-center">
+			<button class="btn btn-primary btn-block">
+			  <span class="spinner-border spinner-border-sm"></span>
+			  Loading..
+			</button>
+		</div>
+	</template>
 	</div>
 
 	<script src="https://kit.fontawesome.com/e7886423a6.js"></script>
