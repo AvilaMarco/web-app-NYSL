@@ -19,17 +19,38 @@
 				  <strong class="animationtexta">Success login</strong><strong v-if="datosuser != null" class="animationtextb">Welcome {{datosuser.displayName}}</strong>
 				</div>
 				<img style="z-index: 1" id="logo-header" class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
+				<a @click="logingoogle"><img id="logo-user" src="img/img.png" class="logo2" alt="user-default"></a>			
+				<div v-if="datosuser == null" class="text-center text-light" style="background-color: #fd871b;"><p>Login to Follow a Player/Team</p></div>
 		</header>
 
 		<!-- home -->
 		<div  v-show="selecttabV == 'Home'">
 
-			<h1 class="text-center">Upcoming Events</h1>
+			<h1 class="text-center">Today</h1>
 			<div class="card m-3">
 				<div class="card-body">
+					<template v-if="obtenerFechas[monthnow][daynow] != null">
 					<div v-for="matchs in obtenerFechas[monthnow][daynow]">
-						<p>{{matchs.teamA}} <br>VS<br> {{matchs.teamB}}</p>
+						<p>{{matchs.time}}</p>
+						<img :src="'img/'+ matchs.teamA +'.png'" class="w-25">
+						<h2>{{matchs.teamA}} vs {{matchs.teamB}}</h2>
+						<img :src="'img/'+ matchs.teamB +'.png'" class="w-25">
+						<!-- Button to Open the Modal -->
+						  <button type="button" @click="chageinfomap(matchs.link,matchs.directory,matchs.location)" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+						    {{matchs.location}}
+						  </button>
+						  <!-- The Modal -->
+						  <div class="modal fade" id="myModal">
+						    <div class="modal-dialog modal-dialog-centered">
+						      <mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg>
+						    </div>
+						  </div>
 					</div>
+					</template>
+					<template v-else>
+						<p>no hay eventos</p>
+					</template>
+					
 				</div>
 			</div>
 
@@ -55,6 +76,38 @@
 		<!-- fechas -->
 		<div v-show="selecttabV == 'Schedule'">
 			<h1 class="text-center">Schedule</h1>
+			<div class="row" style="width: 100vw">
+				<div class="col-2" style="padding-left: 20px;">
+					<div class="spinner-border text-success prelative active"></div>
+					<img id="U1" src="img/U1.png" @click="filtroteam" class="espaciado">
+					<span class="espaciado2">U1</span>
+				</div>
+				<div class="col-2" style="padding-left: 17px;">
+					<div class="spinner-border text-success prelative active"></div>
+					<img id="U1" src="img/U2.png" @click="filtroteam" class="espaciado">
+					<span class="espaciado2">U2</span>
+				</div>
+				<div class="col-2">
+					<div class="spinner-border text-success prelative active"></div>
+					<img id="U1" src="img/U3.png" @click="filtroteam" class="espaciado">
+					<span class="espaciado2">U3</span>
+				</div>
+				<div class="col-2">
+					<div class="spinner-border text-success prelative active"></div>
+					<img id="U1" src="img/U4.png" @click="filtroteam" class="espaciado">
+					<span class="espaciado2">U4</span>
+				</div>
+				<div class="col-2">
+					<div class="spinner-border text-success prelative active"></div>
+					<img id="U1" src="img/U5.png" @click="filtroteam" class="espaciado">
+					<span class="espaciado2">U5</span>
+				</div>
+				<div class="col-2">
+					<div class="spinner-border text-success prelative active"></div>
+					<img id="U1" src="img/U6.png" @click="filtroteam" class="espaciado">
+					<span class="espaciado2">U6</span>
+				</div>
+			</div>
 			<div class="d-flex flex-row">
 			  	<div class="p-2 flex-fill">Mes:
 					<select v-model="mes" @change="animation" class="form-control">
@@ -70,13 +123,13 @@
 			</div>
 
 			<div v-if="mes != 'all'">
-				<table-data @change-commet="tocommet" @changemap="chageinfomap" :matcha="obtenerFechas[mes][dia].matchA" :matchb="obtenerFechas[mes][dia].matchB"></table-data>
+				<table-data @change-commet="tocommet" @changemap="chageinfomap" :matchsup="obtenerFechas[mes][dia]"></table-data>
 			</div>
 			<div v-else>
 				<table-data @change-commet="tocommet" @changemap="chageinfomap" :fechasaux="obtenerFechas" :all="mes == 'all'"></table-data>
 			</div>
 
-			<mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg>
+			<!-- <mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg> -->
 		</div>
 
 		<!-- commets -->
@@ -179,7 +232,6 @@
 	  // Initialize Firebase
 	  firebase.initializeApp(firebaseConfig);
 	</script>
-
 	<!-- vue -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <!-- cosas de bootstrap -->
@@ -190,6 +242,6 @@
 	<!-- js locales -->
   <script src="js/globalVars.js"></script>
   <script src="js/componentsVue.js"></script>
-  <script src="js/apuntes.js"></script>
+  <!-- <script src="js/apuntes.js"></script> -->
 </body>
 </html>

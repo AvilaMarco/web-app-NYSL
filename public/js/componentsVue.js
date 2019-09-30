@@ -7,9 +7,9 @@ Vue.component('navs-tabs',{
 	</div>`,
 	data(){
 		return{
-			tabsnav :['Schedule','Home','Profile'],
+			tabsnav :['Home','Schedule','Profile'],
 			selecttab : 'Home',
-			iconos:['far fa-calendar-alt','fas fa-home','far fa-user']
+			iconos:['fas fa-home','far fa-calendar-alt','far fa-user']
 		}
 	},
 	methods:{
@@ -19,12 +19,31 @@ Vue.component('navs-tabs',{
 	}
 })
 
+Vue.component('mapasg',{
+	props:{
+		linkmapa:{
+			type:String
+		},
+		infomapa:{
+			type:String
+		},
+		infomapa2:{
+			type:String
+		}
+	},
+	template:`
+		<div class="card">
+			<div class="card-header">
+				<p class="card-title"><strong>{{infomapa2}}</strong>: <br>{{infomapa}}</p>
+			</div>
+			<iframe :src="linkmapa" class="mapag"></iframe>
+		</div>
+	`
+})
+
 Vue.component('table-data',{
 	props:{
-		matcha:{
-			type:Object
-		},
-		matchb:{
+		matchsup:{
 			type:Object
 		},
 		fechasaux:{
@@ -45,21 +64,19 @@ Vue.component('table-data',{
 				</tr>
 			</thead>
 			<tbody v-if="!all">
-				<tr>
-					<td>{{matcha.teamA}} <br>VS<br> {{matcha.teamB}}</td>
+				<tr v-for="matchz in matchsup">
+					<td>{{matchz.teamA}} <br>VS<br> {{matchz.teamB}}</td>
 					<td>
-						<a id="a" href="#mapasid" @click="enviardatosmapas" class="blockd">{{matcha.location}}</a>
-						<button id="a1" class="btn btn-info mt-3" @click="iracomments">comments <i class="far fa-comments"></i></button>
+						<a class="d-block" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
+						  <!-- The Modal -->
+						  <div class="modal fade" id="modalt">
+						    <div class="modal-dialog modal-dialog-centered">
+						      <mapasg id="mapasid" :linkmapa="matchz.link" :infomapa="matchz.directory" :infomapa2="matchz.location" ></mapasg>
+						    </div>
+						  </div>
+						<button id="a1" class="btn btn-info mt-3" @click="iracomments(matchz)">comments <i class="far fa-comments"></i></button>
 					</td>
-					<td>{{matcha.time}}</td>
-				</tr>
-				<tr v-if="matchb != null">
-					<td>{{matchb.teamA}} <br>VS <br>{{matchb.teamB}}</td>
-					<td>
-						<a id="b" href="#mapasid" @click="enviardatosmapas" class="blockd">{{matchb.location}}</a>
-						<button id="b1" class="btn btn-info mt-3" @click="iracomments">comments <i class="far fa-comments"></i></button>
-					</td>
-					<td>{{matchb.time}}</td>
+					<td>{{matchz.time}}</td>
 				</tr>
 			</tbody>
 			<tbody v-if="all">
@@ -67,29 +84,19 @@ Vue.component('table-data',{
 					<tr><td class="mt-3" colspan="3">{{key}}</td></tr>
 					<template v-for="(dia,key) in mes">
 						<tr><td class="mt-3" colspan="3">Day: {{key}}</td></tr>
-						<tr>
-							<td>{{dia.matchA.teamA}} <br>VS<br> {{dia.matchA.teamB}}</td>
+						<tr v-for="matchz in dia">
+							<td>{{matchz.teamA}} <br>VS<br> {{matchz.teamB}}</td>
 							<td>
-								<a id="c" href="#mapasid" @click="enviardatosmapas" class="blockd">{{dia.matchA.location}}</a>
-								<p class="d-none">{{dia.matchA.link}}</p>
-								<p class="d-none">{{dia.matchA.directory}}</p>
-								<p class="d-none">{{dia.matchA.location}}</p>
-								<button class="btn btn-info mt-3" @click="iracomments">comments <i class="far fa-comments"></i></button>
-								<p class="d-none">{{dia.matchA}}</p>
+								<a class="d-block" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
+								  <!-- The Modal -->
+								  <div class="modal fade" id="modalt">
+								    <div class="modal-dialog modal-dialog-centered">
+								      <mapasg id="mapasid" :linkmapa="matchz.link" :infomapa="matchz.directory" :infomapa2="matchz.location" ></mapasg>
+								    </div>
+								  </div>
+								<button id="a1" class="btn btn-info mt-3" @click="iracomments(matchz)">comments <i class="far fa-comments"></i></button>
 							</td>
-							<td>{{dia.matchA.time}}</td>
-						</tr>
-						<tr v-if="dia.matchB!=null">
-							<td>{{dia.matchB.teamA}} <br>VS <br>{{dia.matchB.teamB}}</td>
-							<td>
-								<a id="c" href="#mapasid" @click="enviardatosmapas" class="blockd">{{dia.matchB.location}}</a>
-								<p class="d-none">{{dia.matchB.link}}</p>
-								<p class="d-none">{{dia.matchB.directory}}</p>
-								<p class="d-none">{{dia.matchB.location}}</p>
-								<button class="btn btn-info mt-3" @click="iracomments">comments <i class="far fa-comments"></i></button>
-								<p class="d-none">{{dia.matchB}}</p>
-							</td>
-							<td>{{dia.matchB.time}}</td>
+							<td>{{matchz.time}}</td>
 						</tr>
 					</template>
 				</template>
@@ -97,61 +104,10 @@ Vue.component('table-data',{
 		</table>
 	</div>`,
 	methods:{
-		enviardatosmapas(id){
-			switch(id.target.id){
-				case 'a':
-					this.$emit('changemap',this.matcha.link,this.matcha.directory,this.matcha.location)
-					break;
-				case 'b':
-					this.$emit('changemap',this.matchb.link,this.matchb.directory,this.matchb.location)
-					break;
-				case 'c':
-					let link = id.target.nextElementSibling.innerText
-					let directory = id.target.nextElementSibling.nextElementSibling.innerText
-					let location = id.target.nextElementSibling.nextElementSibling.nextElementSibling.innerText
-					this.$emit('changemap',link,directory,location)
-					break;
-			}
-		},
-		iracomments(event){
-			let aux = event.target
-			if (this.all){
-				let aux2 = aux.nextElementSibling.innerText
-				this.$emit('change-commet',JSON.parse(aux2))
-			}else{
-				if(aux.id == 'a1'){
-					this.$emit('change-commet',this.matcha)
-				}else if(aux.id == 'b1'){
-					this.$emit('change-commet',this.matchb)
-				}
-			}
-			
+		iracomments(json){
+			this.$emit('change-commet',json)
 		}
 	}
-})
-
-Vue.component('mapasg',{
-	props:{
-		linkmapa:{
-			type:String
-		},
-		infomapa:{
-			type:String
-		},
-		infomapa2:{
-			type:String
-		}
-	},
-	template:`
-		<div class="card m-2">
-			<div class="card-header">
-				<p class="card-title"><strong>{{infomapa2}}</strong>: <br>{{infomapa}}</p>
-			</div>
-			<div class="card-body d-flex justify-content-center">
-				<iframe :src="linkmapa" class="border border-dark"></iframe>
-			</div>
-		</div>
-	`
 })
 
 Vue.component('tarjeta-jugador',{
@@ -341,7 +297,6 @@ const app = new Vue({
 			}
 		},
 		chageinfomap(linkmap,infomap,locationmap){
-			this.selecttabV = 'Schedule'
 			this.mapalink = linkmap
 			this.mapainfo = infomap
 			this.mapalocation = locationmap
@@ -368,6 +323,9 @@ const app = new Vue({
 			commentsMatch(this.commentmatch,name,this.datosuser.photoURL,this.matchcommentdata.id)
 			this.commentmatch = ''
 			setTimeout(e=> window.scrollBy(0, 100), 300);
+		},
+		filtroteam(event){
+			console.log(buscarDatosPorFecha(null,null,event.target.id,this.mes))
 		}
 	},
 	computed:{

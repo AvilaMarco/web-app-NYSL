@@ -3,7 +3,8 @@ var fechas = null;
 var docrefuser = ''
 var provider = new firebase.auth.GoogleAuthProvider();
 let fireStore = firebase.firestore();
-var toDay = new Date().toDateString().substring(4,10).toLowerCase()
+// var toDay = new Date().toDateString().substring(4,10).toLowerCase()
+var toDay = 'oct 20'
 cargardatosjson()
 
 function eventToDay(ismes,today) {
@@ -108,7 +109,8 @@ function returnmeses()
 	return meses
 }
 
-function buscarDatosPorFecha(equipo,jugadorT){
+function buscarDatosPorFecha(equipo,jugadorT,fechasteam,moths){
+	let arrayteam = []
 	for(mes in fechas)
 	{
 		for(dias in fechas[mes])
@@ -118,7 +120,14 @@ function buscarDatosPorFecha(equipo,jugadorT){
 				let aux2 = Object.values(fechas[mes][dias][partidos])
 				for (var i = 0; i < aux2.length; i++) 
 				{
-					if (aux2[i]==equipo) 
+					if (fechasteam == aux2[i] && fechasteam!=null){
+						if(moths == 'all'){
+							arrayteam.push(fechas[mes][dias][partidos])
+						}else if(mes == moths){
+							arrayteam.push(fechas[mes][dias][partidos])
+						}
+					}
+					if (aux2[i]==equipo && fechasteam == null) 
 					{
 						let objetoaux = {}
 						objetoaux['location'] = fechas[mes][dias][partidos].location
@@ -140,7 +149,11 @@ function buscarDatosPorFecha(equipo,jugadorT){
  			}
  		}
 	}
-	return 'error'
+	if (arrayteam.length !=0) {
+		return arrayteam
+	}else{
+		return 'error'
+	}	
 }
 
 function buscarEnEquipos(jugadorT){
@@ -148,7 +161,7 @@ function buscarEnEquipos(jugadorT){
 	{
 		if (equipos == jugadorT.toUpperCase()) 
 		{
-			return buscarDatosPorFecha(equipos,null)	
+			return buscarDatosPorFecha(equipos,null,null)	
 		}
 
 		let aux = Object.values(participantes[equipos])
@@ -157,7 +170,7 @@ function buscarEnEquipos(jugadorT){
 		{
 			if (aux[i]==jugadorT.toLowerCase()) 
 			{
-				return buscarDatosPorFecha(equipos,jugadorT)
+				return buscarDatosPorFecha(equipos,jugadorT,null)
 			}
 		}
 	}
