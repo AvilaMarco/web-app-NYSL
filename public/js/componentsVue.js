@@ -334,6 +334,9 @@ const app = new Vue({
 			if (this.teamnow == event.target.id){
 				this.teamnow = ''
 			}else{
+				// event.target.previousSibling.classList.toggle("d-none")
+				// document.querySelectorAll('[name=spiner')[0].classList.toggle('d-none')
+				console.log(event.target.previousSibling)
 				this.teamnow = event.target.id
 			}
 			this.animation()	

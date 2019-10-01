@@ -76,53 +76,52 @@
 		<!-- fechas -->
 		<div v-show="selecttabV == 'Schedule'">
 			<h1 class="text-center">Schedule</h1>
-			<div class="row" style="width: 100vw">
-				<div class="col-2" style="padding-left: 20px;">
-					<div class="spinner-border text-success prelative d-none"></div>
-					<div class="prelative rounded-circle"><img id="U1" src="img/U1.png" @click="filtroteam" class="espaciado "></div>
-					
-					<span class="espaciado2">U1</span>
+			<div class="d-flex text-center" style="width: 100vw;font-size: 20px">
+				<div class="flex-fill">
+					<div name="spiner" class="spinner-border text-success prelative d-none"></div>
+					<img id="U1" src="img/U1.png" @click="filtroteam" class="width47 ">
+					<span>U1</span>
 				</div>
-				<div class="col-2" style="padding-left: 17px;">
-					<div class="spinner-border text-success prelative d-none"></div>
-					<img id="U2" src="img/U2.png" @click="filtroteam" class="espaciado">
-					<span class="espaciado2">U2</span>
+				<div class="flex-fill">
+					<div name="spiner" class="spinner-border text-success prelative d-none"></div>
+					<img id="U2" src="img/U2.png" @click="filtroteam" class="width47">
+					<span>U2</span>
 				</div>
-				<div class="col-2">
-					<div class="spinner-border text-success prelative d-none"></div>
-					<img id="U3" src="img/U3.png" @click="filtroteam" class="espaciado">
-					<span class="espaciado2">U3</span>
+				<div class="flex-fill">
+					<div name="spiner" class="spinner-border text-success prelative d-none"></div>
+					<img id="U3" src="img/U3.png" @click="filtroteam" class="width47">
+					<span>U3</span>
 				</div>
-				<div class="col-2">
-					<div class="spinner-border text-success prelative d-none"></div>
-					<img id="U4" src="img/U4.png" @click="filtroteam" class="espaciado">
-					<span class="espaciado2">U4</span>
+				<div class="flex-fill">
+					<div name="spiner" class="spinner-border text-success prelative d-none"></div>
+					<img id="U4" src="img/U4.png" @click="filtroteam" class="width47">
+					<span>U4</span>
 				</div>
-				<div class="col-2">
-					<div class="spinner-border text-success prelative d-none"></div>
-					<img id="U5" src="img/U5.png" @click="filtroteam" class="espaciado">
-					<span class="espaciado2">U5</span>
+				<div class="flex-fill">
+					<div name="spiner" class="spinner-border text-success prelative d-none"></div>
+					<img id="U5" src="img/U5.png" @click="filtroteam" class="width47">
+					<span>U5</span>
 				</div>
-				<div class="col-2">
-					<div class="spinner-border text-success prelative d-none"></div>
-					<img id="U6" src="img/U6.png" @click="filtroteam" class="espaciado">
-					<span class="espaciado2">U6</span>
+				<div class="flex-fill">
+					<div name="spiner" class="spinner-border text-success prelative d-none"></div>
+					<img id="U6" src="img/U6.png" @click="filtroteam" class="width47">
+					<span>U6</span>
 				</div>
 			</div>
-			<div class="d-flex flex-row">
-		  	<label for="selectmes">Mes:</label>
-					<select id="selectmes" v-model="mes" @change="animation" class="form-control">
-						<option>all</option>
-						<option v-for="mes in obtenerMeses">{{mes}}</option>
-					</select>
-			
+			<div class="input-group mb-3">
+		    <div class="input-group-prepend">
+		      <span class="input-group-text">Month</span>
+		    </div>
+		    <select id="selectmes" v-model="mes" @change="animation" class="form-control">
+					<option>all</option>
+					<option v-for="mes in obtenerMeses">{{mes}}</option>
+				</select>
+		  </div>
 			  	<!-- <div class="p-2 flex-fill">Dia:
 					<select v-model="dia" @change="animation" class="form-control">
 						<option v-for="dia in dias">{{dia}}</option>
 					</select>
 			  </div> -->
-			</div>
-
 			<div v-if="teamnow != ''">
 				<table-data @change-commet="tocommet" @changemap="chageinfomap" :matchsup="teamdate"></table-data>
 			</div>
@@ -203,7 +202,7 @@
 		<div class="canrgandoweb bg-primary d-flex align-content-center">
 			<button class="btn btn-primary btn-block">
 			  <span class="spinner-border spinner-border-sm"></span>
-			  Loading..
+			  Loading....
 			</button>
 		</div>
 	</template>
