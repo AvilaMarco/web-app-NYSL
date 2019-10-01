@@ -166,22 +166,18 @@ Vue.component('tarjeta-user',{
 	  		<div class="card-body">
 			  	<img id="logo-user" src="img/img.png" class="card-img-top img-thumbnail" alt="user-default">
 			    <button class="btn btn-primary btn-block mt-2" @click="login">Login</button>
-		 		</div>
+	 		</div>
 		</div>
-
 		<div v-if="usuario != null">
-
 			<div class="card-header">
 				<button @click="scrolltodown" data-toggle="collapse" data-target="#userconfig" class="btn btn-outline-success btn-block">User Profile Settings <i class="fas fa-cog"></i> </button>	
-			</div>
-		
+			</div>	
   		<div id="userconfig" class="collapse m-3">
 				<div class="card-body" v-if="!isrotate">
 					<img :src="usuario.photoURL" class="card-img-top img-thumbnail" alt="Card image">
 					<div class="text-center mt-2">
 						<p class="card-text">Name: {{usuario.displayName}}</p>
-					<p v-show="nick!=''" class="card-text">Nick: {{nick}}</p>
-					<p class="card-text">Email: {{usuario.email}}</p>
+						<p class="card-text">Email: {{usuario.email}}</p>
 					</div>
 				</div>
 				<div class="row no-gutters" v-if="isrotate">
@@ -191,50 +187,23 @@ Vue.component('tarjeta-user',{
 					<div class="col-sm-7">
 					  <div class="textograde card-body">
 							<p class="card-text">Name: {{usuario.displayName}}</p>
-							<p v-show="nick!=''" class="card-text">Nick: {{nick}}</p>
 							<p class="card-text">Email: {{usuario.email}}</p>
 					  </div>
 					</div>
-	  			</div>
-
+				</div>
 			  <div class="row d-flex justify-content-between mt-3">
-						<button style="width: 35vw;" @click="logout" class="botonl btn btn-primary ml-3">Logout</button>
-						<button style="width: 35vw;" v-if="nick == ''" @click="escribirnick" class="botonl btn btn-primary mr-3">Use Nick</button>
-						<button style="width: 35vw;" v-if="nick != ''" @click="escribirnick" class="botonl btn btn-primary mr-3">Change Nick</button>
+					<button style="width: 35vw;" @click="logout" class="botonl btn btn-primary btn-block ml-3">Logout</button>
 			  </div>
-
-			  <div v-if="write" class="input-group mt-3">
-				  <input id="inputtext" class="form-control" type="text" v-model="nickaux" placeholder="write your nick">
-				  <input class="btn btn-info" type="button" @click="usenick" value="enter">
-			  </div>
-
 	  	</div>
-
 		</div>
 	</div>
 	`,
-	data(){
-		return{
-			nickaux:'',
-			write:false,
-			nick:'',
-		}
-	},
 	methods:{
 		login(){
 			this.$emit('userlogin')
 		},
 		logout(){
 			this.$emit('userlogout')
-		},
-		usenick(){
-			this.$emit('usenick',this.nick)
-			this.nick = this.nickaux
-			this.write = false
-		},
-		escribirnick(){
-			this.write=true
-			setTimeout(e=> window.scrollBy(0, 400), 100);
 		},
 		scrolltodown(){
 			setTimeout(e=> window.scrollBy(0, 600), 300);
@@ -331,12 +300,14 @@ const app = new Vue({
 			setTimeout(e=> window.scrollBy(0, 100), 300);
 		},
 		filtroteam(event){
-			if (this.teamnow == event.target.id){
+			let aux = this.teamnow
+			let spinername = document.querySelectorAll('.spiner')
+			let bool= false
+			spinername.forEach(e=>(e.attributes.name.value == aux)?bool=true:null)
+			if (this.teamnow == event.target.id && bool){
 				this.teamnow = ''
 			}else{
-				// event.target.previousSibling.classList.toggle("d-none")
-				// document.querySelectorAll('[name=spiner')[0].classList.toggle('d-none')
-				console.log(event.target.previousSibling)
+				spinername.forEach(e=>(e.attributes.name.value == event.target.id)?e.classList.remove('d-none'):e.classList.add('d-none'))
 				this.teamnow = event.target.id
 			}
 			this.animation()	
