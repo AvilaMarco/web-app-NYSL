@@ -20,7 +20,7 @@
 				</div>
 				<img style="z-index: 1" id="logo-header" class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
 				<a @click="logingoogle"><img id="logo-user" src="img/img.png" class="w-25 logo2" alt="user-default"></a>			
-				<div v-if="datosuser == null" class="text-center text-light" style="background-color: #fd871b;"><p>Login to Follow a Player/Team</p></div>
+				<div v-if="datosuser == null" class="text-center text-light" style="background-color: #fd871b;"><p>Login to follow a Player/Team</p></div>
 		</header>
 
 		<!-- home -->
@@ -58,7 +58,7 @@
 				</div>	
 			</template>
 			<template v-else>
-				<p>no hay eventos</p>
+				<p>There's no events today. Please check our schedule for future events.</p>
 			</template>
 			<!-- collapse -->
 			<div class="card">
@@ -69,9 +69,9 @@
 					<div class="card-body paddincard">
 						<h3>Contact</h3>
 						<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
-						<h3>feedback</h3>
+						<h3>Feedback</h3>
 						<div class="form-group">
-						  <textarea v-model="textocommet" class="form-control" rows="2" placeholder="envíame tu opinión sobre la página"></textarea>
+						  <textarea v-model="textocommet" class="form-control" rows="2" placeholder="Your opinion is important to us"></textarea>
 						</div>
 						<input :disabled="textocommet==''" class="btn btn-primary btn-block mb-3" type="submit" @click="enviado">
 					</div>
@@ -119,7 +119,7 @@
 		      <span class="input-group-text ml-2">Month</span>
 		    </div>
 		    <select id="selectmes" v-model="mes" @change="animation" class="form-control mr-2">
-					<option>all</option>
+					<option>All</option>
 					<option v-for="mes in obtenerMeses">{{mes}}</option>
 				</select>
 		  </div>
@@ -158,7 +158,7 @@
 			  </div>
 			</div>
 
-			<button v-if="datosuser == null" class="btn btn-primary btn-block fixed-bottom m-1 botontologin" @click="selecttabV ='Profile'">to comment you must be logged in</button>
+			<button v-if="datosuser == null" class="btn btn-primary btn-block fixed-bottom m-1 botontologin" @click="selecttabV ='Profile'">To comment you must be logged in</button>
 			<div v-if="datosuser != null" class="input-group m-1 fixed-bottom landscape" style="bottom: 9vh;">
 			  <input class="form-control" v-model="commentmatch" type="text" placeholder="write commentary">
 			  <div class="input-group-append" style="padding-right: 5px;">
@@ -178,12 +178,12 @@
 		
 			<div v-if="datosuser != null" class="card mt-4">
 				<div class="card-header">
-					<button data-toggle="collapse" data-target="#addCard" class="btn btn-outline-success btn-block">follow a player / team  <i class="fas fa-plus-circle"></i> </button>	
+					<button data-toggle="collapse" data-target="#addCard" class="btn btn-outline-success btn-block">Follow a Player / Team  <i class="fas fa-plus-circle"></i> </button>	
 				</div>
 				<div id="addCard" class="collapse"> 
 					<div class="card-body">
 						<div class="input-group mb-3">
-							<p class="text-secondary">add a card to have updated data of a player or team</p><br>
+							<p class="text-secondary">Add a card to have updated data of a Player or Team</p><br>
 						  <input class="form-control" type="text" v-model="player" placeholder="write player or team">
 						  <div class="input-group-append">
 							<!-- <select v-model="player">
@@ -192,7 +192,7 @@
 							</select> -->
 							<input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" :disabled="player==''" @click="buscarPlayerOTeam" value="agregar">
 						  </div>
-						  <p class="text-secondary">Prueba con: pepito, homero, bart, benji, juan, carl o U1, , u2, u3, u4, u5, u6</p>
+						  <p class="text-secondary">Try with: pepito, homero, bart, benji, juan, carl o U1, , U2, U3, U4, U5, U6</p>
 						</div>
 					</div>
 				</div>
