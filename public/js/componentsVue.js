@@ -71,7 +71,7 @@ Vue.component('table-data',{
 					<template v-else>
 					<td>{{matchz.teamA}} <br>VS<br> {{matchz.teamB}}</td>
 					<td>
-						<a class="d-block" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
+						<a style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
 						  <!-- The Modal -->
 						  <div class="modal fade" id="modalt">
 						    <div class="modal-dialog modal-dialog-centered">
@@ -92,7 +92,7 @@ Vue.component('table-data',{
 						<tr v-for="matchz in dia">
 							<td>{{matchz.teamA}} <br>VS<br> {{matchz.teamB}}</td>
 							<td>
-								<a class="d-block" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
+								<a style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
 								  <!-- The Modal -->
 								  <div class="modal fade" id="modalt">
 								    <div class="modal-dialog modal-dialog-centered">
