@@ -4,7 +4,7 @@ var docrefuser = ''
 var provider = new firebase.auth.GoogleAuthProvider();
 let fireStore = firebase.firestore();
 // var toDay = new Date().toDateString().substring(4,10).toLowerCase()
-var toDay = 'oct 20'
+var toDay = 'oct 06'
 cargardatosjson()
 
 function eventToDay(ismes,today) {
@@ -12,11 +12,14 @@ function eventToDay(ismes,today) {
 		for(dias in fechas[meses]){
 			if (ismes && today.substring(0,3) == meses.substring(0,3).toLowerCase()){
 				return meses
-			}else if(today.substring(4) == dias){
+			}else if(!ismes && today.substring(4) == dias){
+				return dias
+			}else if(!ismes && today.substring(5) == dias && today.substring(4,5) == 0){
 				return dias
 			}
 	 	}
 	}
+	return 'error'
 }
 
 function traerComentarios(id) {
@@ -34,9 +37,8 @@ if (user) {
 	app.datosuser.photoURL = user.photoURL
 	app.datosuser.displayName = user.displayName
 	app.datosuser.email = user.email
-	app.datosuser.nick = ''
-	document.querySelector('#userlogin').classList.remove('d-none')
-	document.querySelector('#userlogin').classList.add('animationdiv')
+	setTimeout(e=> {document.querySelector('#userlogin').classList.remove('d-none')
+				document.querySelector('#userlogin').classList.add('animationdiv')},2500)
 	docrefuser = fireStore.collection('usuarios').doc(app.datosuser.displayName).collection('tarjetas')
 	agregarUsuarios(user.displayName,app.datosuser)
 
@@ -121,7 +123,7 @@ function buscarDatosPorFecha(equipo,jugadorT,fechasteam,moths){
 				for (var i = 0; i < aux2.length; i++) 
 				{
 					if (fechasteam == aux2[i] && fechasteam!=null){
-						if(moths == 'all'){
+						if(moths == 'All'){
 							arrayteam.push({'mes':mes,'dia':dias})
 							arrayteam.push(fechas[mes][dias][partidos])
 						}else if(mes == moths){

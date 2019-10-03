@@ -192,7 +192,7 @@ Vue.component('tarjeta-user',{
 					</div>
 				</div>
 			  <div class="row d-flex justify-content-between mt-3">
-					<button style="width: 35vw;" @click="logout" class="botonl btn btn-primary btn-block ml-3">Logout</button>
+					<button @click="logout" class="botonl btn btn-primary btn-block ml-3">Logout</button>
 			  </div>
 	  	</div>
 		</div>
@@ -215,7 +215,7 @@ const app = new Vue({
 	el:'#app',
 	data:{
 		selecttabV:'Home',
-		mes:(eventToDay(true,toDay)||''),
+		mes:'All',
 		dia:'',
 		datosarratys:[],
 		player:'',
@@ -262,14 +262,7 @@ const app = new Vue({
 			alert("gracias por comentar")
 		},
 		scrolltodown(){
-			if (this.onecallfunction) {
-				this.onecallfunction = false
-				if(this.isrotate){
-					setTimeout(e=> window.scrollTo(0, 900), 250);
-				}else{
-					setTimeout(e=> window.scrollTo(0, 400), 250);
-				}
-			}
+			setTimeout(e=> window.scrollBy(0, 300), 250);
 		},
 		chageinfomap(linkmap,infomap,locationmap){
 			this.mapalink = linkmap
@@ -307,10 +300,10 @@ const app = new Vue({
 			if (this.teamnow == event.target.id && bool){
 				this.teamnow = ''
 			}else{
+				console.log(event.target.id)
 				spinername.forEach(e=>(e.attributes.name.value == event.target.id)?e.classList.remove('d-none'):e.classList.add('d-none'))
 				this.teamnow = event.target.id
-			}
-			this.animation()	
+			}	
 		}
 	},
 	computed:{
@@ -333,6 +326,13 @@ const app = new Vue({
 				return returnmeses()
 			}
 		},
+		userimg(){
+			if (this.datosuser == null) {
+				return 'img/img.png'
+			}else{
+				return this.datosuser.photoURL
+			}	
+		}, 
 		daynow(){
 			return eventToDay(false,toDay)
 		},
@@ -340,7 +340,11 @@ const app = new Vue({
 			return eventToDay(true,toDay)
 		},
 		teamdate(){
-			return buscarDatosPorFecha(null,null,this.teamnow,this.mes)
+			window.scrollTo(0, 230)
+			this.animation()
+			let aux = buscarDatosPorFecha(null,null,this.teamnow,this.mes)
+			console.log(aux)
+			return aux
 		}
 	}
 })

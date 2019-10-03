@@ -40,6 +40,24 @@ margin-left: 10vw;
 	padding-bottom: 0 !important;
 }
 
+.landizq{
+	float: left;
+    width: 50% !important;
+    overflow: auto;
+}
+
+.izql{
+	z-index: 500;
+	height: 24vh;
+	width: 28%;
+}
+
+.landder{
+	float: left;
+    width: 50% !important;
+    overflow: auto;
+}
+
 .botonl{
 	width: 200px !important;
 }
