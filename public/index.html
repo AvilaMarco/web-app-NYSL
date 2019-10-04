@@ -16,10 +16,24 @@
 		<header>
 				<img id="fondo-header" class="mw-100 cabecera" :src="linkimg" alt="fondo-header">
 				<div id="userlogin" class="d-none alert alert-success text-center">
-				  <strong class="animationtexta">Success login</strong><strong v-if="datosuser != null" class="animationtextb">Welcome {{datosuser.displayName}}</strong>
+					<strong class="animationtexta">
+							Success login
+					</strong>
+					<strong v-if="datosuser != null" class="animationtextb">
+							Welcome {{datosuser.displayName}}
+					</strong>
 				</div>
 				<img style="z-index: 1" id="logo-header" class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
-				<a ><img id="logo-user" :src="userimg" class="w-25 logo2" alt="user-default" data-toggle="collapse" data-target="#userboton"></a>
+				<a>
+					<img
+							id="logo-user"
+							:src="userimg"
+							class="w-25 logo2"
+							alt="user-default"
+							data-toggle="collapse"
+							data-target="#userboton"
+					>
+				</a>
 				<div id="userboton" class="collapse tarjetafloat">
 						<template v-if="datosuser != null" class="">
 							<p>{{datosuser.displayName}}</p>
@@ -29,8 +43,17 @@
 						<template v-else>
 							<button @click="logingoogle" class="botonlogin">Login</button>
 						</template>
-				</div>			
-				<div v-if="datosuser == null" class="text-center text-light" style="background-color: #fd871b;"><p><u>Login</u> to Follow a Player/Team</p></div>
+				</div>
+				<div
+						v-if="datosuser == null"
+						class="py-1 mb-2 text-center text-light"
+						@click="logingoogle"
+						style="background-color: #fd871b;"
+				>
+						<div class="bg-transparent border-0" type="button">
+						<u>Login</u> to Follow a Player/Team
+						</div>
+				</div>
 		</header>
 
 		<!-- home -->
