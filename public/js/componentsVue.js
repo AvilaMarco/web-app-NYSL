@@ -231,7 +231,8 @@ const app = new Vue({
 		commentmatch:'',
 		arraycomments:[],
 		fetchokey:false,
-		teamnow:''
+		teamnow:'',
+		screanready:false
 	},
 	methods:{
 		selectVue(id){
@@ -242,8 +243,10 @@ const app = new Vue({
 			if (aux!= 'error') {
 				actualizarTarjetaUsuarios(aux)
 				this.player = ''
+			}else if(this.player == ''){
+				alert("Write the Numbre or Team")
 			}else{
-				alert("El jugador no esta registrado")
+				alert("The player is not registered")
 			}
 			
 		},
@@ -287,7 +290,7 @@ const app = new Vue({
 			this.selecttabV = 'commets'
 		},
 		comentar(){
-			let name = this.datosuser.nick == ''? this.datosuser.displayName : this.datosuser.nick
+			let name = this.datosuser.displayName
 			commentsMatch(this.commentmatch,name,this.datosuser.photoURL,this.matchcommentdata.id)
 			this.commentmatch = ''
 			setTimeout(e=> window.scrollBy(0, 100), 300);

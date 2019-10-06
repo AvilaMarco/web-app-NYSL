@@ -73,11 +73,13 @@ function cargardatosjson() {
         app.mes = eventToDay(true,toDay)
         localStorage.setItem('fechas', JSON.stringify(fechas));
         app.fetchokey = true;
+        setTimeout(e=> app.screanready = true,1000);
 	    }
 		})
 	}else{
 		fechas = JSON.parse(auxFechas)
 		setTimeout(e=> app.fetchokey = true, 2000);
+		setTimeout(e=> app.screanready = true,3000);
 	}
 	
 	if (auxApuntes == null) {
@@ -190,9 +192,9 @@ function agregarComentarios(comentario,user) {
 	    console.log("comentario enviado correctamente");
 	})
 }
-
+// 
 function commentsMatch(comentario,user,photo,id) {
-	fireStore.collection("matchcomments").doc(id).collection('comenkey').doc(new Date().toString()).set({
+	fireStore.collection("matchcomments").doc(id).collection('comenkey').doc(new Date().toString().substring(4)).set({
 	'date': new Date,
 	'linkfoto' : photo,
     'username': user,

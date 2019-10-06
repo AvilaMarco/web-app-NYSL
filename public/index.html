@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div id="app">
-	<template v-if="fetchokey">
+	<template v-if="fetchokey" v-show="screanready">
 		<header>
 				<img id="fondo-header" class="mw-100 cabecera" :src="linkimg" alt="fondo-header">
 				<div id="userlogin" class="d-none alert alert-success text-center">
@@ -232,7 +232,7 @@
 								<option selected="team">team</option>
 								<option v-for="(team,key) in obtenerParticipantes">{{key}}</option>
 							</select> -->
-							<input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" :disabled="player==''" @click="buscarPlayerOTeam" value="agregar">
+							<input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" @click="buscarPlayerOTeam" value="agregar">
 						  </div>
 						  <p class="text-secondary">Try with: pepito, homero, bart, benji, juan, carl o U1, , U2, U3, U4, U5, U6</p>
 						</div>
