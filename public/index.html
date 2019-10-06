@@ -96,12 +96,37 @@
 					<p class="card-text">There's no events today.<br> Please check our schedule for future events.</p>
 				</div>
 			</div>
+			<!-- upcoming events -->
+			<div class="card">
+				<div class="card-header">
+					<button
+						class="btn btn-info btn-block"
+						type="button"
+						data-toggle="collapse"
+						data-target="#upcoming-events"
+						aria-expanded="false" aria-controls="collapseExample">
+						Upcoming Events
+					</button>
+				</div>
+				<div class="collapse" id="upcoming-events">
+					<div class="card card-body paddincard">
+						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+					</div>
+				</div>
+			</div>
+			<!-- end upcoming events -->
 			<!-- collapse -->
 			<div class="card">
 				<div class="card-header">
-					<a href="#feedback" data-toggle="collapse" @click="scrolltodown" class="btn btn-info btn-block">Contact / Feedback</a>
+					<a
+						class="btn btn-info btn-block"
+						href="#feedback"
+						data-toggle="collapse"
+						@click="scrolltodown">
+						Contact / Feedback
+					</a>
 				</div>
-				<div class="collapse" id="feedback"> 
+				<div class="collapse" id="feedback">
 					<div class="card-body paddincard">
 						<h3>Contact</h3>
 						<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
