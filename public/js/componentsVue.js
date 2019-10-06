@@ -78,7 +78,7 @@ Vue.component('table-data',{
 						      <mapasg id="mapasid" :linkmapa="matchz.link" :infomapa="matchz.directory" :infomapa2="matchz.location" ></mapasg>
 						    </div>
 						  </div>
-						<button id="a1" class="btn btn-info mt-3" @click="iracomments(matchz)">comments <i class="far fa-comments"></i></button>
+						<button id="a1" class="btn btn-info mt-3" @click="iracomments(matchz)">Comments <i class="far fa-comments"></i></button>
 					</td>
 					<td>{{matchz.time}}</td>
 					</template>
@@ -234,7 +234,7 @@ const app = new Vue({
 		teamnow:'',
 		screanready:false
 	},
-	methods:{
+	methods: {
 		selectVue(id){
 			this.selecttabV = id
 		},
