@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json.schemastore.org/web-manifest",
+  "short_name": "NYSL-App",
+  "name": "NYSL App",
+  "description": "Northside Youth Soccer League Web App",
+  "icons": [
+    {
+      "src": "public/img/nysl_logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "background_color": "#f9af00",
+  "theme_color": "#f9af00",
+  "start_url": "./public/index.html?utm_source=web_app_manifest",
+  "display": "standalone",
+  "orientation": "any"
+}
