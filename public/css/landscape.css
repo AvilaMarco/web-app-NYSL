@@ -7,10 +7,13 @@ body{
 	height: 150px;
 }
 
-#logo-header{
-width: 15vw !important;
-margin-left: 10vw;
+@media (min-width: 550px) {
+	#logo-header,
+	#logo-user {
+		width: 17% !important;
+	}
 }
+
 
 .menu{
 	width: 71px;
@@ -22,10 +25,7 @@ margin-left: 10vw;
 	padding-top: 25px;
 }
 
-#logo-user{
-	height: 20vh;
-	width: 18vw !important;
-}
+
 
 .logo2{
 	top:22vh;
