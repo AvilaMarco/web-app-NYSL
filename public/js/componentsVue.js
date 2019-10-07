@@ -32,7 +32,7 @@ Vue.component('mapasg',{
 		}
 	},
 	template:`
-		<div class="card">
+		<div class="card mx-auto">
 			<div class="card-header">
 				<p class="card-title"><strong>{{infomapa2}}</strong>: <br>{{infomapa}}</p>
 			</div>
