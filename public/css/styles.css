@@ -27,17 +27,12 @@ img{
 	position: relative;
 }
 
-.logo{
-	position: absolute;
-	top: 15vh;
-    left: 2vw;
+#banner {
+	position: relative;
 }
-
-.logo2{
+#banner-logos {
 	position: absolute;
-	top: 16vh;
-    right: 2vw;
-    border-radius: 45px;
+	bottom: 0;
 }
 
 .selecteam{

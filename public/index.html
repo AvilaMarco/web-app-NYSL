@@ -15,7 +15,24 @@
 	<div id="app">
 	<template v-if="fetchokey" v-show="screanready">
 		<header>
-				<img id="fondo-header" class="mw-100 cabecera" :src="linkimg" alt="fondo-header">
+				<div id="banner" class="w-100">
+					<img id="banner-img" class="mw-100 cabecera" :src="linkimg" alt="fondo-header">
+					<div id="banner-logos" class="d-flex justify-content-between mx-2 pb-2">
+						<img
+							id="logo-header"
+							class="w-25"
+							src="img/nysl_logo.png" alt="logo-header"
+						>
+						<img
+							:src="userimg"
+							id="logo-user"
+							class="w-25"
+							alt="user-default"
+							data-toggle="collapse"
+							data-target="#userboton"
+						>
+					</div>
+				</div>
 				<div id="userlogin" class="d-none alert alert-success text-center">
 					<strong class="animationtexta">
 							Success login
@@ -24,17 +41,6 @@
 							Welcome {{datosuser.displayName}}
 					</strong>
 				</div>
-				<img style="z-index: 1" id="logo-header" class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
-				<a>
-					<img
-							id="logo-user"
-							:src="userimg"
-							class="w-25 logo2"
-							alt="user-default"
-							data-toggle="collapse"
-							data-target="#userboton"
-					>
-				</a>
 				<div id="userboton" class="collapse tarjetafloat">
 						<template v-if="datosuser != null" class="">
 							<p>{{datosuser.displayName}}</p>
@@ -96,12 +102,37 @@
 					<p class="card-text">There's no events today.<br> Please check our schedule for future events.</p>
 				</div>
 			</div>
+			<!-- upcoming events -->
+			<div class="card">
+				<div class="card-header">
+					<button
+						class="btn btn-info btn-block"
+						type="button"
+						data-toggle="collapse"
+						data-target="#upcoming-events"
+						aria-expanded="false" aria-controls="collapseExample">
+						Upcoming Events
+					</button>
+				</div>
+				<div class="collapse" id="upcoming-events">
+					<div class="card card-body paddincard">
+						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+					</div>
+				</div>
+			</div>
+			<!-- end upcoming events -->
 			<!-- collapse -->
 			<div class="card">
 				<div class="card-header">
-					<a href="#feedback" data-toggle="collapse" @click="scrolltodown" class="btn btn-info btn-block">Contact / Feedback</a>
+					<a
+						class="btn btn-info btn-block"
+						href="#feedback"
+						data-toggle="collapse"
+						@click="scrolltodown">
+						Contact / Feedback
+					</a>
 				</div>
-				<div class="collapse" id="feedback"> 
+				<div class="collapse" id="feedback">
 					<div class="card-body paddincard">
 						<h3>Contact</h3>
 						<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
@@ -184,9 +215,12 @@
 		    <div class="input-group-prepend">
 		      <span class="input-group-text ml-2">Month</span>
 		    </div>
-		    <select id="selectmes" v-model="mes" @change="animation" class="form-control mr-2">
+				<select
+					id="selectmes" v-model="mes"
+					@change="animation"
+					class="form-control text-capitalize mr-2">
 					<option>All</option>
-					<option v-for="mes in obtenerMeses">{{mes}}</option>
+					<option v-for="mes in obtenerMeses">{{ mes[0].toUpperCase() + mes.slice(1) }}</option>
 				</select>
 		  </div>
 			  	<!-- <div class="p-2 flex-fill">Dia:

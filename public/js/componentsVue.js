@@ -55,7 +55,7 @@ Vue.component('table-data',{
 	},
 	template:`
 	<div class="text-center">
-		<table id="tableanimation" class="table table-hover table-bordered">
+		<table id="tableanimation" class="table table-hover">
 			<thead class="thead-dark">
 				<tr>
 					<th class="sticky-top">Teams</th>
@@ -63,7 +63,7 @@ Vue.component('table-data',{
 					<th class="sticky-top">Times</th>
 				</tr>
 			</thead>
-			<tbody v-if="!all">
+			<tbody v-if="!all" class="table-bordered">
 				<tr v-for="matchz in matchsup">
 					<template v-if="matchz.mes != null">
 					<td colspan="3">{{matchz.mes}} {{matchz.dia}}</td>
@@ -78,7 +78,7 @@ Vue.component('table-data',{
 						      <mapasg id="mapasid" :linkmapa="matchz.link" :infomapa="matchz.directory" :infomapa2="matchz.location" ></mapasg>
 						    </div>
 						  </div>
-						<button id="a1" class="btn btn-info mt-3" @click="iracomments(matchz)">comments <i class="far fa-comments"></i></button>
+						<button id="a1" class="btn btn-info mt-3" @click="iracomments(matchz)">Comments <i class="far fa-comments"></i></button>
 					</td>
 					<td>{{matchz.time}}</td>
 					</template>
@@ -91,7 +91,7 @@ Vue.component('table-data',{
 						<tr><td class="mt-3" colspan="3">Day: {{key}}</td></tr>
 						<tr v-for="matchz in dia">
 							<td>{{matchz.teamA}} <br>VS<br> {{matchz.teamB}}</td>
-							<td>
+							<td class="d-flex flex-column">
 								<a style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
 								  <!-- The Modal -->
 								  <div class="modal fade" id="modalt">
@@ -99,7 +99,7 @@ Vue.component('table-data',{
 								      <mapasg id="mapasid" :linkmapa="matchz.link" :infomapa="matchz.directory" :infomapa2="matchz.location" ></mapasg>
 								    </div>
 								  </div>
-								<button id="a1" class="btn btn-info mt-3" @click="iracomments(matchz)">comments <i class="far fa-comments"></i></button>
+								<button id="a1" class="btn btn-info mt-3" @click="iracomments(matchz)"> Comments <i class="far fa-comments"></i></button>
 							</td>
 							<td>{{matchz.time}}</td>
 						</tr>
@@ -234,7 +234,7 @@ const app = new Vue({
 		teamnow:'',
 		screanready:false
 	},
-	methods:{
+	methods: {
 		selectVue(id){
 			this.selecttabV = id
 		},
