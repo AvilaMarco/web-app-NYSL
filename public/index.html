@@ -15,7 +15,24 @@
 	<div id="app">
 	<template v-if="fetchokey" v-show="screanready">
 		<header>
-				<img id="fondo-header" class="mw-100 cabecera" :src="linkimg" alt="fondo-header">
+				<div id="banner" class="w-100">
+					<img id="banner-img" class="mw-100 cabecera" :src="linkimg" alt="fondo-header">
+					<div id="banner-logos" class="d-flex justify-content-between mx-2">
+						<img
+							id="logo-header"
+							class="w-25"
+							src="img/nysl_logo.png" alt="logo-header"
+						>
+						<img
+							:src="userimg"
+							id="logo-user"
+							class="w-25"
+							alt="user-default"
+							data-toggle="collapse"
+							data-target="#userboton"
+						>
+					</div>
+				</div>
 				<div id="userlogin" class="d-none alert alert-success text-center">
 					<strong class="animationtexta">
 							Success login
@@ -24,17 +41,6 @@
 							Welcome {{datosuser.displayName}}
 					</strong>
 				</div>
-				<img style="z-index: 1" id="logo-header" class="w-25 logo" src="img/nysl_logo.png" alt="logo-header">
-				<a>
-					<img
-							id="logo-user"
-							:src="userimg"
-							class="w-25 logo2"
-							alt="user-default"
-							data-toggle="collapse"
-							data-target="#userboton"
-					>
-				</a>
 				<div id="userboton" class="collapse tarjetafloat">
 						<template v-if="datosuser != null" class="">
 							<p>{{datosuser.displayName}}</p>
