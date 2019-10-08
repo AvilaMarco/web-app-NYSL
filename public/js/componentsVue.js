@@ -102,12 +102,11 @@ Vue.component('table-data',{
 			<tbody v-if="all">
 				<template v-for="(mes,keymes) in fechasaux">
 					<template v-for="(dia,key) in mes">
-						<tr><td class="mt-3" colspan="3">{{keymes}} {{key}}</td></tr>
+						<tr><td class="mt-3" colspan="3">{{ keymes[0].toUpperCase() + keymes.slice(1) }} {{key}}</td></tr>
 						<tr v-for="matchz in dia">
 							<td>{{matchz.teamA}} <br>VS<br> {{matchz.teamB}}</td>
 							<td class="d-flex flex-column">
 								<a class="ocultarport mostrar d-none" @click="datosmap(matchz)" style="color: #007bff !important;text-decoration: underline;" >{{matchz.location}}</a>
-
 								<a class="ocultar" style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
 								  <!-- The Modal -->
 								  <div class="modal fade" id="modalt">
