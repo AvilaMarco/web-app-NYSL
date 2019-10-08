@@ -30,6 +30,7 @@
 							alt="user-default"
 							data-toggle="collapse"
 							data-target="#userboton"
+							style="border-radius: 35px;"
 						>
 					</div>
 				</div>
@@ -152,7 +153,7 @@
 						    <input type="text" class="form-control" placeholder="First Name">
 						    <input type="text" class="form-control" placeholder="Last Name">
 						  </div>
-						  <label>Write your email here:</label>
+						  <label>Write your email:</label>
 							<div class="input-group mb-3">
 							  <input type="text" class="form-control" placeholder="Email" name="email">
 							</div>
@@ -204,30 +205,30 @@
 			<div class="contteams">
 				<div class="ladoizq landizq">
 					<button id="U1" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img src="img/U1.png" class="width47">
-						<p>U1</p>
+						<img  src="img/U1.png" class="width47">
+						U1
 					</button>
 					<button id="U2" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img src="img/U2.png" class="width47 ">
-						<p>U2</p>
+						<img  src="img/U2.png" class="width47 ">
+						U2
 					</button>
 					<button id="U3" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img src="img/U3.png" class="width47 ">
-						<p>U3</p>
+						<img  src="img/U3.png" class="width47 ">
+						U3
 					</button>
 				</div>
 				<div class="ladoder landder">
 					<button id="U4" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img src="img/U4.png" class="width47 ">
-						<p>U4</p>
+						<img  src="img/U4.png" class="width47 ">
+						U4
 					</button>
 					<button id="U5" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img src="img/U5.png" class="width47 ">
-						<p>U5</p>
+						<img  src="img/U5.png" class="width47 ">
+						U5
 					</button>
 					<button id="U6" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img src="img/U6.png" class="width47 ">
-						<p>U6</p>
+						<img  src="img/U6.png" class="width47 ">
+						U6
 					</button>
 				</div>
 			</div>
@@ -332,7 +333,7 @@
 							<li>Follow players or teams in the league</li>
 							<li>comment on matches</li>
 						</ul>
-						<button class="m-2 btn btn-primary btn-block mt-4">Login</button>
+						<button @click="logingoogle" class="m-2 btn btn-primary btn-block mt-4">Login</button>
 					</div>
 				</div>
 			</template>

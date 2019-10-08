@@ -220,11 +220,11 @@ img{
 .animationtable{
 	position: relative;
 	animation-name: movertable;
-  	animation-duration: 2s;
+  	animation-duration: 1s;
  	animation-fill-mode: forwards;
 }
 
 @keyframes movertable {
-  from {right: 320px}
-  to {right: 0}
+  from {opacity: 0}
+  to {opacity: 1}
 }

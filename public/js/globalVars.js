@@ -80,7 +80,7 @@ function cargardatosjson() {
 	}else{
 		fechas = JSON.parse(auxFechas)
 		setTimeout(e=> app.fetchokey = true, 2000);
-		setTimeout(e=> app.screanready = true,3000);
+		setTimeout(e=> app.screanready = true,2500);
 	}
 	
 	if (auxApuntes == null) {
@@ -134,7 +134,7 @@ function buscarDatosPorFecha(equipo,jugadorT,fechasteam,moths){
 							arrayteam.push(fechas[mes][dias][partidos])
 						}
 					}
-					if (aux2[i]==equipo && fechasteam == null) 
+					if ((aux2[i]==equipo && toDay.substring(0,3) == mes.substring(0,3).toLowerCase() && toDay.substring(4) <= parseInt(dias, 10))&& fechasteam == null) 
 					{
 						let objetoaux = {}
 						objetoaux['location'] = fechas[mes][dias][partidos].location

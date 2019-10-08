@@ -154,8 +154,8 @@ Vue.component('tarjeta-jugador',{
 			<h4 class="card-title">Next Match: {{datosp[index].teamA}} VS {{datosp[index].teamB}}</h4>
 			<ul class="list-group list-group-flush">
 		    <li class="list-group-item">
-		    Place:
-		    <a style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
+		    Place:<br>
+		    <a style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{datosp[index].location}}</a>
 			  <!-- The Modal -->
 			  <div class="modal fade" id="modalt">
 			    <div class="modal-dialog modal-dialog-centered">
@@ -163,7 +163,6 @@ Vue.component('tarjeta-jugador',{
 			    </div>
 			  </div>
 		    </li>
-
 		    <li class="list-group-item">Day: {{datosp[index].fecha}}</li>
 		    <li class="list-group-item">Time: {{datosp[index].time}}</li>
 		  </ul>
