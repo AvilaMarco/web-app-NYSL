@@ -312,56 +312,54 @@ const app = new Vue({
 			this.datosarratys.splice(index,1)
 			borrarTarjetaUsuarios(id)
 		},
-		tocommet(match){
+		tocommet(match) {
 			this.matchcommentdata = match
 			traerComentarios(match.id)
 			this.selecttabV = 'commets'
 		},
-		comentar(){
+		comentar() {
 			let name = this.datosuser.displayName
 			commentsMatch(this.commentmatch,name,this.datosuser.photoURL,this.matchcommentdata.id)
 			this.commentmatch = ''
 			setTimeout(e=> window.scrollBy(0, 100), 300);
 		},
 		filtroteam(event){
-
-			// let aux = this.teamnow
-			// let spinername = document.querySelectorAll('.spiner')
-			// let bool= false
-			// spinername.forEach(e=>(e.attributes.name.value == aux)?bool=true:null)
-			// if (this.teamnow == event.target.id && bool){
-			// 	this.teamnow = ''
-			// }else{
-			// 	console.log(event.target.id)
-			// 	spinername.forEach(e=>(e.attributes.name.value == event.target.id)?e.classList.remove('d-none'):e.classList.add('d-none'))
-			// 	this.teamnow = event.target.id
-			// }	
-
 			let aux = this.teamnow
-			let teamClick = event.target.id
-			let id = "#"+teamClick
-			console.log(teamClick)
-				console.log(id)
-				// console.log(document.querySelector(id))
-			if (aux == teamClick){
+			let spinername = document.querySelectorAll('.spiner')
+			let bool= false
+			spinername.forEach(e=>(e.attributes.name.value == aux)?bool=true:null)
+			if (this.teamnow == event.target.id && bool) {
 				this.teamnow = ''
-				// console.log(teamClick)
-				// console.log(id)
-				// console.log(document.querySelector(id))
-				document.querySelector('#'+teamClick).style.opacity = 0.3;
-				document.querySelector('#'+teamClick).style.color = '#28a745';
-				document.querySelector('#'+teamClick).style.background = 'white';
-			}else if(this.teamnow == '' ||  aux!= teamClick){
-				// console.log(aux)
-				// console.log(event.target.id)
-				aux != "" ?document.querySelector(aux).style.opacity = 0.3:null
-				document.querySelector('#'+teamClick).style.color = ''
-				document.querySelector('#'+teamClick).style.background = '';
-				document.querySelector('#'+teamClick).style.opacity = 1;
-				this.teamnow = teamClick
-				window.scrollTo(0, 230)
-				this.animation()
-			}	
+			} else {
+				console.log(event.target.id)
+				spinername.forEach(e=>(e.attributes.name.value == event.target.id)?e.classList.remove('d-none'):e.classList.add('d-none'))
+				this.teamnow = event.target.id
+			}
+			// let aux = this.teamnow
+			// let teamClick = event.target.id
+			// let id = "#"+teamClick
+			// console.log(teamClick)
+			// 	console.log(id)
+			// 	// console.log(document.querySelector(id))
+			// if (aux == teamClick){
+			// 	this.teamnow = ''
+			// 	// console.log(teamClick)
+			// 	// console.log(id)
+			// 	// console.log(document.querySelector(id))
+			// 	document.querySelector('#'+teamClick).style.opacity = 0.3;
+			// 	document.querySelector('#'+teamClick).style.color = '#28a745';
+			// 	document.querySelector('#'+teamClick).style.background = 'white';
+			// }else if(this.teamnow == '' ||  aux!= teamClick){
+			// 	// console.log(aux)
+			// 	// console.log(event.target.id)
+			// 	aux != "" ?document.querySelector(aux).style.opacity = 0.3:null
+			// 	document.querySelector('#'+teamClick).style.color = ''
+			// 	document.querySelector('#'+teamClick).style.background = '';
+			// 	document.querySelector('#'+teamClick).style.opacity = 1;
+			// 	this.teamnow = teamClick
+			// 	window.scrollTo(0, 230)
+			// 	this.animation()
+			// }	
 		}
 	},
 	computed:{
