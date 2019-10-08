@@ -41,30 +41,33 @@
 							Welcome {{datosuser.displayName}}
 					</strong>
 				</div>
-				<div id="userboton" class="collapse tarjetafloat">
+				<div id="userboton" class="collapse text-center bg-orange clearfix blanco">
 						<template v-if="datosuser != null" class="">
-							<p>{{datosuser.displayName}}</p>
+							<!-- <p>{{datosuser.displayName}}</p> -->
 							<!-- <p>{{datosuser.email}}</p> -->
-							<button @click="logoutgoogle" class="botonlogout">Logout</button>
+							<p class="d-inline-block float-left m-3">marco avila</p>
+							<!-- <p class="d-inline-block float-left">usuario123@gmail.com</p> -->
+							<button @click="logoutgoogle" class="botonlogout float-right m-2">Logout</button>
 						</template>
 						<template v-else>
-							<button @click="logingoogle" class="botonlogin">Login</button>
+							<button @click="logingoogle" class="botonlogin mt-1">Login</button>
+							<p class="d-inline-block">to Follow a Player/Team</p>
 						</template>
 				</div>
-				<div
+				<!-- <div
 						v-if="datosuser == null"
 						class="py-1 mb-2 text-center text-light"
 						@click="logingoogle"
 						style="background-color: #fd871b;"
 				>
 						<button class="bg-transparent border-0">
-						<u>Login</u> to Follow a Player/Team
+						
 						</button>
-				</div>
+				</div> -->
 		</header>
 
 		<!-- home -->
-		<div  v-show="selecttabV == 'Home'">
+		<div  v-if="selecttabV == 'Home'">
 
 			<h1 class="text-center">Today</h1>
 			<div v-if="daynow != 'error' && monthnow != 'error'" v-for="matchs in obtenerFechas[monthnow][daynow]">
@@ -85,12 +88,12 @@
 					</div>
 					<div class="row m-2">
 						<div class="col-12">
-							<button type="button mt-1" @click="chageinfomap(matchs.link,matchs.directory,matchs.location)" class="btn btn-block" style="background-color: #6f9e00;" data-toggle="modal" data-target="#myModal">
+							<button type="button mt-1" class="btn btn-block" style="background-color: #6f9e00;" data-toggle="modal" data-target="#myModal">
 			    		{{matchs.location}}
 						  </button>
 						  <div class="modal fade" id="myModal">
 						    <div class="modal-dialog modal-dialog-centered">
-						      <mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg>
+						      <mapasg id="mapasid" :linkmapa="matchs.link" :infomapa="matchs.directory" :infomapa2="matchs.location" ></mapasg>
 						    </div>
 						  </div>	
 						</div>
@@ -103,10 +106,10 @@
 				</div>
 			</div>
 			<!-- upcoming events -->
-			<div class="card">
-				<div class="card-header">
+			<div class="card mb-2">
+				<div class="card-header bg-verde">
 					<button
-						class="btn btn-info btn-block"
+						class="btn bg-azul btn-block blanco"
 						type="button"
 						data-toggle="collapse"
 						data-target="#upcoming-events"
@@ -116,16 +119,22 @@
 				</div>
 				<div class="collapse" id="upcoming-events">
 					<div class="card card-body paddincard">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+						<div class="up_events">
+							<h4>November 4</h4>
+							<p>NYSL Fundraiser</p>
+
+							<h4>November 16</h4>
+							<p>Season Kick-off: Meet the Teams</p>
+					</div>    
 					</div>
 				</div>
 			</div>
 			<!-- end upcoming events -->
 			<!-- collapse -->
-			<div class="card">
-				<div class="card-header">
+			<div class="card mb-2">
+				<div class="card-header bg-verde">
 					<a
-						class="btn btn-info btn-block"
+						class="btn bg-azul btn-block blanco"
 						href="#feedback"
 						data-toggle="collapse"
 						@click="scrolltodown">
@@ -138,18 +147,28 @@
 						<p>Please email us at <a href="mailto:nysl@chisoccer.org">nysl@chisoccer.org</a></p>
 						<h3>Feedback</h3>
 						<div class="form-group">
+							<label>Write your name:</label>
+							<div class="input-group mb-3">
+						    <input type="text" class="form-control" placeholder="First Name">
+						    <input type="text" class="form-control" placeholder="Last Name">
+						  </div>
+						  <label>Write your email here:</label>
+							<div class="input-group mb-3">
+							  <input type="text" class="form-control" placeholder="Email" name="email">
+							</div>
+							<label>Write your comment:</label>
 						  <textarea v-model="textocommet" class="form-control" rows="2" placeholder="Your opinion is important to us"></textarea>
 						</div>
-						<input :disabled="textocommet==''" class="btn btn-primary btn-block mb-3" type="submit" @click="enviado">
+						<input :disabled="textocommet==''" class="btn btn-primary btn-block mb-3" type="submit" @click="enviado" value="Send">
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- fechas -->
-		<div v-show="selecttabV == 'Schedule'">
+		<div v-if="selecttabV == 'Schedule'">
 			<h1 class="text-center">Schedule</h1>
-		<!-- 	<div class="d-flex text-center selecteam">
+<!-- <div class="d-flex text-center selecteam">
 				<div class="flex-fill">
 					<div name="U1" @click="filtroteam" class="spiner spinner-border text-success prelative d-none"></div>
 					<img id="U1" src="img/U1.png" @click="filtroteam" class="width47 ">
@@ -181,34 +200,35 @@
 					<span>U6</span>
 				</div>
 			</div> -->
+
 			<div class="contteams">
 				<div class="ladoizq landizq">
-					<div id="U1" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img id="U1" @click="filtroteam" src="img/U1.png" class="width47">
-						<p id="U1" @click="filtroteam">U1</p>
-					</div>
-					<div id="U2" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img id="U2" @click="filtroteam" src="img/U2.png" class="width47 ">
-						<p id="U2" @click="filtroteam">U2</p>
-					</div>
-					<div id="U3" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img id="U3" @click="filtroteam" src="img/U3.png" class="width47 ">
-						<p id="U3" @click="filtroteam">U3</p>
-					</div>
+					<button id="U1" @click="filtroteam" class="btn btn-outline-success izql izqf">
+						<img src="img/U1.png" class="width47">
+						<p>U1</p>
+					</button>
+					<button id="U2" @click="filtroteam" class="btn btn-outline-success izql izqf">
+						<img src="img/U2.png" class="width47 ">
+						<p>U2</p>
+					</button>
+					<button id="U3" @click="filtroteam" class="btn btn-outline-success izql izqf">
+						<img src="img/U3.png" class="width47 ">
+						<p>U3</p>
+					</button>
 				</div>
 				<div class="ladoder landder">
-					<div id="U4" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img id="U4" @click="filtroteam" src="img/U4.png" class="width47 ">
-						<p id="U4" @click="filtroteam">U4</p>
-					</div>
-					<div id="U5" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img id="U5" @click="filtroteam" src="img/U5.png" class="width47 ">
-						<p id="U5" @click="filtroteam">U5</p>
-					</div>
-					<div id="U6" @click="filtroteam" class="btn btn-outline-success izql izqf">
-						<img id="U6" @click="filtroteam" src="img/U6.png" class="width47 ">
-						<p id="U6" @click="filtroteam">U6</p>
-					</div>
+					<button id="U4" @click="filtroteam" class="btn btn-outline-success izql izqf">
+						<img src="img/U4.png" class="width47 ">
+						<p>U4</p>
+					</button>
+					<button id="U5" @click="filtroteam" class="btn btn-outline-success izql izqf">
+						<img src="img/U5.png" class="width47 ">
+						<p>U5</p>
+					</button>
+					<button id="U6" @click="filtroteam" class="btn btn-outline-success izql izqf">
+						<img src="img/U6.png" class="width47 ">
+						<p>U6</p>
+					</button>
 				</div>
 			</div>
 			<div class="input-group mb-3 mt-3">
@@ -223,6 +243,7 @@
 					<option v-for="mes in obtenerMeses">{{ mes[0].toUpperCase() + mes.slice(1) }}</option>
 				</select>
 		  </div>
+
 			  	<!-- <div class="p-2 flex-fill">Dia:
 					<select v-model="dia" @change="animation" class="form-control">
 						<option v-for="dia in dias">{{dia}}</option>
@@ -230,16 +251,18 @@
 			  </div> -->
 			<div v-if="teamnow != ''">
 				<table-data @change-commet="tocommet" @changemap="chageinfomap" :matchsup="teamdate"></table-data>
+				<mapasg style="margin-top: 3px;" :boolean="false" class="mostrar ocultarport colDos" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" id="mapasid"></mapasg>
 			</div>
 			<div v-else>
 				<table-data @change-commet="tocommet" @changemap="chageinfomap" :fechasaux="obtenerFechas" :all="teamnow == ''"></table-data>
+				<mapasg style="margin-top: 3px;" class="mostrar ocultarport colDos" :boolean="false" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" id="mapasid"></mapasg>
 			</div>
 
 			<!-- <mapasg id="mapasid" :linkmapa="mapalink" :infomapa="mapainfo" :infomapa2="mapalocation" ></mapasg> -->
 		</div>
 
 		<!-- commets -->
-		<div v-show="selecttabV == 'commets'" class="landscapediv" style="margin-bottom: 4vh">
+		<div v-if="selecttabV == 'commets'" class="landscapediv" style="margin-bottom: 12%">
 			<div class="card m-2">
 				<div class="card-header text-center">
 					<h4 class="card-title">{{matchcommentdata.location}}</h4>
@@ -269,36 +292,50 @@
 		</div>
 
 		<!-- perfil -->
-		<div v-show="selecttabV == 'Profile'">
+		<div v-if="selecttabV == 'Social'">
 			<h1 class="text-center">Profile</h1>
 
-			<div class="mt-4" v-for="(tarjeta,index) in datosarratys">
-				<tarjeta-jugador @borrar-tarjeta="eliminartarjeta" @changemap="chageinfomap" :datosP="datosarratys" :index="index"></tarjeta-jugador>
-			</div>
-		
-			<div v-if="datosuser != null" class="card mt-4">
-				<div class="card-header">
-					<button data-toggle="collapse" data-target="#addCard" class="btn btn-outline-success btn-block">Follow a Player / Team  <i class="fas fa-plus-circle"></i> </button>	
+			<template v-if="datosuser != null">
+				<div class="mt-4" v-for="(tarjeta,index) in datosarratys">
+					<tarjeta-jugador @borrar-tarjeta="eliminartarjeta" @changemap="chageinfomap" :datosP="datosarratys" :index="index"></tarjeta-jugador>
 				</div>
-				<div id="addCard" class="collapse"> 
-					<div class="card-body">
-						<div class="input-group mb-3">
-							<p class="text-secondary">Add a card to have updated data of a Player or Team</p><br>
-						  <input class="form-control" type="text" v-model="player" placeholder="write player or team">
-						  <div class="input-group-append">
-							<!-- <select v-model="player">
-								<option selected="team">team</option>
-								<option v-for="(team,key) in obtenerParticipantes">{{key}}</option>
-							</select> -->
-							<input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" @click="buscarPlayerOTeam" value="agregar">
-						  </div>
-						  <p class="text-secondary">Try with: pepito, homero, bart, benji, juan, carl o U1, , U2, U3, U4, U5, U6</p>
+			
+				<div class="card mt-4">
+					<div class="card-header">
+						<button data-toggle="collapse" data-target="#addCard" class="btn btn-outline-success btn-block">Follow a Player / Team  <i class="fas fa-plus-circle"></i> </button>	
+					</div>
+					<div id="addCard" class="collapse"> 
+						<div class="card-body">
+							<div class="input-group mb-3">
+								<p class="text-secondary">Add a card to have updated data of a Player or Team</p><br>
+							  <input class="form-control" type="text" v-model="player" placeholder="write player or team">
+							  <div class="input-group-append">
+								<!-- <select v-model="player">
+									<option selected="team">team</option>
+									<option v-for="(team,key) in obtenerParticipantes">{{key}}</option>
+								</select> -->
+								<input data-toggle="collapse" data-target="#addCard" class="btn btn-info" type="button" @click="buscarPlayerOTeam" value="agregar">
+							  </div>
+							  <p class="text-secondary">Try with: pepito, homero, bart, benji, juan, carl o U1, , U2, U3, U4, U5, U6</p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			
-			<tarjeta-user @userlogout="logoutgoogle" @userlogin="logingoogle" @usenick="addnick" :isrotate="rotationscreen" :usuario="datosuser" ></tarjeta-user>
+			</template>
+			<template v-else>
+				<div class="card m-2">
+					<div class="card-header">
+						<h1 class="card-title">Login to:</h1>
+					</div>
+					<div class="card-body"> 
+						<ul>
+							<li>Follow players or teams in the league</li>
+							<li>comment on matches</li>
+						</ul>
+						<button class="m-2 btn btn-primary btn-block mt-4">Login</button>
+					</div>
+				</div>
+			</template>
 			
 		</div>
 

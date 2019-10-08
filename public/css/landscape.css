@@ -1,5 +1,5 @@
 body{
-	padding-left: 20vh;
+	padding-left: 13%;
 	padding-bottom: 0vh;
 }
 
@@ -14,10 +14,17 @@ body{
 	}
 }
 
+.ocultar{
+	display: none;
+}
+
+.mostrar{
+	display: initial !important;
+}
 
 .menu{
-	width: 71px;
-	height: 100vh;
+	width: 13%;
+	height: 100%;
 	flex-direction: column;
 }
 
@@ -26,6 +33,20 @@ body{
 }
 
 
+.colDos{
+    width: 49%;
+    position: relative;
+    float: right;
+    bottom: 101vh;
+}
+.scroleado{
+	width: 52%;
+	height: 100vh;
+	overflow: auto;
+}
+.ancho40{
+	width: 95% !important;
+}
 
 .logo2{
 	top:22vh;

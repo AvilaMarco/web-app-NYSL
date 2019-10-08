@@ -3,8 +3,8 @@ var fechas = null;
 var docrefuser = ''
 var provider = new firebase.auth.GoogleAuthProvider();
 let fireStore = firebase.firestore();
-// var toDay = new Date().toDateString().substring(4,10).toLowerCase()
-var toDay = 'oct 06'
+var toDay = new Date().toDateString().substring(4,10).toLowerCase()
+// var toDay = 'oct 06'
 cargardatosjson()
 
 function eventToDay(ismes,today) {
@@ -21,6 +21,7 @@ function eventToDay(ismes,today) {
 	}
 	return 'error'
 }
+// window.scrollTo(0,430)
 
 function traerComentarios(id) {
 	fireStore.collection("matchcomments").doc(id).collection('comenkey').onSnapshot(function(querySnapshot) {

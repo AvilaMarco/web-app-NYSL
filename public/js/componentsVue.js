@@ -7,9 +7,9 @@ Vue.component('navs-tabs',{
 	</div>`,
 	data(){
 		return{
-			tabsnav :['Home','Schedule','Profile'],
+			tabsnav :['Home','Schedule','Social'],
 			selecttab : 'Home',
-			iconos:['fas fa-home','far fa-calendar-alt','far fa-user']
+			iconos:['fas fa-home','far fa-calendar-alt','fas fa-users']
 		}
 	},
 	methods:{
@@ -29,15 +29,28 @@ Vue.component('mapasg',{
 		},
 		infomapa2:{
 			type:String
+		},
+		boolean:{
+			type:Boolean
 		}
 	},
 	template:`
-		<div class="card">
-			<div class="card-header">
-				<p class="card-title"><strong>{{infomapa2}}</strong>: <br>{{infomapa}}</p>
-			</div>
-			<iframe :src="linkmapa" class="mapag"></iframe>
-		</div>
+	<table class="table table-bordered bg-blanco text-center">
+	  	<thead class="thead-dark">
+	  		<tr>
+	  			<th style="padding-bottom: 9px;">{{infomapa2}}:
+	  			<button v-if="boolean" type="button" class="close across" data-dismiss="alert">&times;</button></th>
+	  		</tr>
+	  	</thead>
+	  	<tbody>
+	  		<tr>
+	  			<td>{{infomapa}}</td>
+	  		</tr>
+	  		<tr>
+	  			<td><iframe :src="linkmapa" class="mapag ancho40"></iframe></td>
+	  		</tr>
+	  	</tbody>
+  	</table>
 	`
 })
 
@@ -54,16 +67,16 @@ Vue.component('table-data',{
 		}
 	},
 	template:`
-	<div class="text-center">
-		<table id="tableanimation" class="table table-hover">
+	<div class="scroleado">
+		<table id="tableanimation" class="text-center table table-hover">
 			<thead class="thead-dark">
 				<tr>
-					<th class="sticky-top">Teams</th>
-					<th class="sticky-top">Location</th>
-					<th class="sticky-top">Times</th>
+					<th class="sticky-top border border-0">Teams</th>
+					<th class="sticky-top border border-0">Location</th>
+					<th class="sticky-top border border-0">Times</th>
 				</tr>
 			</thead>
-			<tbody v-if="!all" class="table-bordered">
+			<tbody v-if="!all" class="table-bordered scroleado">
 				<tr v-for="matchz in matchsup">
 					<template v-if="matchz.mes != null">
 					<td colspan="3">{{matchz.mes}} {{matchz.dia}}</td>
@@ -71,7 +84,9 @@ Vue.component('table-data',{
 					<template v-else>
 					<td>{{matchz.teamA}} <br>VS<br> {{matchz.teamB}}</td>
 					<td>
-						<a style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
+						<a class="ocultarport d-block mostrar" @click="datosmap(matchz)" style="color: #007bff !important;text-decoration: underline;display:none" >{{matchz.location}}</a>
+
+						<a @click="datosmap(matchz)" class="d-block ocultar" style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
 						  <!-- The Modal -->
 						  <div class="modal fade" id="modalt">
 						    <div class="modal-dialog modal-dialog-centered">
@@ -85,14 +100,15 @@ Vue.component('table-data',{
 				</tr>
 			</tbody>
 			<tbody v-if="all">
-				<template v-for="(mes,key) in fechasaux">
-					<tr><td class="mt-3" colspan="3">{{key}}</td></tr>
+				<template v-for="(mes,keymes) in fechasaux">
 					<template v-for="(dia,key) in mes">
-						<tr><td class="mt-3" colspan="3">Day: {{key}}</td></tr>
+						<tr><td class="mt-3" colspan="3">{{keymes}} {{key}}</td></tr>
 						<tr v-for="matchz in dia">
 							<td>{{matchz.teamA}} <br>VS<br> {{matchz.teamB}}</td>
 							<td class="d-flex flex-column">
-								<a style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
+								<a class="ocultarport mostrar d-none" @click="datosmap(matchz)" style="color: #007bff !important;text-decoration: underline;" >{{matchz.location}}</a>
+
+								<a class="ocultar" style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
 								  <!-- The Modal -->
 								  <div class="modal fade" id="modalt">
 								    <div class="modal-dialog modal-dialog-centered">
@@ -107,10 +123,13 @@ Vue.component('table-data',{
 				</template>
 			</tbody>
 		</table>
-	</div>`,
+		</div>`,
 	methods:{
 		iracomments(json){
 			this.$emit('change-commet',json)
+		},
+		datosmap(json){
+			this.$emit('changemap',json)
 		}
 	}
 })
@@ -134,7 +153,17 @@ Vue.component('tarjeta-jugador',{
 		<div class="card-body">
 			<h4 class="card-title">Next Match: {{datosp[index].teamA}} VS {{datosp[index].teamB}}</h4>
 			<ul class="list-group list-group-flush">
-		    <li class="list-group-item">Place: <br><a href="#mapasid" @click="enviardatosmapas">{{datosp[index].location}}</a></li>
+		    <li class="list-group-item">
+		    Place:
+		    <a style="color: #007bff !important;text-decoration: underline;" data-toggle="modal" data-target="#modalt">{{matchz.location}}</a>
+			  <!-- The Modal -->
+			  <div class="modal fade" id="modalt">
+			    <div class="modal-dialog modal-dialog-centered">
+			      <mapasg :linkmapa="datosp[index].link" :infomapa="datosp[index].directory" :infomapa2="datosp[index].location" ></mapasg>
+			    </div>
+			  </div>
+		    </li>
+
 		    <li class="list-group-item">Day: {{datosp[index].fecha}}</li>
 		    <li class="list-group-item">Time: {{datosp[index].time}}</li>
 		  </ul>
@@ -265,12 +294,13 @@ const app = new Vue({
 			alert("gracias por comentar")
 		},
 		scrolltodown(){
-			setTimeout(e=> window.scrollBy(0, 300), 250);
+			setTimeout(e=> window.scrollBy(0, 450), 250);
 		},
-		chageinfomap(linkmap,infomap,locationmap){
-			this.mapalink = linkmap
-			this.mapainfo = infomap
-			this.mapalocation = locationmap
+		chageinfomap(json){
+			console.log("nice")
+			this.mapalink = json.link
+			this.mapainfo = json.directory
+			this.mapalocation = json.location
 		},
 		addnick(nick){
 			this.datosuser.nick = nick
@@ -278,7 +308,7 @@ const app = new Vue({
 		},
 		animation(){
 			document.querySelector('#tableanimation').classList.add('animationtable')
-			setTimeout(e=> document.querySelector('#tableanimation').classList.remove('animationtable'), 2000);
+			setTimeout(e=> document.querySelector('#tableanimation').classList.remove('animationtable'), 1000);
 		},
 		eliminartarjeta(index,id){
 			this.datosarratys.splice(index,1)
@@ -296,16 +326,43 @@ const app = new Vue({
 			setTimeout(e=> window.scrollBy(0, 100), 300);
 		},
 		filtroteam(event){
+
+			// let aux = this.teamnow
+			// let spinername = document.querySelectorAll('.spiner')
+			// let bool= false
+			// spinername.forEach(e=>(e.attributes.name.value == aux)?bool=true:null)
+			// if (this.teamnow == event.target.id && bool){
+			// 	this.teamnow = ''
+			// }else{
+			// 	console.log(event.target.id)
+			// 	spinername.forEach(e=>(e.attributes.name.value == event.target.id)?e.classList.remove('d-none'):e.classList.add('d-none'))
+			// 	this.teamnow = event.target.id
+			// }	
+
 			let aux = this.teamnow
-			let spinername = document.querySelectorAll('.spiner')
-			let bool= false
-			spinername.forEach(e=>(e.attributes.name.value == aux)?bool=true:null)
-			if (this.teamnow == event.target.id && bool){
+			let teamClick = event.target.id
+			let id = "#"+teamClick
+			console.log(teamClick)
+				console.log(id)
+				// console.log(document.querySelector(id))
+			if (aux == teamClick){
 				this.teamnow = ''
-			}else{
-				console.log(event.target.id)
-				spinername.forEach(e=>(e.attributes.name.value == event.target.id)?e.classList.remove('d-none'):e.classList.add('d-none'))
-				this.teamnow = event.target.id
+				// console.log(teamClick)
+				// console.log(id)
+				// console.log(document.querySelector(id))
+				document.querySelector('#'+teamClick).style.opacity = 0.3;
+				document.querySelector('#'+teamClick).style.color = '#28a745';
+				document.querySelector('#'+teamClick).style.background = 'white';
+			}else if(this.teamnow == '' ||  aux!= teamClick){
+				// console.log(aux)
+				// console.log(event.target.id)
+				aux != "" ?document.querySelector(aux).style.opacity = 0.3:null
+				document.querySelector('#'+teamClick).style.color = ''
+				document.querySelector('#'+teamClick).style.background = '';
+				document.querySelector('#'+teamClick).style.opacity = 1;
+				this.teamnow = teamClick
+				window.scrollTo(0, 230)
+				this.animation()
 			}	
 		}
 	},
@@ -343,11 +400,10 @@ const app = new Vue({
 			return eventToDay(true,toDay)
 		},
 		teamdate(){
-			window.scrollTo(0, 230)
-			this.animation()
-			let aux = buscarDatosPorFecha(null,null,this.teamnow,this.mes)
-			console.log(aux)
-			return aux
+			// let aux = buscarDatosPorFecha(null,null,this.teamnow,this.mes)
+			// console.log(aux)
+			document.querySelector('#mapasid').offsetHeight = document.querySelector('#tableanimation').offsetHeight
+			return buscarDatosPorFecha(null,null,this.teamnow,this.mes)
 		}
 	}
 })

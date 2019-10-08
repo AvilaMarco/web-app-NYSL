@@ -13,6 +13,37 @@ body{
 	color: white;
   }
 
+.bg-orange{
+	background-color: #fd871b;
+}
+
+.blanco{
+	color: white !important;
+}
+
+.blanco:hover{
+	color: white !important;
+}
+.bg-azul{
+	background-color: #033949;
+}
+
+.across{
+	border-radius: 5px;
+    padding: 3px !important;
+    padding-top: 1px !important;
+    background: white !important;
+}
+
+.bg-verde{
+    background-color: #4ec025;
+}
+.ocultarport{
+	display: none !important;
+}
+.bg-blanco{
+	background-color: white;
+}
 .botoncito {
   text-align: center;
   vertical-align: middle;
@@ -71,9 +102,11 @@ img{
 .izqf{
 	z-index: 500;
 	float: left;
+	clear: none;
 	width: 30%;
 	margin: 1vw;
-	height: 14vh; 
+	height: 14vh;
+	opacity: 0.3; 
 }
 
 .botonlogout{
@@ -109,8 +142,8 @@ img{
 }
 
 .botontologin{
-    bottom: 8vh;
-    width: 350px;
+    bottom: 9%;
+    width: 97%;
 }
 
 .canrgandoweb{
@@ -126,6 +159,9 @@ img{
 	border-radius: 2px;
 	margin-right: 1vw;
     background-color: #033949;
+}
+.ancho40{
+	width: 90%;
 }
 /*animaciones*/
 .animationtext{
