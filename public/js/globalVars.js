@@ -3,8 +3,8 @@ var fechas = null;
 var docrefuser = ''
 var provider = new firebase.auth.GoogleAuthProvider();
 let fireStore = firebase.firestore();
-var toDay = new Date().toDateString().substring(4,10).toLowerCase()
-// var toDay = 'oct 06'
+// var toDay = new Date().toDateString().substring(4,10).toLowerCase()
+var toDay = 'oct 06'
 cargardatosjson()
 
 function eventToDay(ismes,today) {
